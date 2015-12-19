@@ -131,17 +131,17 @@
   border-width: 0px;
 }
 #LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton {
-  background-image: url(../../imgs/Android.png);
+  background-image: url(../../../../shared_tools/web/imgs/Android.png);
 }
 #LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton:active {
-  background-image: url(../../imgs/Android-pushed.png);
+  background-image: url(../../../../shared_tools/web/imgs/Android-pushed.png);
 }
 #LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton {
   float: right;
-  background-image: url(../../imgs/iOS.png);
+  background-image: url(../../../../shared_tools/web/imgs/iOS.png);
 }
 #LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton:active {
-  background-image: url(../../imgs/iOS-pushed.png);
+  background-image: url(../../../../shared_tools/web/imgs/iOS-pushed.png);
 }
 
 

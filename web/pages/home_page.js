@@ -6,11 +6,10 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
   this._signing = false;
   
   this._cacheChangeListener = function(event) {
-    if (event.type == Backend.CacheChangeEvent.TYPE_OUTGOING_REQUESTS_CHANGED
-        || event.type == Backend.CacheChangeEvent.TYPE_INCOMING_REQUESTS_CHANGED) {
+    if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
       this._showRequests();
-    } else if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_CHANGED) {
-      this._updateRequest(event.requestId);
+    } else if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST) {
+      this._updateRequest(event.objectId);
     }
   }.bind(this);
 });

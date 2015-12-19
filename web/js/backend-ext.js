@@ -102,8 +102,9 @@ Backend.getRequestIds = function(transactionCallback) {
   if (transactionCallback != null) {
     transactionCallback.success();
   }
-  
+
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, false);
+  
   return Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
 }
 
