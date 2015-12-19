@@ -1,0 +1,108 @@
+#RegisterPage {
+  text-align: center;
+  min-width: 950px;
+}
+
+#RegisterPage-SignUpPanel {
+  width: 500px;
+  display: inline-block;
+  margin-top: 10px;
+  position: relative;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#RegisterPage-SignUpPanel-SignUpLabel {
+  display: block;
+  font-size: 20px;
+  text-align: left;
+  
+  color: rgb(0, 133, 63);
+}
+
+#RegisterPage-SignUpPanel-Email, #RegisterPage-SignUpPanel-Nickname, #RegisterPage-SignUpPanel-Password, #RegisterPage-SignUpPanel-RetypePassword, #RegisterPage-SignUpPanel-GenderAgeLanguagePanel {
+  margin-top: 10px;
+  font: inherit;
+}
+
+#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Gender, #RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Age, #RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Language {
+  display: inline-block;
+  font: inherit;
+}
+#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Gender {
+  width: 120px;
+}
+#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Age {
+  width: 120px;
+
+  margin-left: 25px;
+  margin-right: 25px;
+}
+#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Language {
+  width: calc(100% - 240px - 50px);
+}
+
+#RegisterPage-SignUpPanel-AppropriateAgeCheckbox {
+  margin-top: 10px;
+  font: inherit;
+}
+
+#RegisterPage-SignUpPanel-TermsAndCondsCheckbox {
+  margin-top: 0px;
+  font: inherit;
+}
+#RegisterPage-SignUpPanel-TermsAndCondsLink {
+  font: inherit;  
+}
+
+#RegisterPage-SignUpPanel-ButtonsPanel {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton {
+  width: 85px;
+  height: 35px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  
+  border-width: 0px;
+  
+  background-image: url(../../imgs/SignUp.png);
+}
+#RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton:active {
+  background-image: url(../../imgs/SignUp.png);
+}
+
+
+#RegisterPage-SignUpPanel-LeftClarificationPanel {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: 520;
+  display: inline-block;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#RegisterPage-SignUpPanel-RightClarificationPanel {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  left: 520;
+  display: inline-block;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#RegisterPage-SignUpPanel-LeftClarificationPanel-NicknameClarificationPanel {
+  margin-top: 70px;
+}
+
+#RegisterPage-SignUpPanel-RightClarificationPanel-LanguageClarificationPanel {
+  margin-top: 100px;
+}

@@ -1,0 +1,111 @@
+body {
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  
+  background-color: rgb(250, 250, 250);
+}
+
+#Title {
+  width: 100%;
+  height: 80px;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  white-space: nowrap;
+  
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(0, 133, 63);
+}
+#Title-Logo {
+  float: left;
+  margin-left: 20px;
+  margin-top: 0px;
+  width: 80px;
+  height: 80px;
+  
+  cursor: pointer;
+}
+#Title-Caption {
+  float: right;
+  margin-right: 50px;
+  height: 50px;
+  
+  color: rgb(0, 133, 63);
+  font-size: 50px;
+  font-weight: bold;
+  font-family: "Times New Roman";
+}
+#Title-Options {
+  text-align: right;
+  padding-right: 20px;
+  top: 10px;
+  height: 20px;
+
+  font-size: 12px;
+}
+#Title-Options-Language, #Title-Options-Separator, #Title-Options-User {
+  position: relative;
+  font-size: inherit;
+  color: rgb(75, 75, 75);
+}
+#Title-Options-Language {
+  display: inline-block;
+}
+#Title-Options-Separator {
+  display: none;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+#Title-Options-User {
+  display: none;
+}
+#Title-Options-Language-Button, #Title-Options-User-Button {
+}
+#Title-Options-Language-Button:hover, #Title-Options-User-Button:hover {
+  color: rgb(17, 77, 7);
+}
+
+
+#Footer {
+  width: 100%;
+  height: 15px;
+  position: fixed;
+  bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  white-space: nowrap;
+  background: rgb(55, 55, 55);
+  color: white;
+  
+  font-family: Verdana;
+  font-size: 12px;
+}
+
+#Footer-Label {
+  padding-left: 20px;
+  color: inherit;
+}
+
+#Footer-ContactUs {
+  position: absolute;
+  right: 20px;
+  height: inherit;
+  top: 4px;
+  
+  font: inherit;
+  color: inherit;
+}
+#Footer-ContactUs:hover {
+  color: rgb(255, 0, 0);
+}
+#Footer-ContactUs:active {
+  color: rgb(100, 230, 240);
+}
+
+#RootContainer {
+  width: calc(100% - 0px);
+  height: calc(100% - 115px);
+}
+
+

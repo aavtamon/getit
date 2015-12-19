@@ -1,0 +1,267 @@
+#RequestDetailsPage {
+}
+
+#RequestDetailsPage-ContentPanel {
+  min-width: 950px;
+}
+
+#RequestDetailsPage-ContentPanel-RequestStatusPanel {
+  padding: 5px;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 20px;
+  
+  background-color: yellow;
+}
+#RequestDetailsPage-ContentPanel-RequestStatusPanel-RequestStatusLabel {
+  margin-right: 10px;
+  background-color: yellow;
+  color: red;
+}
+#RequestDetailsPage-ContentPanel-RequestStatusPanel-RequestStatus {
+  display: inline-block;
+}
+
+#RequestDetailsPage-ContentPanel-RequestPanel {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#RequestDetailsPage-ContentPanel-OffersPanel {
+  text-align: center;
+}
+
+
+
+#RequestDetailsPage-ContentPanel-RequestPanel .request-details {
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  width: 860px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+  text-align: left;
+
+  box-shadow: 5px 5px 5px darkgray;  
+}
+.request-details .request-category {
+  display: inline-block;
+  margin-bottom: 10px;
+  width: 100px;
+  
+  text-align: center;
+  border-width: 5px;
+  border-radius: 5px;
+}
+.request-details .request-date {
+  display: inline-block;
+  margin-left: 300px;
+  width: 200px;
+  
+  text-align: right;
+}
+.request-details .request-name {
+  display: inline-block;
+  margin-left: 150px;
+  width: 100px;
+  
+  text-align: right;
+}
+.request-details .request-text {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  width: 750px;
+  vertical-align: middle;
+  
+  font-family: Verdana;
+  
+  overflow: hidden;
+  white-space: nowrap;
+}
+.request-details .request-rating {
+  margin-left: 20px;
+}
+.request-details .offer-attachments {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.request-details .request-geton-label {
+  width: 120px;
+}
+.request-details .request-geton {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.request-details .request-returnby-label {
+  margin-left: 10px;
+}
+.request-details .request-returnby {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.request-details .request-pickup-label {
+  margin-left: 50px;
+}
+.request-details .request-pickup {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.request-details .request-payment-label {
+  margin-top: 10px;
+}
+.request-details .request-payment {
+  display: inline-block;
+  margin-left: 10px;
+}
+.request-details .request-payrate {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.request-details .request-closer {
+  position: absolute;
+  top: -7;
+  right: -10;
+  
+  width: 15px;
+  height: 15px;
+}
+.request-details:hover .request-closer {
+  display: inline-block;
+}
+
+.outgoing-request-details {
+  background: rgb(235, 215, 185);
+}
+.incoming-request-details {
+  background: rgb(200, 230, 240);
+}
+
+
+
+
+#RequestDetailsPage-ContentPanel-OffersPanel .offer-details {
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  width: 800px;
+  margin-left: 60px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+  text-align: left;
+
+  box-shadow: 5px 5px 5px darkgray;  
+}
+.offer-details .offer-closer {
+  position: absolute;
+  top: -7;
+  right: -10;
+  
+  width: 15px;
+  height: 15px;
+}
+.offer-details .offer-date {
+  display: inline-block;
+  margin-left: 400px;
+  width: 200px;
+  
+  text-align: right;
+}
+.offer-details .offer-name {
+  display: inline-block;
+  margin-left: 90px;
+  width: 100px;
+  
+  text-align: right;
+}
+.offer-details .offer-text {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  width: 700px;
+  vertical-align: middle;
+  
+  font-family: Verdana;
+  
+  overflow: hidden;
+  white-space: nowrap;
+}
+.offer-details .offer-rating {
+  margin-left: 20px;
+}
+.offer-details .offer-geton-label {
+  width: 120px;
+}
+.offer-details .offer-geton {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.offer-details .offer-returnby-label {
+  margin-left: 10px;
+}
+.offer-details .offer-returnby {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.offer-details .offer-delivery-label {
+  margin-left: 50px;
+}
+.offer-details .offer-delivery {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.offer-details .offer-zip-label {
+  margin-left: 50px;
+}
+.offer-details .offer-zip {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 100px;
+}
+.offer-details .offer-distance-label {
+  margin-left: 50px;
+}
+.offer-details .offer-distance {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.offer-details .offer-payment-label {
+  margin-top: 10px;
+}
+.offer-details .offer-payment {
+  display: inline-block;
+  margin-left: 10px;
+}
+.offer-details .offer-payrate {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.offer-details .offer-deposit-label {
+  margin-left: 50px;
+}
+.offer-details .offer-deposit {
+  display: inline-block;
+  margin-left: 10px;
+}
+.offer-details:hover .offer-closer {
+  display: inline-block;
+}
+
+.outgoing-offer-details {
+  background: rgb(235, 215, 185);
+}
+.incoming-offer-details {
+  background: rgb(200, 230, 240);
+}

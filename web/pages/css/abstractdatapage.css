@@ -1,0 +1,25 @@
+#AbstractDataPage-ContentPanel {
+  margin-top: 100px;
+  margin-right: 40px;
+  padding: 20px;
+  text-align: center;
+  
+  background: rgb(220, 220, 220);
+  
+  border-color: rgb(180, 180, 180);
+  border-style: solid;
+  border-width: 1;
+}
+
+#AbstractDataPage-ContentPanel-ReasonLabel {
+  display: block;
+  
+  font-size: 30px;
+}
+
+#AbstractDataPage-ContentPanel-LoginLink {
+  margin-top: 20px;
+  
+  font-size: 25px;
+}
+

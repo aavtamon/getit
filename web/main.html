@@ -1,0 +1,74 @@
+<head>
+  <meta charset="utf-8">
+  <title>Get It</title>
+  
+  <script src="lib/jquery-1.11.2.min.js"></script>
+  <script src="lib/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+  
+
+  <script src="js/i18n.js"></script>
+  <script src="i18n/Locale-eng.js"></script>
+
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/application.css">
+  <link rel="stylesheet" href="css/common.css">
+  <script src="js/application.js"></script>
+  <script src="js/backend.js"></script>
+  <script src="js/backend-ext.js"></script>
+  <script src="js/utils.js"></script>
+
+  
+  <script src="pagemanagement/pm.js"></script>
+  <script src="pagemanagement/abstractpage.js"></script>
+  <script src="pagemanagement/abstractcontainerpage.js"></script>
+  <link rel="stylesheet" href="pagemanagement/css/pagenotfoundpage.css">
+  <script src="pagemanagement/pagenotfoundpage.js"></script>
+
+  
+  <link rel="stylesheet" href="pages/css/abstractdatapage.css">
+  <script src="pages/abstractdatapage.js"></script>
+
+  <link rel="stylesheet" href="pages/css/loginpage.css">
+  <script src="pages/loginpage.js"></script>
+
+  <link rel="stylesheet" href="pages/css/registerpage.css">
+  <script src="pages/registerpage.js"></script>
+  
+  <link rel="stylesheet" href="pages/css/home_page.css">
+  <script src="pages/home_page.js"></script>
+  
+  <link rel="stylesheet" href="pages/css/request_details_page.css">
+  <script src="pages/request_details_page.js"></script>
+  
+  <link rel="stylesheet" href="pages/css/restore_passwordpage.css">
+  <script src="pages/restore_passwordpage.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      Application.start();
+    }); 
+  </script>
+</head>
+
+<body>
+  <div id="Title">
+    <img id="Title-Logo" src="imgs/Logo.png"></img>
+    <div id="Title-Options">
+      <div id="Title-Options-Language">
+        <button id="Title-Options-Language-Button" class="link-button"></button>
+      </div>
+      <label id="Title-Options-Separator">|</label>
+      <div id="Title-Options-User">
+        <button id="Title-Options-User-Button" class="link-button"></button>
+      </div>
+    </div>
+    <label id="Title-Caption"></label>
+  </div>
+  <div id="RootContainer"></div>
+  <div id="Footer">
+    <label id="Footer-Label">PiZ Technologies / PiZtec, &nbsp;2015. &nbsp;All rights reserved.</label>
+    <button id="Footer-ContactUs" class="link-button"></button>
+  </div>
+</body>
+</html>

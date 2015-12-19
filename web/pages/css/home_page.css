@@ -1,0 +1,415 @@
+#HomePage {
+}
+
+#HomePage-ContentPanel {
+  min-width: 950px;
+}
+
+#HomePage-ContentPanel-ControlPanel {
+}
+
+#HomePage-ContentPanel-ControlPanel-CreateRequestButton {
+}
+
+#HomePage-ContentPanel-RequestsPanel {
+  text-align: center;
+}
+
+#HomePage-ContentPanel-RequestsPanel .request-outline {
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  width: 860px;
+  margin-bottom: 10px;
+  
+  text-align: left;
+
+  box-shadow: 5px 5px 5px darkgray;  
+}
+.request-outline .request-category {
+  display: inline-block;
+  margin-bottom: 10px;
+  width: 100px;
+  
+  text-align: center;
+  border-width: 5px;
+  border-radius: 5px;
+}
+.request-outline .request-text {
+  display: inline-block;
+  margin-left: 10px;
+  width: 420px;
+  vertical-align: middle;
+  
+  font-family: Verdana;
+  
+  overflow: hidden;
+  white-space: nowrap;
+}
+.request-outline .request-date {
+  display: inline-block;
+  margin-left: 20px;
+  width: 200px;
+  
+  text-align: right;
+}
+.request-outline .request-name {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+  
+  text-align: right;
+}
+.request-outline .request-geton-label {
+  display: inline-block;
+  margin-left: 20px;
+  width: 75px;
+}
+.request-outline .request-geton {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.request-outline .request-returnby-label {
+  display: inline-block;
+  margin-left: 10px;
+  width: 120px;
+}
+.request-outline .request-returnby {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.request-outline .request-pickup-label {
+  display: inline-block;
+  margin-left: 50px;
+  width: 60px;
+}
+.request-outline .request-pickup {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.request-outline .request-payrate-free {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 70px;
+  width: 18px;
+  height: 18px;
+
+  background-image: url(../../imgs/free.jpeg);
+  background-size: cover;
+}
+.request-outline .request-payrate-paid {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 70px;
+  width: 18px;
+  height: 18px;
+  
+  background-image: url(../../imgs/paid.jpeg);
+  background-size: cover;
+}
+.request-outline .request-rating {
+  margin-left: 30px;
+}
+.request-outline .request-closer {
+  position: absolute;
+  top: -7;
+  right: -10;
+  
+  width: 15px;
+  height: 15px;
+}
+.request-outline:hover .request-closer {
+  display: inline-block;
+}
+
+.outgoing-request-outline {
+  background: rgb(235, 215, 185);
+}
+.outgoing-request-outline:hover {
+  background: rgb(235, 200, 150);
+}
+.incoming-request-outline {
+  background: rgb(200, 230, 240);
+}
+.incoming-request-outline:hover {
+  background: rgb(170, 225, 240);
+}
+
+
+
+#HomePage-CreateNewRequestDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-CategoryLabel {
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-ExpertiseCategory {
+  display: inline-block;
+  margin-top: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-DescriptionLabel {
+  margin-top: 10px;
+  display: block;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-DescriptionEditor {
+  height: 60px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-WhenPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-WhenPanel-GetOnLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-WhenPanel-GetOnChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-WhenPanel-ReturnByLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-WhenPanel-ReturnByChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-DeliveryPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentField {
+  display: none;
+  width: 50px;
+  margin-right: 10px;
+}
+#HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewRequestDialog-ButtonPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewRequestDialog-ButtonPanel-OkButton {
+  float: right;
+  margin-right: 10px;
+}
+#HomePage-CreateNewRequestDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}
+
+
+
+#HomePage-RequestDetailsDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  z-index: 100;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#HomePage-RequestDetailsDialog-ContentPanel {
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Header {
+  text-align: right;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Header-Category {
+  display: inline-block;
+  float: left;
+  
+  width: 100px;
+  
+  text-align: center;
+  border-width: 5px;
+  border-radius: 5px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Header-Date {
+  display: inline-block;
+  margin-right: 50px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Header-Rating {
+  display: inline-block;
+  margin-right: 10px;
+  
+  vertical-align: bottom;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Header-Name {
+  display: inline-block;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Text {
+  margin-top: 10px;
+  
+  font-family: Verdana;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow {
+  margin-top: 10px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow-GetOnLabel {
+  margin-right: 10px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow-GetOn {
+  display: inline-block;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow-ReturnByLabel {
+  margin-left: 30px;
+  margin-right: 10px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow-ReturnBy {
+  display: inline-block;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow-PickupLabel {
+  margin-left: 100px;
+  margin-right: 10px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-WhenAndHow-Pickup {
+  display: inline-block;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Payment {
+  margin-top: 10px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Payment-PaymentLabel {
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Payment-PayAmount {
+  display: inline-block;
+  margin-left: 10px;
+}
+#HomePage-RequestDetailsDialog-ContentPanel-Payment-Payrate {
+  display: inline-block;
+  margin-left: 10px;
+}
+#HomePage-RequestDetailsDialog-ButtonPanel {
+}
+#HomePage-RequestDetailsDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}
+#HomePage-RequestDetailsDialog-ButtonPanel-OfferButton {
+  float: right;
+  margin-right: 10px;
+}
+
+
+
+
+#HomePage-CreateNewOfferDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-DescriptionLabel {
+  margin-top: 10px;
+  display: block;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-DescriptionEditor {
+  height: 60px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-AttachmentBar {
+  margin-top: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-WhenPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-WhenPanel-GetOnLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-WhenPanel-GetOnChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-WhenPanel-ReturnByLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-WhenPanel-ReturnByChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-DeliveryPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentField {
+  display: none;
+  width: 50px;
+  margin-right: 10px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-DepositLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+#HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-DepositChooser {
+  display: inline-block;
+}
+#HomePage-CreateNewOfferDialog-ButtonPanel {
+  margin-top: 10px;
+}
+#HomePage-CreateNewOfferDialog-ButtonPanel-OkButton {
+  float: right;
+  margin-right: 10px;
+}
+#HomePage-CreateNewOfferDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}
