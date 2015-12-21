@@ -7,7 +7,7 @@ Application = {
     NEGOTIATED_PICKUP_OPTIONS: [ {data: "pickup", display: I18n.getLocale().literals.PickupPickup}, {data: "delivery", display: I18n.getLocale().literals.PickupDeliver} ],
     DELIVERY_OPTIONS: [ {data: "pickup", display: I18n.getLocale().literals.DeliveryPickup}, {data: "delivery", display: I18n.getLocale().literals.DeliveryDeliver}, {data: "any", display: I18n.getLocale().literals.DeliveryAny} ],
     NEGOTIATED_DELIVERY_OPTIONS: [ {data: "pickup", display: I18n.getLocale().literals.DeliveryPickup}, {data: "delivery", display: I18n.getLocale().literals.DeliveryDeliver} ],
-    DEPOSITES: [ {data: 0, display: I18n.getLocale().literals.DepositFree}, {data: 5, display: "$5"}, {data: 10, display: "$10"}, {data: 25, display: "$25"}, {data: 50, display: "$50"}, {data: 100, display: "$100"}, {data: 250, display: "$250"}, {data: 500, display: "$500"}, {data: 1000, display: "$1000"} ],
+    DEPOSITES: [ {data: 0, display: I18n.getLocale().literals.PaymentFree}, {data: 5, display: "$5"}, {data: 10, display: "$10"}, {data: 25, display: "$25"}, {data: 50, display: "$50"}, {data: 100, display: "$100"}, {data: 250, display: "$250"}, {data: 500, display: "$500"}, {data: 1000, display: "$1000"} ],
 
     dataToString: function(configurationItem, data) {
       var item = this.findConfigurationItem(configurationItem, data);

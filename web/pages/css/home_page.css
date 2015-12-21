@@ -157,12 +157,13 @@
 }
 #HomePage-CreateNewRequestDialog-ContentPanel-CategoryLabel {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 11px;
   margin-right: 10px;
   vertical-align: top;
 }
-#HomePage-CreateNewRequestDialog-ContentPanel-ExpertiseCategory {
+#HomePage-CreateNewRequestDialog-ContentPanel-Category {
   display: inline-block;
+  width: 300px;
   margin-top: 10px;
 }
 #HomePage-CreateNewRequestDialog-ContentPanel-DescriptionLabel {
@@ -196,9 +197,12 @@
 #HomePage-CreateNewRequestDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
   display: inline-block;
   margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
 }
 #HomePage-CreateNewRequestDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
   display: inline-block;
+  width: 250px;
 }
 #HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel {
   margin-top: 10px;
@@ -206,14 +210,18 @@
 #HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentLabel {
   display: inline-block;
   margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
 }
 #HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentField {
   display: none;
   width: 50px;
   margin-right: 10px;
+  vertical-align: top;
 }
 #HomePage-CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
   display: inline-block;
+  width: 150px;
 }
 #HomePage-CreateNewRequestDialog-ButtonPanel {
   margin-top: 10px;

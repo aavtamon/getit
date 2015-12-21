@@ -209,7 +209,7 @@ HomePage.prototype._showCreateNewRequestDialog = function() {
   var contentPanel = UIUtils.appendBlock(dialog, "ContentPanel");
 
   UIUtils.appendLabel(contentPanel, "CategoryLabel", this.getLocale().RequestCategoryLabel);
-  var categoryChooser = UIUtils.appendDropList(contentPanel, "ExpertiseCategory", Backend.getUserSettings().expertise_categories);
+  var categoryChooser = UIUtils.appendDropList(contentPanel, "Category", Backend.getUserSettings().expertise_categories);
   
   UIUtils.appendLabel(contentPanel, "DescriptionLabel", this.getLocale().RequestDescriptionLabel);
   var descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
