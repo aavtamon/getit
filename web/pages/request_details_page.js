@@ -87,13 +87,13 @@ RequestDetailsPage.prototype._getGrouppedOffers = function() {
     var offer = offers[i];
     if (offer.negotiations.length > 0) {
       var lastNegotiation = offer.negotiations[offer.negotiations.length - 1];
-      if (!RequestDetailsPage._isOwnedNegotiation(lastNegotiation)) {
+      if (!Backend.isOwnedNegotiation(lastNegotiation)) {
         if (grouppedOffers[lastNegotiation.type] == null) {
           grouppedOffers[lastNegotiation.type] = [];
         }
         grouppedOffers[lastNegotiation.type].push(offer);
       }
-    } else if (!RequestDetailsPage._isOwnedOffer(offer)) {
+    } else if (!Backend.isOwnedOffer(offer)) {
       if (grouppedOffers["empty"] == null) {
         grouppedOffers["empty"] = [];
       }
@@ -167,7 +167,7 @@ RequestDetailsPage.prototype._updateRequest = function() {
   var requestCloser = UIUtils.appendXCloser(requestElement, "Closer");
   UIUtils.addClass(requestCloser, "request-closer");
   UIUtils.setClickListener(requestCloser, function() {
-    if (HomePage._isOwnedRequest(request)) {
+    if (Backend.isOwnedRequest(request)) {
       UIUtils.showDialog(this.getLocale().RecallRequest, this.getLocale().RecallRequestText, {
         ok: {
           display: this.getLocale().ConfirmButton,
@@ -191,7 +191,7 @@ RequestDetailsPage.prototype._updateRequest = function() {
     return false; 
   }.bind(this));
   
-  if (HomePage._isOwnedRequest(request)) {
+  if (Backend.isOwnedRequest(request)) {
     UIUtils.addClass(requestElement, "outgoing-request-details");
   } else {
     UIUtils.addClass(requestElement, "incoming-request-details");
@@ -216,8 +216,8 @@ RequestDetailsPage.prototype._updateRequest = function() {
 
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "request-name");
-  if (HomePage._isOwnedRequest(request)) {
-    nameElement.innerHTML = this.getLocale().RequestNameMe;
+  if (Backend.isOwnedRequest(request)) {
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
   } else {
     nameElement.innerHTML = request.user_name;
   }
@@ -226,7 +226,7 @@ RequestDetailsPage.prototype._updateRequest = function() {
   UIUtils.addClass(textElement, "request-text");
   textElement.innerHTML = request.text;
 
-  if (!HomePage._isOwnedRequest(request)) {
+  if (!Backend.isOwnedRequest(request)) {
     var ratingElement = UIUtils.appendRatingBar(requestElement, "Rating");
     UIUtils.addClass(ratingElement, "request-rating");
     ratingElement.setRating(request.star_rating);
@@ -297,7 +297,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
     var offerCloser = UIUtils.appendXCloser(offerElement, "Closer");
     UIUtils.addClass(offerCloser, "offer-closer");
     UIUtils.setClickListener(offerCloser, function() {
-      if (RequestDetailsPage._isOwnedOffer(offer)) {
+      if (Backend.isOwnedOffer(offer)) {
         UIUtils.showDialog(this.getLocale().RecallOffer, this.getLocale().RecallOfferText, {
           ok: {
             display: this.getLocale().ConfirmButton,
@@ -322,7 +322,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
     }.bind(this));
   }
   
-  if (RequestDetailsPage._isOwnedOffer(offer)) {
+  if (Backend.isOwnedOffer(offer)) {
     UIUtils.addClass(offerElement, "outgoing-offer-details");
   } else {
     UIUtils.addClass(offerElement, "incoming-offer-details");
@@ -338,7 +338,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
 
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "offer-name");
-  if (RequestDetailsPage._isOwnedOffer(offer)) {
+  if (Backend.isOwnedOffer(offer)) {
     nameElement.innerHTML = this.getLocale().OfferNameMe;
   } else {
     nameElement.innerHTML = request.user_name;
@@ -348,7 +348,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
   UIUtils.addClass(textElement, "offer-text");
   textElement.innerHTML = offer.text;
 
-  if (!RequestDetailsPage._isOwnedOffer(offer)) {
+  if (!Backend.isOwnedOffer(offer)) {
     var ratingElement = UIUtils.appendRatingBar(offerElement, "Rating");
     UIUtils.addClass(ratingElement, "offer-rating");
     ratingElement.setRating(offer.star_rating);
@@ -429,7 +429,7 @@ RequestDetailsPage.prototype._appendNegotiations = function(root, offer) {
 RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiation, isRequestersNegotiation) {
   var negotiationElement = UIUtils.appendBlock(root, "Negotiation" + negId);
   
-  if (RequestDetailsPage._isOwnedNegotiation(negotiation)) {
+  if (Backend.isOwnedNegotiation(negotiation)) {
     UIUtils.addClass(negotiationElement, "outgoing-negotiation");
   } else {
     UIUtils.addClass(negotiationElement, "incoming-negotiation");
@@ -445,7 +445,7 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
 
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "negotiation-name");
-  if (RequestDetailsPage._isOwnedNegotiation(negotiation)) {
+  if (Backend.isOwnedNegotiation(negotiation)) {
     nameElement.innerHTML = this.getLocale().OfferNameMe;
   } else {
     nameElement.innerHTML = negotiation.user_name;
@@ -599,7 +599,7 @@ RequestDetailsPage.prototype._appendControlPanel = function(root, offerId, offer
 
 RequestDetailsPage.prototype._getApplicableActions = function(offer) {
   if (offer.negotiations.length == 0) {
-    if (RequestDetailsPage._isOwnedOffer(offer)) {
+    if (Backend.isOwnedOffer(offer)) {
       return [Backend.Negotiation.TYPE_RECALL, Backend.Negotiation.TYPE_NEGOTIATE]; 
     } else {
       return [Backend.Negotiation.TYPE_ACCEPT, Backend.Negotiation.TYPE_DECLINE, Backend.Negotiation.TYPE_NEGOTIATE]; 
@@ -607,38 +607,38 @@ RequestDetailsPage.prototype._getApplicableActions = function(offer) {
   } else {
     var lastNegotiation = offer.negotiations[offer.negotiations.length - 1];
     if (lastNegotiation.type == Backend.Negotiation.TYPE_ACCEPT) {
-      if (RequestDetailsPage._isOwnedNegotiation(lastNegotiation)) {
+      if (Backend.isOwnedNegotiation(lastNegotiation)) {
         return [Backend.Negotiation.TYPE_DECLINE];
       } else {
         return [Backend.Negotiation.TYPE_CONFIRM, Backend.Negotiation.TYPE_RECALL];
       }
     } else if (lastNegotiation.type == Backend.Negotiation.TYPE_CONFIRM) {
-      if (RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIVERY
-          || !RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP) {
+      if (Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIVERY
+          || !Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP) {
         
         return [Backend.Negotiation.TYPE_DELIEVRY];
       } else {
         return [];
       }
     } else if (lastNegotiation.type == Backend.Negotiation.TYPE_DELIVERY) {
-      if (RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP
-          || !RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIEVRY) {
+      if (Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP
+          || !Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIEVRY) {
         
         return [Backend.Negotiation.TYPE_DELIEVRY_ACCEPT];
       } else {
         return [];
       }
     } else if (lastNegotiation.type == Backend.Negotiation.TYPE_DELIVERY_ACCEPT) {
-      if (RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP
-          || !RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIEVRY) {
+      if (Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP
+          || !Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIEVRY) {
         
         return [Backend.Negotiation.TYPE_DELIEVRY_RETURN];
       } else {
         return [];
       }
     } else if (lastNegotiation.type == Backend.Negotiation.TYPE_DELIEVRY_RETURN) {
-      if (RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIVERY
-          || !RequestDetailsPage._isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP) {
+      if (Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIVERY
+          || !Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_PICKUP) {
         
         return [Backend.Negotiation.TYPE_CLOSE];
       } else {
@@ -648,255 +648,4 @@ RequestDetailsPage.prototype._getApplicableActions = function(offer) {
       return [];
     }
   }
-}
-
-
-/*
-
-
-HomePage.prototype._showCreateNewRequestDialog = function() {
-  var dialog = UIUtils.appendDialog(this._rootElement, "CreateNewRequestDialog");
-  
-  var contentPanel = UIUtils.appendBlock(dialog, "ContentPanel");
-
-  UIUtils.appendLabel(contentPanel, "CategoryLabel", this.getLocale().CategoryLabel);
-  var categoryChooser = UIUtils.appendDropList(contentPanel, "ExpertiseCategory", Backend.getUserSettings().expertise_categories);
-  
-  UIUtils.appendLabel(contentPanel, "DescriptionLabel", this.getLocale().DescriptionLabel);
-  var descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
-
-  
-  var whenPanel = UIUtils.appendBlock(contentPanel, "WhenPanel");
-  UIUtils.appendLabel(whenPanel, "GetOnLabel", this.getLocale().GetOnLabel);
-  var getOnChooser = UIUtils.appendDateInput(whenPanel, "GetOnChooser");
-  getOnChooser.setDate(new Date());
-  
-  UIUtils.appendLabel(whenPanel, "ReturnByLabel", this.getLocale().ReturnByLabel);
-  var returnByChooser = UIUtils.appendDateInput(whenPanel, "ReturnByChooser");
-  var tomorrow = new Date();
-  tomorrow.setTime(tomorrow.getTime() + 24 * 60 * 60 * 1000);
-  returnByChooser.setDate(tomorrow);
-
-  var deliveryPanel = UIUtils.appendBlock(contentPanel, "DeliveryPanel");
-  UIUtils.appendLabel(deliveryPanel, "DeliveryLabel", this.getLocale().PickupLabel);
-  var deliveryChooser = UIUtils.appendDropList(deliveryPanel, "DeliveryChooser", Application.Configuration.PICKUP_OPTIONS);
-  
-  
-  var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
-  UIUtils.appendLabel(paymentPanel, "PaymentLabel", this.getLocale().PaymentLabel);
-  var payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
-  payment.value = "0.00";
-  payment.onchange = function() {
-    if (!HomePage._isPaymentValid(payment.value)) {
-      UIUtils.indicateInvalidInput(payment);
-    }
-  };
-  
-  var paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
-  paymentChooser.setChangeListener(function(selectedItem) {
-    if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
-      payment.style.display = "inline-block";
-    } else {
-      payment.style.display = "none";
-    }
-  });
-  
-  UIUtils.appendSeparator(contentPanel);
-  
-  var buttonPanel = UIUtils.appendBlock(dialog, "ButtonPanel");
-  var cancelButton = UIUtils.appendButton(buttonPanel, "CancelButton", I18n.getLocale().literals.CancelOperationButton);
-  var okButton = UIUtils.appendButton(buttonPanel, "OkButton", I18n.getLocale().literals.OkButton);
-  
-  UIUtils.setClickListener(cancelButton, function() {
-    UIUtils.fadeOut(dialog);
-  });
-
-  
-  UIUtils.setClickListener(okButton, function() {
-    if (this._signing) {
-      return;
-    }
-    
-    if (descriptionEditor.getValue() == "") {
-      UIUtils.indicateInvalidInput(descriptionEditor);
-      UIUtils.showMessage(this.getLocale().IncorrectDescriptionMessage);
-      return;
-    }
-
-    if (paymentChooser.getSelectedItem() != Application.Configuration.PAYMENT_RATES[0] 
-        && !HomePage._isPaymentValid(payment.value)) {
-      UIUtils.indicateInvalidInput(payment);
-      UIUtils.showMessage(this.getLocale().IncorrectProposedPaymentMessage);
-      return;
-    }
-    
-    var thisMorning = new Date();
-    thisMorning.setHours(0);
-    thisMorning.setMinutes(0);
-    thisMorning.setSeconds(0);
-    thisMorning.setMilliseconds(0);
-    
-    if (getOnChooser.getDate() == null || getOnChooser.getDate().getTime() < thisMorning.getTime()) {
-      UIUtils.indicateInvalidInput(getOnChooser);
-      UIUtils.showMessage(this.getLocale().IncorrectGetOnDateMessage);
-      return;
-    }
-    if (returnByChooser.getDate() == null || returnByChooser.getDate().getTime() < getOnChooser.getDate().getTime()) {
-      UIUtils.indicateInvalidInput(returnByChooser);
-      UIUtils.showMessage(this.getLocale().IncorrectReturnByDateMessage);
-      return;
-    }
-    
-    
-    var request = {
-      category: categoryChooser.getValue(),
-      text: descriptionEditor.getValue(),
-      delivery: deliveryChooser.getValue(),
-      get_on: getOnChooser.getDate().getTime(),
-      return_by: returnByChooser.getDate().getTime(),
-      payment: {
-        payrate: paymentChooser.getValue(),
-        payment: paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null
-      }
-    };
-    
-    var page = this;
-    var backendCallback = {
-      success: function() {
-        this._onCompletion();
-        UIUtils.showMessage(page.getLocale().RequestIsSentMessage);
-
-        UIUtils.fadeOut(dialog);
-      },
-      failure: function() {
-        this._onCompletion();
-        UIUtils.showMessage(page.getLocale().FailedToSendRequest);
-      },
-      error: function() {
-        this._onCompletion();
-        UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
-      },
-
-      _onCompletion: function() {
-        this._signing = false;
-      }.bind(this)
-    }
-    Backend.createRequest(request, backendCallback);
-  }.bind(this));
-}
-
-
-
-
-HomePage.prototype._showRequestDetailsDialog = function(requestId) {
-  var request = Backend.getRequest(requestId);
-  if (request == null) {
-    return;
-  }
-  
-  var dialog = UIUtils.appendDialog(this._rootElement, "RequestDetailsDialog");
-  
-  var contentPanel = UIUtils.appendBlock(dialog, "ContentPanel");
-
-  var header = UIUtils.appendBlock(contentPanel, "Header");
-
-  var categoryElement = UIUtils.appendBlock(header, "Category");
-  categoryElement.innerHTML = request.category;
-  var categoryItem = Application.Configuration.findConfigurationItem(Backend.getUserSettings().expertise_categories, request.category);
-  if (categoryItem != null) {
-    categoryElement.style.color = categoryItem.fg;
-    categoryElement.style.backgroundColor = categoryItem.bg;
-  }
-
-  var dateElement = UIUtils.appendBlock(header, "Date");
-  var date = new Date(request.timestamp);
-  dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
-
-  if (!HomePage._isOwnedRequest(request)) {
-    var ratingElement = UIUtils.appendRatingBar(header, "Rating");
-    ratingElement.setRating(request.star_rating);
-  }
-
-  var nameElement = UIUtils.appendBlock(header, "Name");
-  if (HomePage._isOwnedRequest(request)) {
-    nameElement.innerHTML = this.getLocale().RequestNameMe;
-  } else {
-    nameElement.innerHTML = request.user_name;
-  }
-
-  var textElement = UIUtils.appendBlock(contentPanel, "Text");
-  UIUtils.addClass(textElement, "request-text");
-  textElement.innerHTML = request.text;
-
-  var whenAndHow = UIUtils.appendBlock(contentPanel, "WhenAndHow");
-
-  UIUtils.appendLabel(whenAndHow, "GetOnLabel", this.getLocale().RequestGetOnLabel);
-  var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
-  getOnElement.innerHTML = date.toLocaleDateString();
-
-  UIUtils.appendLabel(whenAndHow, "ReturnByLabel", this.getLocale().RequestReturnByLabel);
-  var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
-  date = new Date(request.get_on);
-  returnByElement.innerHTML = date.toLocaleDateString();
-
-  UIUtils.appendLabel(whenAndHow, "PickupLabel", this.getLocale().RequestPickupLabel);
-  var pickupElement = UIUtils.appendBlock(whenAndHow, "Pickup");
-  pickupElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PICKUP_OPTIONS, request.pickup);
-
-  var payment = UIUtils.appendBlock(contentPanel, "Payment");
-  UIUtils.appendLabel(payment, "PaymentLabel", this.getLocale().PaymentLabel);
-  if (request.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
-    var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
-    paymentElement.innerHTML = "$" + request.payment.payment;
-  }
-  var payRateElement = UIUtils.appendBlock(payment, "Payrate");
-  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payment.payrate);
-  
-  
-  UIUtils.appendSeparator(contentPanel);
-  
-  var buttonPanel = UIUtils.appendBlock(dialog, "ButtonPanel");
-  var cancelButton = UIUtils.appendButton(buttonPanel, "CancelButton", I18n.getLocale().literals.CancelOperationButton);
-  UIUtils.setClickListener(cancelButton, function() {
-    UIUtils.fadeOut(dialog);
-  });
-
-  
-  if (!HomePage._isOwnedRequest(request)) {
-    var offerButton = UIUtils.appendButton(buttonPanel, "OfferButton", this.getLocale().OfferButton);
-    UIUtils.setClickListener(offerButton, function() {
-      this._showCreateOfferDialog();
-    }.bind(this));
-  }
-}
-
-HomePage.prototype._appendRequestDetailsPanel = function(root, request) {
-  
-  return requestPanel;
-}
-
-HomePage.prototype._appendFoldedPanel = function(root) {
-  var foldedPanel = UIUtils.appendBlock(root, "FoldedPanel");
-
-  UIUtils.appendBlock(foldedPanel, "Collapse1");
-  UIUtils.appendBlock(foldedPanel, "Collapse2");
-  UIUtils.appendBlock(foldedPanel, "Collapse3");
-  
-  return foldedPanel;
-}
-
-
-HomePage._isPaymentValid = function(payment) {
-  var amountExpression = /^\d+(?:\.\d{0,2})$/;
-  return amountExpression.test(payment);
-}
-
-*/
-
-RequestDetailsPage._isOwnedOffer = function(offer) {
-  return offer.user_id == Backend.getUserProfile().user_id;  
-}
-
-RequestDetailsPage._isOwnedNegotiation = function(neg) {
-  return neg.user_id == Backend.getUserProfile().user_id;  
 }

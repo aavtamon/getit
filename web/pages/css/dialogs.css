@@ -1,0 +1,290 @@
+#CreateNewRequestDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#CreateNewRequestDialog-ContentPanel-CategoryLabel {
+  display: inline-block;
+  margin-top: 11px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+#CreateNewRequestDialog-ContentPanel-Category {
+  display: inline-block;
+  width: 300px;
+  margin-top: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-DescriptionLabel {
+  margin-top: 10px;
+  display: block;
+}
+#CreateNewRequestDialog-ContentPanel-DescriptionEditor {
+  height: 60px;
+}
+#CreateNewRequestDialog-ContentPanel-WhenPanel {
+  margin-top: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-WhenPanel-GetOnLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-WhenPanel-GetOnChooser {
+  display: inline-block;
+}
+#CreateNewRequestDialog-ContentPanel-WhenPanel-ReturnByLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+#CreateNewRequestDialog-ContentPanel-WhenPanel-ReturnByChooser {
+  display: inline-block;
+}
+#CreateNewRequestDialog-ContentPanel-DeliveryPanel {
+  margin-top: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#CreateNewRequestDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
+  display: inline-block;
+  width: 250px;
+}
+#CreateNewRequestDialog-ContentPanel-PaymentPanel {
+  margin-top: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentField {
+  display: none;
+  width: 50px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+#CreateNewRequestDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
+  display: inline-block;
+  width: 150px;
+}
+#CreateNewRequestDialog-ButtonPanel {
+  margin-top: 10px;
+}
+#CreateNewRequestDialog-ButtonPanel-OkButton {
+  float: right;
+  margin-right: 10px;
+}
+#CreateNewRequestDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}
+
+
+
+#RequestDetailsDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  z-index: 100;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#RequestDetailsDialog-ContentPanel {
+}
+#RequestDetailsDialog-ContentPanel-Header {
+  text-align: right;
+}
+#RequestDetailsDialog-ContentPanel-Header-Category {
+  display: inline-block;
+  float: left;
+  
+  width: 100px;
+  
+  text-align: center;
+  border-width: 5px;
+  border-radius: 5px;
+}
+#RequestDetailsDialog-ContentPanel-Header-Date {
+  display: inline-block;
+  margin-right: 50px;
+}
+#RequestDetailsDialog-ContentPanel-Header-Rating {
+  display: inline-block;
+  margin-right: 10px;
+  
+  vertical-align: bottom;
+}
+#RequestDetailsDialog-ContentPanel-Header-Name {
+  display: inline-block;
+}
+#RequestDetailsDialog-ContentPanel-Text {
+  margin-top: 10px;
+  
+  font-family: Verdana;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow {
+  margin-top: 10px;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow-GetOnLabel {
+  margin-right: 10px;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow-GetOn {
+  display: inline-block;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow-ReturnByLabel {
+  margin-left: 30px;
+  margin-right: 10px;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow-ReturnBy {
+  display: inline-block;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow-PickupLabel {
+  margin-left: 100px;
+  margin-right: 10px;
+}
+#RequestDetailsDialog-ContentPanel-WhenAndHow-Pickup {
+  display: inline-block;
+}
+#RequestDetailsDialog-ContentPanel-Payment {
+  margin-top: 10px;
+}
+#RequestDetailsDialog-ContentPanel-Payment-PaymentLabel {
+}
+#RequestDetailsDialog-ContentPanel-Payment-PayAmount {
+  display: inline-block;
+  margin-left: 10px;
+}
+#RequestDetailsDialog-ContentPanel-Payment-Payrate {
+  display: inline-block;
+  margin-left: 10px;
+}
+#RequestDetailsDialog-ButtonPanel {
+}
+#RequestDetailsDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}
+#RequestDetailsDialog-ButtonPanel-OfferButton {
+  float: right;
+  margin-right: 10px;
+}
+
+
+#CreateNewOfferDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#CreateNewOfferDialog-ContentPanel-DescriptionLabel {
+  margin-top: 10px;
+  display: block;
+}
+#CreateNewOfferDialog-ContentPanel-DescriptionEditor {
+  height: 60px;
+}
+#CreateNewOfferDialog-ContentPanel-AttachmentBar {
+  margin-top: 10px;
+}
+#CreateNewOfferDialog-ContentPanel-WhenPanel {
+  margin-top: 10px;
+}
+#CreateNewOfferDialog-ContentPanel-WhenPanel-GetOnLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#CreateNewOfferDialog-ContentPanel-WhenPanel-GetOnChooser {
+  display: inline-block;
+}
+#CreateNewOfferDialog-ContentPanel-WhenPanel-ReturnByLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+#CreateNewOfferDialog-ContentPanel-WhenPanel-ReturnByChooser {
+  display: inline-block;
+}
+#CreateNewOfferDialog-ContentPanel-DeliveryPanel {
+  margin-top: 10px;
+}
+#CreateNewOfferDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#CreateNewOfferDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
+  display: inline-block;
+  width: 250px;
+}
+#CreateNewOfferDialog-ContentPanel-PaymentPanel {
+  margin-top: 10px;
+}
+#CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentField {
+  display: none;
+  width: 50px;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
+  display: inline-block;
+  width: 150px;
+}
+#CreateNewOfferDialog-ContentPanel-PaymentPanel-DepositLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#CreateNewOfferDialog-ContentPanel-PaymentPanel-DepositChooser {
+  display: inline-block;
+  width: 100px;
+}
+#CreateNewOfferDialog-ButtonPanel {
+  margin-top: 10px;
+}
+#CreateNewOfferDialog-ButtonPanel-OkButton {
+  float: right;
+  margin-right: 10px;
+}
+#CreateNewOfferDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}

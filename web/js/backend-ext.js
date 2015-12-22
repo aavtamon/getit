@@ -301,6 +301,20 @@ Backend._createNegotiation = function(offer, type) {
 
 
 
+// Utils
+Backend.isOwnedRequest = function(request) {
+  return request.user_id == Backend.getUserProfile().user_id;  
+}
+
+Backend.isOwnedOffer = function(offer) {
+  return offer.user_id == Backend.getUserProfile().user_id;  
+}
+
+Backend.isOwnedNegotiation = function(neg) {
+  return neg.user_id == Backend.getUserProfile().user_id;  
+}
+
+
 
 // TEMPORARY cache init
 var __init = function() {

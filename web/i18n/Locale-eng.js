@@ -22,6 +22,8 @@ var Locale_eng = {
     "PasswordLabel": "Password",
     "RetypePasswordLabel": "Confirm Password",
     
+    "NameMe": "Me",
+    
     
     "LanguageRussian": "Russian",
     "LanguageEnglish": "English",
@@ -44,6 +46,43 @@ var Locale_eng = {
     "DeliveryPickup": "let you pickup",
     "DeliveryDeliver": "deliver",
     "DeliveryAny": "deliver or let you pickup",
+  },
+  "dialogs": {
+    "CreateNewRequestDialog": {
+      "RequestCategoryLabel": "My need belongs in:",
+      "RequestDescriptionLabel": "I am looking for:",
+      "RequestGetOnLabel": "I want to get it on:",
+      "RequestReturnByLabel": "I will return it by:",
+      "RequestPickupLabel": "I will: ",
+      "RequestPaymentLabel": "I am ready to get it for: ",
+      
+      "IncorrectRequestDescriptionMessage": "Please provide the details of your need",
+      "IncorrectRequestProposedPaymentMessage": "Payment is a dollar amount that you are ready to pay, like 3.00",
+      "IncorrectRequestGetOnDateMessage": "Please select a valid pickup/delivery date. It must be a valid future date",
+      "IncorrectRequestReturnByDateMessage": "Please select a valid return date. It must be a valid date after a pickup date",
+      "RequestIsSentMessage": "Your request is sent. Watch incoming offers soon!",
+      "FailedToSendRequest": "We failed to send your request. Please try again",
+    },
+    "RequestDetailsDialog": {
+      "OfferButton": "Make an offer",
+    },
+    "CreateNewOfferDialog": {
+      "OfferDescriptionLabel": "I am offerring:",
+      "OfferGetOnLabel": "I can provide it on:",
+      "OfferReturnByLabel": "I want it back by:",
+      "OfferDeliveryLabel": "I can:",
+      "OfferPaymentLabel": "I can offer it for: ",
+      "OfferDepositLabel": "Deposit:",
+      
+      "IncorrectOfferDescriptionMessage": "Please provide the details of your offer",
+      "IncorrectOfferProposedPaymentMessage": "Payment is a dollar amount that you want to get, like 3.00",
+      "IncorrectOfferGetOnDateMessage": "Please select a valid pickup/delivery date. It must be a valid future date",
+      "IncorrectOfferReturnByDateMessage": "Please select a valid return date. It must be a valid date after a pickup date",
+      "OfferIsSentMessage": "Your offer is sent. You will know soon if it is accepted",
+      "FailedToSendOffer": "We failed to send your offer. Please try again",
+      "IncorrectAttachmentMessage": "You can only attach images",
+      "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
+    }
   },
   "pages": {
     "AbstractDataPage": {
@@ -106,43 +145,10 @@ var Locale_eng = {
       "RequestOutlineGetOnLabel": "Neened on:",
       "RequestOutlineReturnByLabel": "To be returned by:",
       "RequestOutlinePickupLabel": "Delivery: ",
-      "RequestNameMe": "Me",
-      
-      "RequestCategoryLabel": "My need belongs in:",
-      "RequestDescriptionLabel": "I am looking for:",
-      "RequestGetOnLabel": "I want to get it on:",
-      "RequestReturnByLabel": "I will return it by:",
-      "RequestPickupLabel": "I will: ",
-      "RequestPaymentLabel": "I am ready to get it for: ",
       
       "RecallRequest": "Request Cancellation",
       "RecallRequestText": "Do you really want to cancel your request?<br>It will remove it completely.",
       "ConfirmButton": "Confirm",
-      "OfferButton": "Make an offer",
-      
-      "IncorrectRequestDescriptionMessage": "Please provide the details of your need",
-      "IncorrectRequestProposedPaymentMessage": "Payment is a dollar amount that you are ready to pay, like 3.00",
-      "IncorrectRequestGetOnDateMessage": "Please select a valid pickup/delivery date. It must be a valid future date",
-      "IncorrectRequestReturnByDateMessage": "Please select a valid return date. It must be a valid date after a pickup date",
-      "RequestIsSentMessage": "Your request is sent. Watch incoming offers soon!",
-      "FailedToSendRequest": "We failed to send your request. Please try again",
-
-      
-      "OfferDescriptionLabel": "I am offerring:",
-      "OfferGetOnLabel": "I can provide it on:",
-      "OfferReturnByLabel": "I want it back by:",
-      "OfferDeliveryLabel": "I can:",
-      "OfferPaymentLabel": "I can offer it for: ",
-      "OfferDepositLabel": "Deposit:",
-      
-      "IncorrectOfferDescriptionMessage": "Please provide the details of your offer",
-      "IncorrectOfferProposedPaymentMessage": "Payment is a dollar amount that you want to get, like 3.00",
-      "IncorrectOfferGetOnDateMessage": "Please select a valid pickup/delivery date. It must be a valid future date",
-      "IncorrectOfferReturnByDateMessage": "Please select a valid return date. It must be a valid date after a pickup date",
-      "OfferIsSentMessage": "Your offer is sent. You will know soon if it is accepted",
-      "FailedToSendOffer": "We failed to send your offer. Please try again",
-      "IncorrectAttachmentMessage": "You can only attach images",
-      "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
     },
     "RequestDetailsPage": {
       "OfferNameMe": "Me",
