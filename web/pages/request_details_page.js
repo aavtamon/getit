@@ -8,14 +8,15 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
   this._signing = false;
   
   this._cacheChangeListener = function(event) {
-    if (event.type == Backend.CacheChangeEvent.TYPE_OUTGOING_REQUESTS_CHANGED) {
-      if (!GeneralUtils.containsInArray(Backend.getOutgoingRequestIds(), event.requestId)) {
+    if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
+      if (!GeneralUtils.containsInArray(Backend.getRequestIds(), event.requestId)) {
         Application.goBack();
       }
-    } else if (event.type == Backend.CacheChangeEvent.TYPE_OUTGOING_RESPONSES_CHANGED && event.requestId == this._requestId) {
+    } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER_IDS && event.objectId == this._requestId) {
+      this._updateOffers();
       this._updateStatus();
-    } else if (event.type == Backend.CacheChangeEvent.TYPE_RESPONSE_CHANGED) {
-      this._updateOffer(event.responseId);
+    } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER) {
+      this._updateOffer(event.objectId);
       this._updateStatus();
     }
   }.bind(this);
@@ -66,7 +67,7 @@ RequestDetailsPage.prototype._getGrouppedOffers = function() {
   if (offerIds == null) {
     return null;
   }
-  
+
   if (offerIds.length == 0) {
     return [];
   }
@@ -81,7 +82,6 @@ RequestDetailsPage.prototype._getGrouppedOffers = function() {
     }
   }
   
-
   var grouppedOffers = {};
   for (var i in offers) {
     var offer = offers[i];
@@ -110,7 +110,6 @@ RequestDetailsPage.prototype._updateStatus = function() {
     this._statusElement.innerHTML = this.getLocale().StatusMessageUpdating;
     return;
   }
-  
   var types = Object.keys(offers);
   if (types.length == 0) {
     this._statusElement.innerHTML = this.getLocale().StatusMessageNoOffers;
@@ -133,11 +132,16 @@ RequestDetailsPage.prototype._appendRequest = function() {
   UIUtils.appendBlock(this._requestPanel, this._requestId);
   this._updateRequest();
 
+  this._updateOffers();
+}
 
+RequestDetailsPage.prototype._updateOffers = function() {
   var offers = Backend.getOfferIds(this._requestId);
   if (offers == null) {
     return;
   }
+  
+  UIUtils.emptyContainer(this._offersPanel);
 
   //sort offers
   for (var i in offers) {
@@ -169,8 +173,8 @@ RequestDetailsPage.prototype._updateRequest = function() {
           display: this.getLocale().ConfirmButton,
           listener: function() {
             UIUtils.fadeOut(requestElement, null, function() {
-              Backend.removeRequest(requestId);
-            });
+              Backend.removeRequest(this._requestId);
+            }.bind(this));
           }
         },
         cancel: {
@@ -180,8 +184,8 @@ RequestDetailsPage.prototype._updateRequest = function() {
       });
     } else {
       UIUtils.fadeOut(requestElement, null, function() {
-        Backend.removeRequest(requestId);
-      });
+        Backend.removeRequest(this._requestId);
+      }.bind(this));
     }
     
     return false; 
@@ -299,9 +303,9 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
             display: this.getLocale().ConfirmButton,
             listener: function() {
               UIUtils.fadeOut(offerElement, null, function() {
-                Backend.removeOffer(offerId);
-              });
-            }
+                Backend.recallOffer(this._requestId, offerId);
+              }.bind(this));
+            }.bind(this)
           },
           cancel: {
             display: I18n.getLocale().literals.CancelOperationButton,
@@ -466,7 +470,7 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
   UIUtils.addClass(returnByLabel, "negotiation-returnby-label");
   var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
   UIUtils.addClass(returnByElement, "negotation-returnby");
-  date = new Date(offer.return_by);
+  date = new Date(negotiation.return_by);
   returnByElement.innerHTML = date.toLocaleDateString();
 
   var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", isRequestersNegotiation ? I18n.getLocale().pages.HomePage.RequestPickupLabel : I18n.getLocale().pages.HomePage.OfferDeliveryLabel);
@@ -488,21 +492,21 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
   var payment = UIUtils.appendBlock(negotiationElement, "Payment");
   var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", isRequestersNegotiation ? I18n.getLocale().pages.HomePage.RequestPaymentLabel : I18n.getLocale().pages.HomePage.OfferPaymentLabel);
   UIUtils.addClass(paymentLabel, "negotiation-payment-label");
-  if (offer.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
+  if (negotiation.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
     UIUtils.addClass(paymentElement, "negotiation-payment");
-    paymentElement.innerHTML = "$" + offer.payment.payment;
+    paymentElement.innerHTML = "$" + negotiation.payment.payment;
   }
   var payRateElement = UIUtils.appendBlock(payment, "Payrate");
   UIUtils.addClass(payRateElement, "negotiation-payrate");
-  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, offer.payment.payrate);
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, negotiation.payment.payrate);
   
   if (!isRequestersNegotiation) {
     var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().pages.HomePage.OfferDepositLabel);
     UIUtils.addClass(depositLabel, "negotiation-deposit-label");
     var depositElement = UIUtils.appendBlock(payment, "Deposit");
     UIUtils.addClass(depositElement, "offer-deposit");
-    depositElement.innerHTML = "$" + offer.payment.deposit;
+    depositElement.innerHTML = "$" + negotiation.payment.deposit;
   }
 }
 
@@ -521,7 +525,7 @@ RequestDetailsPage.prototype._appendControlPanel = function(root, offerId, offer
           display: this.getLocale().ConfirmButton,
           listener: function() {
             Backend.recallOffer(this._requestId, offerId);
-          }
+          }.bind(this)
         },
         cancel: {
           display: I18n.getLocale().literals.CancelOperationButton,

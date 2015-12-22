@@ -211,7 +211,7 @@ Backend.createOffer = function(requestId, offer, transactionCallback) {
 Backend.updateOffer = function(requestId, offerId, offer, transactionCallback) {
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_OFFER, offerId);
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, offerId, GeneralUtils.merge(Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER, offerId), offer));
-  
+
   if (transactionCallback != null) {
     transactionCallback.success();
   }
@@ -232,7 +232,7 @@ Backend.removeOffer = function(requestId, offerId, transactionCallback) {
   
   var responseIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
   var responseIds = GeneralUtils.removeFromArray(responseIds, offerId);
-  Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId, responseIds);
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId, responseIds);
   
   if (transactionCallback != null) {
     transactionCallback.success();
@@ -261,8 +261,8 @@ Backend.recallOffer = function(requestId, offerId, transactionCallback) {
       transactionCallback.failure();
     }
   }
-  
-  Backend.addNegotiation(requestId, offerId, Backend.Negotition.TYPE_RECALL, updateCallback);
+
+  Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_RECALL, updateCallback);
 }
 
 Backend.addNegotiation = function(requestId, offerId, negotiationType, transactionCallback) {
@@ -275,7 +275,7 @@ Backend.addNegotiation = function(requestId, offerId, negotiationType, transacti
   }
   
   offer.negotiations.push(Backend._createNegotiation(offer, negotiationType));
-  
+
   Backend.updateOffer(requestId, offerId, offer, transactionCallback);
 }
 
