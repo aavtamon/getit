@@ -3,7 +3,6 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
 
   this._requestsPanel;
   this._rootElement;
-  this._signing = false;
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {

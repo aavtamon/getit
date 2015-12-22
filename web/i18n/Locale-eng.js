@@ -151,12 +151,6 @@ var Locale_eng = {
       "ConfirmButton": "Confirm",
     },
     "RequestDetailsPage": {
-      "OfferNameMe": "Me",
-      "ZipLabel": "Zip code:",
-      "DistanceLabel": "Distance:",
-      "DeliveryAddressLabel": "Delivery address:",
-      "PickupAddressLabel": "Pickup address:",
-      
       "RecallOffer": "Offer Recall",
       "RecallOfferText": "Do you really want to recall your offer?<br>It will remove it completely.",
       "ConfirmOffer": "Offer Confirmation",
@@ -168,6 +162,13 @@ var Locale_eng = {
       "AcceptButton": "Accept offer",
       "DeclineButton": "Decline offer",
       "ConfirmOfferButton": "Confirm all conditions",
+      
+      "ZipLabel": "Zip code:",
+      "DistanceLabel": "Distance:",
+      "DeliveryAddressLabel": "Delivery address:",
+      "PickupAddressLabel": "Pickup address:",
+      
+      "MakeOfferButton": "Make an offer",
       
       "StatusLabel": "Important:",
       "StatusMessageUpdating": "Updating...",
