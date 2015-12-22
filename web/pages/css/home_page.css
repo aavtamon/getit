@@ -384,9 +384,12 @@
 #HomePage-CreateNewOfferDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
   display: inline-block;
   margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
 }
 #HomePage-CreateNewOfferDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
   display: inline-block;
+  width: 250px;
 }
 #HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel {
   margin-top: 10px;
@@ -394,22 +397,30 @@
 #HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentLabel {
   display: inline-block;
   margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
 }
 #HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentField {
   display: none;
   width: 50px;
   margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
 }
 #HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
   display: inline-block;
+  width: 150px;
 }
 #HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-DepositLabel {
   display: inline-block;
   margin-right: 10px;
   margin-left: 50px;
+  vertical-align: top;
+  margin-top: 1px;
 }
 #HomePage-CreateNewOfferDialog-ContentPanel-PaymentPanel-DepositChooser {
   display: inline-block;
+  width: 100px;
 }
 #HomePage-CreateNewOfferDialog-ButtonPanel {
   margin-top: 10px;

@@ -204,7 +204,7 @@ HomePage.prototype._updateRequest = function(requestId) {
 
 
 HomePage.prototype._showCreateNewRequestDialog = function() {
-  var dialog = UIUtils.appendDialog(this._rootElement, "CreateNewRequestDialog", true);
+  var dialog = UIUtils.appendDialog(null, "CreateNewRequestDialog", true);
   
   var contentPanel = UIUtils.appendBlock(dialog, "ContentPanel");
 
@@ -272,7 +272,7 @@ HomePage.prototype._showCreateNewRequestDialog = function() {
       return;
     }
 
-    if (paymentChooser.getSelectedItem() != Application.Configuration.PAYMENT_RATES[0] 
+    if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0] 
         && !HomePage._isPaymentValid(payment.value)) {
       UIUtils.indicateInvalidInput(payment);
       UIUtils.showMessage(this.getLocale().IncorrectRequestProposedPaymentMessage);
@@ -506,7 +506,7 @@ HomePage.prototype._showCreateNewOfferDialog = function(requestId) {
       return;
     }
 
-    if (paymentChooser.getSelectedItem() != Application.Configuration.PAYMENT_RATES[0] 
+    if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0] 
         && !HomePage._isPaymentValid(payment.value)) {
       UIUtils.indicateInvalidInput(payment);
       UIUtils.showMessage(this.getLocale().IncorrectOfferProposedPaymentMessage);

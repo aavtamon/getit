@@ -111,7 +111,7 @@ Backend.getRequestIds = function(transactionCallback) {
 Backend.removeRequest = function(requestId, transactionCallback) {
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
   
-  var requestIds = Backend.Cache.getObject(0);
+  var requestIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
   var requestIds = GeneralUtils.removeFromArray(requestIds, requestId);
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, requestIds);
   
