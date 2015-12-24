@@ -161,9 +161,21 @@ RequestDetailsPage.prototype._updateRequest = function() {
         }
       });
     } else {
-      UIUtils.fadeOut(requestElement, null, function() {
-        Backend.removeRequest(this._requestId);
-      }.bind(this));
+      UIUtils.showDialog(this.getLocale().RequestHasOffer, this.getLocale().RequestHasOfferText, {
+        ok: {
+          display: this.getLocale().ConfirmButton,
+          listener: function() {
+            UIUtils.fadeOut(requestElement, null, function() {
+              //TODO: Recall offers?
+              Backend.removeRequest(this._requestId);
+            }.bind(this));
+          }
+        },
+        cancel: {
+          display: I18n.getLocale().literals.CancelOperationButton,
+          alignment: "left"
+        }
+      });
     }
     
     return false; 
@@ -212,28 +224,28 @@ RequestDetailsPage.prototype._updateRequest = function() {
 
   var whenAndHow = UIUtils.appendBlock(requestElement, "WhenAndHow");
 
-  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.RequestGetOnLabel);
+  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.GetOnLabel);
   UIUtils.addClass(getOnLabel, "request-geton-label");
   var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
   UIUtils.addClass(getOnElement, "request-geton");
   date = new Date(request.get_on);
   getOnElement.innerHTML = date.toLocaleDateString();
 
-  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.RequestReturnByLabel);
+  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.ReturnByLabel);
   UIUtils.addClass(returnByLabel, "request-returnby-label");
   var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
   UIUtils.addClass(returnByElement, "request-returnby");
   date = new Date(request.return_by);
   returnByElement.innerHTML = date.toLocaleDateString();
 
-  var pickupLabel = UIUtils.appendLabel(whenAndHow, "PickupLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.RequestPickupLabel);
+  var pickupLabel = UIUtils.appendLabel(whenAndHow, "PickupLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.PickupLabel);
   UIUtils.addClass(pickupLabel, "request-pickup-label");
   var pickupElement = UIUtils.appendBlock(whenAndHow, "Pickup");
   UIUtils.addClass(pickupElement, "request-pickup");
   pickupElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PICKUP_OPTIONS, request.pickup);
 
   var payment = UIUtils.appendBlock(requestElement, "Payment");
-  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.RequestPaymentLabel);
+  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.PaymentLabel);
   UIUtils.addClass(paymentLabel, "request-payment-label");
   if (request.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
@@ -265,7 +277,7 @@ RequestDetailsPage.prototype._updateOffers = function() {
 }
 
 RequestDetailsPage.prototype._appendRequestControlPanel = function() {
-  var controlPanel = UIUtils.appendBlock(this._requestPanel, "ControlPanel");
+  var controlPanel = UIUtils.appendBlock(this._offersPanel, "ControlPanel");
 
   var request = Backend.getRequest(this._requestId);
   if (!Backend.isOwnedRequest(request)) {
@@ -350,7 +362,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "offer-name");
   if (Backend.isOwnedOffer(offer)) {
-    nameElement.innerHTML = this.getLocale().OfferNameMe;
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
   } else {
     nameElement.innerHTML = request.user_name;
   }
@@ -372,21 +384,21 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
   
   var whenAndHow = UIUtils.appendBlock(offerElement, "WhenAndHow");
 
-  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.OfferGetOnLabel);
+  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
   UIUtils.addClass(getOnLabel, "offer-geton-label");
   var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
   UIUtils.addClass(getOnElement, "offer-geton");
   date = new Date(offer.get_on);
   getOnElement.innerHTML = date.toLocaleDateString();
 
-  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.OfferReturnByLabel);
+  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
   UIUtils.addClass(returnByLabel, "offer-returnby-label");
   var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
   UIUtils.addClass(returnByElement, "offer-returnby");
   date = new Date(offer.return_by);
   returnByElement.innerHTML = date.toLocaleDateString();
 
-  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.OfferDeliveryLabel);
+  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
   UIUtils.addClass(deliveryLabel, "offer-delivery-label");
   var deliveryElement = UIUtils.appendBlock(whenAndHow, "Delivery");
   UIUtils.addClass(deliveryElement, "offer-delivery");
@@ -409,7 +421,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
   
   
   var payment = UIUtils.appendBlock(offerElement, "Payment");
-  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.OfferPaymentLabel);
+  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
   UIUtils.addClass(paymentLabel, "offer-payment-label");
   if (offer.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
@@ -420,7 +432,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
   UIUtils.addClass(payRateElement, "offer-payrate");
   payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, offer.payment.payrate);
   
-  var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.OfferDepositLabel);
+  var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
   UIUtils.addClass(depositLabel, "offer-deposit-label");
   
   var depositElement = UIUtils.appendBlock(payment, "Deposit");
@@ -465,7 +477,7 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
   if (negotiation.text != null && negotiation.text != "") {
     var textElement = UIUtils.appendBlock(negotiationElement, "Text");
     UIUtils.addClass(textElement, "negotiation-text");
-    textElement.innerHTML = offer.text;
+    textElement.innerHTML = negotiation.text;
   }
 
   var whenAndHow = UIUtils.appendBlock(negotiationElement, "WhenAndHow");
@@ -548,7 +560,11 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_NEGOTIATE)) {
     var negotiateButton = UIUtils.appendButton(controlPanel, "NegotiateButton", this.getLocale().NegotiateButton);
     UIUtils.setClickListener(negotiateButton, function() {
-      this._showNegotiateDialog(offerId, offer);
+      if (Backend.isOwnedOffer(offer)) {
+        Dialogs.showNegotiateRequestDialog(this._requestId, offerId, offer);
+      } else {
+        Dialogs.showNegotiateOfferDialog(this._requestId, offerId, offer);
+      }
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_ACCEPT)) {

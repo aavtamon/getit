@@ -261,7 +261,6 @@
   width: 50px;
   margin-right: 10px;
   vertical-align: top;
-  margin-top: 1px;
 }
 #CreateNewOfferDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
   display: inline-block;
@@ -286,5 +285,105 @@
   margin-right: 10px;
 }
 #CreateNewOfferDialog-ButtonPanel-CancelButton {
+  margin-left: 10px;
+}
+
+
+#NegotiateRequestDialog {
+  position: fixed;
+  left: 20%;
+  top: 100px;
+  width: 60%;
+  
+  padding: 5px;
+  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5px;
+
+  background: rgb(220, 220, 220);
+}
+#NegotiateRequestDialog-ContentPanel-WhenPanel {
+  margin-top: 10px;
+}
+#NegotiateRequestDialog-ContentPanel-WhenPanel-GetOnLabel {
+  display: inline-block;
+  margin-right: 10px;
+}
+#NegotiateRequestDialog-ContentPanel-WhenPanel-GetOnChooser {
+  display: inline-block;
+}
+#NegotiateRequestDialog-ContentPanel-WhenPanel-ReturnByLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+#NegotiateRequestDialog-ContentPanel-WhenPanel-ReturnByChooser {
+  display: inline-block;
+}
+#NegotiateRequestDialog-ContentPanel-DeliveryPanel {
+  margin-top: 10px;
+}
+#NegotiateRequestDialog-ContentPanel-DeliveryPanel-DeliveryLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#NegotiateRequestDialog-ContentPanel-DeliveryPanel-DeliveryChooser {
+  display: inline-block;
+  width: 250px;
+}
+#NegotiateRequestDialog-ContentPanel-PaymentPanel {
+  margin-top: 10px;
+}
+#NegotiateRequestDialog-ContentPanel-PaymentPanel-PaymentLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#NegotiateRequestDialog-ContentPanel-PaymentPanel-PaymentField {
+  display: none;
+  width: 50px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+#NegotiateRequestDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
+  display: inline-block;
+  width: 150px;
+}
+#NegotiateRequestDialog-ContentPanel-PaymentPanel-DepositLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#NegotiateRequestDialog-ContentPanel-PaymentPanel-DepositChooser {
+  display: inline-block;
+  width: 100px;
+}
+#NegotiateRequestDialog-ContentPanel-MessageLabel {
+  display: inline-block;
+  width: 50px;
+  margin-top: 20px;
+  vertical-align: top;  
+}
+#NegotiateRequestDialog-ContentPanel-MessageEditor {
+  display: inline-block;
+  width: calc(100% - 70px);
+  height: 30px;
+  margin-top: 10px;
+}
+#CreateNewOfferDialog-ButtonPanel {
+  margin-top: 10px;
+}
+#NegotiateRequestDialog-ButtonPanel-OkButton {
+  float: right;
+  margin-right: 10px;
+}
+#NegotiateRequestDialog-ButtonPanel-CancelButton {
   margin-left: 10px;
 }

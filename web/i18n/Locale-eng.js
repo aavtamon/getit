@@ -49,12 +49,12 @@ var Locale_eng = {
   },
   "dialogs": {
     "CreateNewRequestDialog": {
-      "RequestCategoryLabel": "My need belongs in:",
-      "RequestDescriptionLabel": "I am looking for:",
-      "RequestGetOnLabel": "I want to get it on:",
-      "RequestReturnByLabel": "I will return it by:",
-      "RequestPickupLabel": "I will: ",
-      "RequestPaymentLabel": "I am ready to get it for: ",
+      "CategoryLabel": "My need belongs in:",
+      "DescriptionLabel": "I am looking for:",
+      "GetOnLabel": "I want to get it on:",
+      "ReturnByLabel": "I will return it by:",
+      "PickupLabel": "I will: ",
+      "PaymentLabel": "I am ready to get it for: ",
       
       "IncorrectRequestDescriptionMessage": "Please provide the details of your need",
       "IncorrectRequestProposedPaymentMessage": "Payment is a dollar amount that you are ready to pay, like 3.00",
@@ -67,12 +67,12 @@ var Locale_eng = {
       "OfferButton": "Make an offer",
     },
     "CreateNewOfferDialog": {
-      "OfferDescriptionLabel": "I am offerring:",
-      "OfferGetOnLabel": "I can provide it on:",
-      "OfferReturnByLabel": "I want it back by:",
-      "OfferDeliveryLabel": "I can:",
-      "OfferPaymentLabel": "I can offer it for: ",
-      "OfferDepositLabel": "Deposit:",
+      "DescriptionLabel": "I am offerring:",
+      "GetOnLabel": "I can provide it on:",
+      "ReturnByLabel": "I want it back by:",
+      "DeliveryLabel": "I can:",
+      "PaymentLabel": "I can offer it for: ",
+      "DepositLabel": "Deposit:",
       
       "IncorrectOfferDescriptionMessage": "Please provide the details of your offer",
       "IncorrectOfferProposedPaymentMessage": "Payment is a dollar amount that you want to get, like 3.00",
@@ -82,6 +82,9 @@ var Locale_eng = {
       "FailedToSendOffer": "We failed to send your offer. Please try again",
       "IncorrectAttachmentMessage": "You can only attach images",
       "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
+    },
+    "NegotiateRequestDialog": {
+      "MessageLabel": "Note:"
     }
   },
   "pages": {
@@ -156,6 +159,8 @@ var Locale_eng = {
       "ConfirmOffer": "Offer Confirmation",
       "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
       "ConfirmButton": "Confirm",
+      "RequestHasOffer": "Remove The Request And Recall The Offer",
+      "RequestHasOfferText": "Do you really want to recall the offer you have made and get rid of the request?",
       
       "RecallButton": "Recall my offer",
       "NegotiateButton": "Negotiate",

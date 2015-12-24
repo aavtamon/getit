@@ -249,7 +249,7 @@ Backend.declineOffer = function(requestId, offerId, transactionCallback) {
     }
   }
   
-  Backend.addNegotiation(requestId, offerId, Backend.Negotition.TYPE_DECLINE, updateCallback);
+  Backend.addNegotiation(requestId, offerId, Backend.Negotition.TYPE_DECLINE, null, updateCallback);
 }
 
 Backend.recallOffer = function(requestId, offerId, transactionCallback) {
@@ -262,10 +262,10 @@ Backend.recallOffer = function(requestId, offerId, transactionCallback) {
     }
   }
 
-  Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_RECALL, updateCallback);
+  Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_RECALL, null, updateCallback);
 }
 
-Backend.addNegotiation = function(requestId, offerId, negotiationType, transactionCallback) {
+Backend.addNegotiation = function(requestId, offerId, negotiationType, negotiation, transactionCallback) {
   var offer = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER, offerId);
   if (offer == null) {
     if (transactionCallback != null) {
@@ -274,7 +274,7 @@ Backend.addNegotiation = function(requestId, offerId, negotiationType, transacti
     return;
   }
   
-  offer.negotiations.push(Backend._createNegotiation(offer, negotiationType));
+  offer.negotiations.push(GeneralUtils.merge(Backend._createNegotiation(offer, negotiationType), negotiation));
 
   Backend.updateOffer(requestId, offerId, offer, transactionCallback);
 }
