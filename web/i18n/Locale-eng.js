@@ -8,6 +8,7 @@ var Locale_eng = {
     "CancelOperationButton": "Cancel",
     "OkButton": "OK",
     "AttachButton": "Attach",
+    "ConfirmButton": "Confirm",
     
     "ProfileItem": "Profile",
     "PreferencesItem": "Preferences",
@@ -85,7 +86,11 @@ var Locale_eng = {
     },
     "NegotiateRequestDialog": {
       "MessageLabel": "Note:"
-    }
+    },
+    "RecallRequestDialog": {
+      "RecallRequest": "Request Cancellation",
+      "RecallRequestText": "Do you really want to cancel your request?<br>It will remove it completely. Any outstanding offers that you have will be declined."
+    },
   },
   "pages": {
     "AbstractDataPage": {
@@ -149,20 +154,17 @@ var Locale_eng = {
       "RequestOutlineReturnByLabel": "To be returned by:",
       "RequestOutlinePickupLabel": "Delivery: ",
       
-      "RecallRequest": "Request Cancellation",
-      "RecallRequestText": "Do you really want to cancel your request?<br>It will remove it completely.",
-      "ConfirmButton": "Confirm",
     },
     "RequestDetailsPage": {
       "RecallOffer": "Offer Recall",
       "RecallOfferText": "Do you really want to recall your offer?<br>It will remove it completely.",
       "ConfirmOffer": "Offer Confirmation",
       "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
-      "ConfirmButton": "Confirm",
       "RequestHasOffer": "Remove The Request And Recall The Offer",
       "RequestHasOfferText": "Do you really want to recall the offer you have made and get rid of the request?",
       
-      "RecallButton": "Recall my offer",
+      "RecallOfferButton": "Recall my offer",
+      "RecallRequestButton": "Recall my request",
       "NegotiateButton": "Negotiate",
       "AcceptButton": "Accept offer",
       "DeclineButton": "Decline offer",

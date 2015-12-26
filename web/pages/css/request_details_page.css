@@ -265,3 +265,97 @@
 .incoming-offer-details {
   background: rgb(200, 230, 240);
 }
+
+
+#RequestDetailsPage-ContentPanel-OffersPanel .negotiation-details {
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  width: 740px;
+  margin-left: 120px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+  text-align: left;
+
+  box-shadow: 5px 5px 5px darkgray;  
+}
+.negotiation-details .negotiation-date {
+  display: inline-block;
+  margin-left: 300px;
+  width: 200px;
+  
+  text-align: right;
+}
+.negotiation-details .negotiation-name {
+  display: inline-block;
+  margin-left: 130px;
+  width: 100px;
+  
+  text-align: right;
+}
+.negotiation-details .negotiation-text {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  width: 600px;
+  vertical-align: middle;
+  
+  font-family: Verdana;
+  
+  overflow: hidden;
+  white-space: nowrap;
+}
+.negotiation-details .negotiation-rating {
+  margin-left: 20px;
+}
+.negotiation-details .negotiation-geton-label {
+  width: 120px;
+}
+.negotiation-details .negotiation-geton {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.negotiation-details .negotiation-returnby-label {
+  margin-left: 10px;
+}
+.negotiation-details .negotiation-returnby {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.negotiation-details .negotiation-delivery-label {
+  margin-left: 50px;
+}
+.negotiation-details .negotiation-delivery {
+  display: inline-block;
+  margin-left: 10px;
+  width: 100px;
+}
+.negotiation-details .negotiation-payment-label {
+  margin-top: 10px;
+}
+.negotiation-details .negotiation-payment {
+  display: inline-block;
+  margin-left: 10px;
+}
+.negotiation-details .negotiation-payrate {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.negotiation-details .negotiation-deposit-label {
+  margin-left: 50px;
+}
+.negotiation-details .negotiation-deposit {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.outgoing-negotiation-details {
+  background: rgb(235, 215, 185);
+}
+.incoming-negotiation-details {
+  background: rgb(200, 230, 240);
+}

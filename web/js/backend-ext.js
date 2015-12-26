@@ -173,7 +173,6 @@ Backend.getOfferIds = function(requestId, transactionCallback) {
   if (transactionCallback != null) {
     transactionCallback.success();
   }
-  
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId, false);
   return Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
 }
@@ -230,9 +229,10 @@ Backend.getOffer = function(requestId, offerId, transactionCallback) {
 Backend.removeOffer = function(requestId, offerId, transactionCallback) {
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
   
-  var responseIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
-  var responseIds = GeneralUtils.removeFromArray(responseIds, offerId);
-  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId, responseIds);
+  var offerIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
+  var offerIds = GeneralUtils.removeFromArray(offerIds, offerId);
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId, offerIds);
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, offerId, null);
   
   if (transactionCallback != null) {
     transactionCallback.success();
@@ -439,6 +439,32 @@ var __init = function() {
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, [6, 5, 4, 3, 2, 1, 0]);
   Backend._requestCount = 7;
+
+  
+  
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, 0, {
+    user_id: 10,
+    request_id: 0,
+    timestamp: Date.now(),
+    user_name: "Vasya",
+    star_rating: 5,
+    zipcode: 12345,
+    distance: 15,
+    get_on: Date.now(),
+    return_by: Date.now() + 3 * 24 * 60 * 60 * 1000,
+    text: "Bery slushay!",
+    attachments: [{name: "free", url: "file:///Users/aavtamonov/project/other/getit/web/imgs/free.jpeg", type: "image"}, {name: "paid", url: "file:///Users/aavtamonov/project/other/getit/web/imgs/paid.jpeg", type: "image"}],
+    delivery: "any",
+    payment: {
+      payrate: "free",
+      payment: 0,
+      deposit: 5
+    },
+    negotiations: []
+  });
+  
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, 0, [0]);
+  Backend._offerCount = 1;
   
 }
 setTimeout(__init, 2000);

@@ -84,20 +84,7 @@ HomePage.prototype._updateRequest = function(requestId) {
   UIUtils.addClass(requestCloser, "request-closer");
   UIUtils.setClickListener(requestCloser, function() {
     if (Backend.isOwnedRequest(request)) {
-      UIUtils.showDialog(this.getLocale().RecallRequest, this.getLocale().RecallRequestText, {
-        ok: {
-          display: this.getLocale().ConfirmButton,
-          listener: function() {
-            UIUtils.fadeOut(requestElement, null, function() {
-              Backend.removeRequest(requestId);
-            });
-          }
-        },
-        cancel: {
-          display: I18n.getLocale().literals.CancelOperationButton,
-          alignment: "left"
-        }
-      });
+      Dialogs.showRecallRequestDialog(requestElement, requestId);
     } else {
       UIUtils.fadeOut(requestElement, null, function() {
         Backend.removeRequest(requestId);

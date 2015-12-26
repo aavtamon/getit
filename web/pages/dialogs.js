@@ -369,26 +369,28 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
   var dialog = UIUtils.appendDialog(null, "NegotiateRequestDialog", true);
   
   var contentPanel = UIUtils.appendBlock(dialog, "ContentPanel");
+  
+  var lastNegotiatedObject = offer.negotiations.length > 0 ? offer.negotiations[offer.negotiations.length - 1] : offer;
 
   var whenPanel = UIUtils.appendBlock(contentPanel, "WhenPanel");
   UIUtils.appendLabel(whenPanel, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
   var getOnChooser = UIUtils.appendDateInput(whenPanel, "GetOnChooser");
-  getOnChooser.setDate(new Date(offer.get_on));
+  getOnChooser.setDate(new Date(lastNegotiatedObject.get_on));
   
   UIUtils.appendLabel(whenPanel, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
   var returnByChooser = UIUtils.appendDateInput(whenPanel, "ReturnByChooser");
-  returnByChooser.setDate(new Date(offer.return_by));
+  returnByChooser.setDate(new Date(lastNegotiatedObject.return_by));
 
   var deliveryPanel = UIUtils.appendBlock(contentPanel, "DeliveryPanel");
   UIUtils.appendLabel(deliveryPanel, "DeliveryLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
   var deliveryChooser = UIUtils.appendDropList(deliveryPanel, "DeliveryChooser", Application.Configuration.DELIVERY_OPTIONS);
-  deliveryChooser.selectData(offer.delivery);
+  deliveryChooser.selectData(lastNegotiatedObject.delivery);
   
 
   var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
   UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
   var payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
-  payment.value = offer.payment.payment;
+  payment.value = lastNegotiatedObject.payment.payment;
   payment.onchange = function() {
     if (!ValidationUtils.isValidDollarAmount(payment.value)) {
       UIUtils.indicateInvalidInput(payment);
@@ -403,11 +405,11 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
       payment.style.display = "none";
     }
   });
-  paymentChooser.selectData(offer.payment.payrate);
+  paymentChooser.selectData(lastNegotiatedObject.payment.payrate);
 
   UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
   var depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
-  depositChooser.selectData(offer.payment.deposit);
+  depositChooser.selectData(lastNegotiatedObject.payment.deposit);
   
   UIUtils.appendLabel(contentPanel, "MessageLabel", I18n.getLocale().dialogs.NegotiateRequestDialog.MessageLabel);
   var descriptionEditor = UIUtils.appendTextEditor(contentPanel, "MessageEditor");
@@ -485,6 +487,156 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
         Dialogs._processing = false;
       }
     }
-    Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_NEGOTIATION, negotiation, backendCallback);
+    Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_NEGOTIATE, negotiation, backendCallback);
   });
 }
+
+
+Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
+  var dialog = UIUtils.appendDialog(null, "NegotiateOfferDialog", true);
+  
+  var contentPanel = UIUtils.appendBlock(dialog, "ContentPanel");
+  
+  var lastNegotiatedObject = offer.negotiations.length > 0 ? offer.negotiations[offer.negotiations.length - 1] : offer;
+
+  var whenPanel = UIUtils.appendBlock(contentPanel, "WhenPanel");
+  UIUtils.appendLabel(whenPanel, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
+  var getOnChooser = UIUtils.appendDateInput(whenPanel, "GetOnChooser");
+  getOnChooser.setDate(new Date(lastNegotiatedObject.get_on));
+  
+  UIUtils.appendLabel(whenPanel, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
+  var returnByChooser = UIUtils.appendDateInput(whenPanel, "ReturnByChooser");
+  returnByChooser.setDate(new Date(lastNegotiatedObject.return_by));
+
+  var deliveryPanel = UIUtils.appendBlock(contentPanel, "DeliveryPanel");
+  UIUtils.appendLabel(deliveryPanel, "DeliveryLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
+  var deliveryChooser = UIUtils.appendDropList(deliveryPanel, "DeliveryChooser", Application.Configuration.NEGOTIATED_DELIVERY_OPTIONS);
+  deliveryChooser.selectData(lastNegotiatedObject.delivery);
+  
+
+  var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
+  UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
+  var payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
+  payment.value = lastNegotiatedObject.payment.payment;
+  payment.onchange = function() {
+    if (!ValidationUtils.isValidDollarAmount(payment.value)) {
+      UIUtils.indicateInvalidInput(payment);
+    }
+  };
+  
+  var paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
+  paymentChooser.setChangeListener(function(selectedItem) {
+    if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
+      payment.style.display = "inline-block";
+    } else {
+      payment.style.display = "none";
+    }
+  });
+  paymentChooser.selectData(lastNegotiatedObject.payment.payrate);
+
+  UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
+  var depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
+  depositChooser.selectData(lastNegotiatedObject.payment.deposit);
+  
+  UIUtils.appendLabel(contentPanel, "MessageLabel", I18n.getLocale().dialogs.NegotiateRequestDialog.MessageLabel);
+  var descriptionEditor = UIUtils.appendTextEditor(contentPanel, "MessageEditor");
+  descriptionEditor.focus();
+
+  UIUtils.appendSeparator(contentPanel);
+  
+  var buttonPanel = UIUtils.appendBlock(dialog, "ButtonPanel");
+  var cancelButton = UIUtils.appendButton(buttonPanel, "CancelButton", I18n.getLocale().literals.CancelOperationButton);
+  var okButton = UIUtils.appendButton(buttonPanel, "OkButton", I18n.getLocale().literals.OkButton);
+  
+  UIUtils.setClickListener(cancelButton, function() {
+    UIUtils.fadeOut(dialog);
+  });
+
+  
+  UIUtils.setClickListener(okButton, function() {
+    if (Dialogs._processing) {
+      return;
+    }
+    if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
+        && !ValidationUtils.isValidDollarAmount(payment.value)) {
+      UIUtils.indicateInvalidInput(payment);
+      UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectOfferProposedPaymentMessage);
+      return;
+    }
+    
+    var thisMorning = new Date();
+    thisMorning.setHours(0);
+    thisMorning.setMinutes(0);
+    thisMorning.setSeconds(0);
+    thisMorning.setMilliseconds(0);
+    
+    if (getOnChooser.getDate() == null || getOnChooser.getDate().getTime() < thisMorning.getTime()) {
+      UIUtils.indicateInvalidInput(getOnChooser);
+      UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectOfferGetOnDateMessage);
+      return;
+    }
+    if (returnByChooser.getDate() == null || returnByChooser.getDate().getTime() < getOnChooser.getDate().getTime()) {
+      UIUtils.indicateInvalidInput(returnByChooser);
+      UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectOfferReturnByDateMessage);
+      return;
+    }
+    
+    
+    var negotiation = {
+      text: descriptionEditor.getValue(),
+      delivery: deliveryChooser.getValue(),
+      get_on: getOnChooser.getDate().getTime(),
+      return_by: returnByChooser.getDate().getTime(),
+      payment: {
+        payrate: paymentChooser.getValue(),
+        payment: paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+        deposit: depositChooser.getValue()
+      }
+    };
+    
+    var backendCallback = {
+      success: function() {
+        this._onCompletion();
+        UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.OfferIsSentMessage);
+
+        UIUtils.fadeOut(dialog);
+      },
+      failure: function() {
+        this._onCompletion();
+        UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.FailedToSendOffer);
+      },
+      error: function() {
+        this._onCompletion();
+        UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
+      },
+
+      _onCompletion: function() {
+        Dialogs._processing = false;
+      }
+    }
+    Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_NEGOTIATE, negotiation, backendCallback);
+  });
+}
+
+
+
+// Confirmation dialogs
+
+Dialogs.showRecallRequestDialog = function(requestElement, requestId) {
+  UIUtils.showDialog(I18n.getLocale().dialogs.RecallRequestDialog.RecallRequest, I18n.getLocale().dialogs.RecallRequestDialog.RecallRequestText, {
+    ok: {
+      display: I18n.getLocale().literals.ConfirmButton,
+      listener: function() {
+        UIUtils.fadeOut(requestElement, null, function() {
+          Backend.removeRequest(requestId);
+        });
+      }
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
+}
+
+

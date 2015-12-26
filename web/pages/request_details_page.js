@@ -146,24 +146,11 @@ RequestDetailsPage.prototype._updateRequest = function() {
   UIUtils.addClass(requestCloser, "request-closer");
   UIUtils.setClickListener(requestCloser, function() {
     if (Backend.isOwnedRequest(request)) {
-      UIUtils.showDialog(this.getLocale().RecallRequest, this.getLocale().RecallRequestText, {
-        ok: {
-          display: this.getLocale().ConfirmButton,
-          listener: function() {
-            UIUtils.fadeOut(requestElement, null, function() {
-              Backend.removeRequest(this._requestId);
-            }.bind(this));
-          }
-        },
-        cancel: {
-          display: I18n.getLocale().literals.CancelOperationButton,
-          alignment: "left"
-        }
-      });
+      Dialogs.showRecallRequestDialog(requestElement, this._requestId);
     } else {
       UIUtils.showDialog(this.getLocale().RequestHasOffer, this.getLocale().RequestHasOfferText, {
         ok: {
-          display: this.getLocale().ConfirmButton,
+          display: I18n.getLocale().literals.ConfirmButton,
           listener: function() {
             UIUtils.fadeOut(requestElement, null, function() {
               //TODO: Recall offers?
@@ -280,7 +267,12 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
   var controlPanel = UIUtils.appendBlock(this._offersPanel, "ControlPanel");
 
   var request = Backend.getRequest(this._requestId);
-  if (!Backend.isOwnedRequest(request)) {
+  if (Backend.isOwnedRequest(request)) {
+    var recallRequestButton = UIUtils.appendButton(controlPanel, "RecallRequestButton", this.getLocale().RecallRequestButton);
+    UIUtils.setClickListener(recallRequestButton, function() {
+      Dialogs.showRecallRequestDialog(this._requestPanel, this._requestId);
+    }.bind(this));
+  } else {
     var offers = Backend.getOfferIds(this._requestId);
     if (offers != null && offers.length == 0) {
       var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", this.getLocale().MakeOfferButton);
@@ -323,7 +315,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
       if (Backend.isOwnedOffer(offer)) {
         UIUtils.showDialog(this.getLocale().RecallOffer, this.getLocale().RecallOfferText, {
           ok: {
-            display: this.getLocale().ConfirmButton,
+            display: I18n.getLocale().literals.ConfirmButton,
             listener: function() {
               UIUtils.fadeOut(offerElement, null, function() {
                 Backend.recallOffer(this._requestId, offerId);
@@ -337,14 +329,14 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
         });
       } else {
         UIUtils.fadeOut(offerElement, null, function() {
-          Backend.removeOffer(offerId);
-        });
+          Backend.removeOffer(this._requestId, offerId);
+        }.bind(this));
       }
     
       return false; 
     }.bind(this));
   }
-  
+
   if (Backend.isOwnedOffer(offer)) {
     UIUtils.addClass(offerElement, "outgoing-offer-details");
   } else {
@@ -364,7 +356,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
   if (Backend.isOwnedOffer(offer)) {
     nameElement.innerHTML = I18n.getLocale().literals.NameMe;
   } else {
-    nameElement.innerHTML = request.user_name;
+    nameElement.innerHTML = offer.user_name;
   }
 
   var textElement = UIUtils.appendBlock(offerElement, "Text");
@@ -381,6 +373,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
     var attachmentBar = UIUtils.appendAttachmentBar(offerElement, "AttachmentBar", offer.attachments, false);
     UIUtils.addClass(attachmentBar, "offer-attachments");
   }
+  
   
   var whenAndHow = UIUtils.appendBlock(offerElement, "WhenAndHow");
 
@@ -451,25 +444,26 @@ RequestDetailsPage.prototype._appendNegotiations = function(root, offer) {
 
 RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiation, isRequestersNegotiation) {
   var negotiationElement = UIUtils.appendBlock(root, "Negotiation" + negId);
+  UIUtils.addClass(negotiationElement, "negotiation-details");
   
   if (Backend.isOwnedNegotiation(negotiation)) {
-    UIUtils.addClass(negotiationElement, "outgoing-negotiation");
+    UIUtils.addClass(negotiationElement, "outgoing-negotiation-details");
   } else {
-    UIUtils.addClass(negotiationElement, "incoming-negotiation");
+    UIUtils.addClass(negotiationElement, "incoming-negotiation-details");
   }
   
   
   var header = UIUtils.appendBlock(negotiationElement, "Header");
 
   var dateElement = UIUtils.appendBlock(header, "Date");
-  UIUtils.addClass(negotiationElement, "negotiation-date");
+  UIUtils.addClass(dateElement, "negotiation-date");
   var date = new Date(negotiation.timestamp);
   dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
 
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "negotiation-name");
   if (Backend.isOwnedNegotiation(negotiation)) {
-    nameElement.innerHTML = this.getLocale().OfferNameMe;
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
   } else {
     nameElement.innerHTML = negotiation.user_name;
   }
@@ -482,21 +476,21 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
 
   var whenAndHow = UIUtils.appendBlock(negotiationElement, "WhenAndHow");
 
-  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", isRequestersNegotiation ? I18n.getLocale().pages.HomePage.RequestGetOnLabel : I18n.getLocale().pages.HomePage.OfferGetOnLabel);
+  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.GetOnLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
   UIUtils.addClass(getOnLabel, "negotiation-geton-label");
   var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
   UIUtils.addClass(getOnElement, "negotiation-geton");
   date = new Date(negotiation.get_on);
   getOnElement.innerHTML = date.toLocaleDateString();
 
-  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", isRequestersNegotiation ? I18n.getLocale().pages.HomePage.RequestReturnByLabel : I18n.getLocale().pages.HomePage.OfferReturnByLabel);
+  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.ReturnByLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
   UIUtils.addClass(returnByLabel, "negotiation-returnby-label");
   var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
-  UIUtils.addClass(returnByElement, "negotation-returnby");
+  UIUtils.addClass(returnByElement, "negotiation-returnby");
   date = new Date(negotiation.return_by);
   returnByElement.innerHTML = date.toLocaleDateString();
 
-  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", isRequestersNegotiation ? I18n.getLocale().pages.HomePage.RequestPickupLabel : I18n.getLocale().pages.HomePage.OfferDeliveryLabel);
+  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.PickupLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
   UIUtils.addClass(deliveryLabel, "negotiation-delivery-label");
   var deliveryElement = UIUtils.appendBlock(whenAndHow, "Delivery");
   UIUtils.addClass(deliveryElement, "negotiation-delivery");
@@ -513,7 +507,7 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
   
   
   var payment = UIUtils.appendBlock(negotiationElement, "Payment");
-  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", isRequestersNegotiation ? I18n.getLocale().pages.HomePage.RequestPaymentLabel : I18n.getLocale().pages.HomePage.OfferPaymentLabel);
+  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.PaymentLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
   UIUtils.addClass(paymentLabel, "negotiation-payment-label");
   if (negotiation.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
@@ -525,10 +519,10 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
   payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, negotiation.payment.payrate);
   
   if (!isRequestersNegotiation) {
-    var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().pages.HomePage.OfferDepositLabel);
+    var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
     UIUtils.addClass(depositLabel, "negotiation-deposit-label");
     var depositElement = UIUtils.appendBlock(payment, "Deposit");
-    UIUtils.addClass(depositElement, "offer-deposit");
+    UIUtils.addClass(depositElement, "negotiation-deposit");
     depositElement.innerHTML = "$" + negotiation.payment.deposit;
   }
 }
@@ -541,11 +535,11 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
   var actions = this._getApplicableActions(offer);
   
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_RECALL)) {
-    var recallButton = UIUtils.appendButton(controlPanel, "RecallButton", this.getLocale().RecallButton);
+    var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", this.getLocale().RecallOfferButton);
     UIUtils.setClickListener(recallButton, function() {
       UIUtils.showDialog(this.getLocale().RecallOffer, this.getLocale().RecallOfferText, {
         ok: {
-          display: this.getLocale().ConfirmButton,
+          display: I18n.getLocale().literals.ConfirmButton,
           listener: function() {
             Backend.recallOffer(this._requestId, offerId);
           }.bind(this)
@@ -580,7 +574,7 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_CONFIRM)) {
-    var confirmButton = UIUtils.appendButton(controlPanel, "ConfirmButton", this.getLocale().ConfirmButton);
+    var confirmButton = UIUtils.appendButton(controlPanel, "ConfirmButton", I18n.getLocale().literals.ConfirmButton);
     UIUtils.setClickListener(confirmButton, function() {
       UIUtils.showDialog(this.getLocale().ConfirmOffer, this.getLocale().ConfirmOfferTextProvider(), {
         ok: {
@@ -623,7 +617,6 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
 }
 
 
-
 RequestDetailsPage.prototype._getApplicableActions = function(offer) {
   if (offer.negotiations.length == 0) {
     if (Backend.isOwnedOffer(offer)) {
@@ -633,11 +626,17 @@ RequestDetailsPage.prototype._getApplicableActions = function(offer) {
     }
   } else {
     var lastNegotiation = offer.negotiations[offer.negotiations.length - 1];
-    if (lastNegotiation.type == Backend.Negotiation.TYPE_ACCEPT) {
+    if (lastNegotiation.type == Backend.Negotiation.TYPE_NEGOTIATE) {
       if (Backend.isOwnedNegotiation(lastNegotiation)) {
-        return [Backend.Negotiation.TYPE_DECLINE];
+        return [Backend.Negotiation.TYPE_RECALL, Backend.Negotiation.TYPE_NEGOTIATE];
       } else {
-        return [Backend.Negotiation.TYPE_CONFIRM, Backend.Negotiation.TYPE_RECALL];
+        return [Backend.Negotiation.TYPE_ACCEPT, Backend.Negotiation.TYPE_DECLINE];
+      }
+    } else if (lastNegotiation.type == Backend.Negotiation.TYPE_ACCEPT) {
+      if (Backend.isOwnedNegotiation(lastNegotiation)) {
+        return [Backend.Negotiation.TYPE_RECALL];
+      } else {
+        return [Backend.Negotiation.TYPE_CONFIRM, Backend.Negotiation.TYPE_DECLINE];
       }
     } else if (lastNegotiation.type == Backend.Negotiation.TYPE_CONFIRM) {
       if (Backend.isOwnedOffer(offer) && lastNegotiation.delivery == Backend.Negotiation.DELIVERY_DELIVERY
