@@ -313,20 +313,7 @@ RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offe
     UIUtils.addClass(offerCloser, "offer-closer");
     UIUtils.setClickListener(offerCloser, function() {
       if (Backend.isOwnedOffer(offer)) {
-        UIUtils.showDialog(this.getLocale().RecallOffer, this.getLocale().RecallOfferText, {
-          ok: {
-            display: I18n.getLocale().literals.ConfirmButton,
-            listener: function() {
-              UIUtils.fadeOut(offerElement, null, function() {
-                Backend.recallOffer(this._requestId, offerId);
-              }.bind(this));
-            }.bind(this)
-          },
-          cancel: {
-            display: I18n.getLocale().literals.CancelOperationButton,
-            alignment: "left"
-          }
-        });
+        Dialogs.showRecallOfferDialog(offerElement, this._requestId, offerId);
       } else {
         UIUtils.fadeOut(offerElement, null, function() {
           Backend.removeOffer(this._requestId, offerId);
@@ -537,18 +524,7 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_RECALL)) {
     var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", this.getLocale().RecallOfferButton);
     UIUtils.setClickListener(recallButton, function() {
-      UIUtils.showDialog(this.getLocale().RecallOffer, this.getLocale().RecallOfferText, {
-        ok: {
-          display: I18n.getLocale().literals.ConfirmButton,
-          listener: function() {
-            Backend.recallOffer(this._requestId, offerId);
-          }.bind(this)
-        },
-        cancel: {
-          display: I18n.getLocale().literals.CancelOperationButton,
-          alignment: "left"
-        }
-      });
+      Dialogs.showRecallOfferDialog(root, this._requestId, offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_NEGOTIATE)) {

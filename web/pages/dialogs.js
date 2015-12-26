@@ -639,4 +639,19 @@ Dialogs.showRecallRequestDialog = function(requestElement, requestId) {
   });
 }
 
-
+Dialogs.showRecallOfferDialog = function(offerElement, requestId, offerId) {
+  UIUtils.showDialog(I18n.getLocale().dialogs.RecallOfferDialog.RecallOffer, I18n.getLocale().dialogs.RecallOfferDialog.RecallOfferText, {
+    ok: {
+      display: I18n.getLocale().literals.ConfirmButton,
+      listener: function() {
+        UIUtils.fadeOut(offerElement, null, function() {
+          Backend.recallOffer(requestId, offerId);
+        });
+      }
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
+}

@@ -91,6 +91,10 @@ var Locale_eng = {
       "RecallRequest": "Request Cancellation",
       "RecallRequestText": "Do you really want to cancel your request?<br>It will remove it completely. Any outstanding offers that you have will be declined."
     },
+    "RecallOfferDialog": {
+      "RecallOffer": "Offer Recall",
+      "RecallOfferText": "Do you really want to recall your offer?<br>It will remove it completely."
+    }
   },
   "pages": {
     "AbstractDataPage": {
@@ -156,8 +160,6 @@ var Locale_eng = {
       
     },
     "RequestDetailsPage": {
-      "RecallOffer": "Offer Recall",
-      "RecallOfferText": "Do you really want to recall your offer?<br>It will remove it completely.",
       "ConfirmOffer": "Offer Confirmation",
       "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
       "RequestHasOffer": "Remove The Request And Recall The Offer",
