@@ -1,17 +1,4 @@
 #CreateNewRequestDialog {
-  position: fixed;
-  left: 20%;
-  top: 100px;
-  width: 60%;
-  
-  padding: 5px;
-  
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-
-  background: rgb(220, 220, 220);
 }
 #CreateNewRequestDialog-ContentPanel-CategoryLabel {
   display: inline-block;
@@ -81,35 +68,10 @@
   display: inline-block;
   width: 150px;
 }
-#CreateNewRequestDialog-ButtonPanel {
-  margin-top: 10px;
-}
-#CreateNewRequestDialog-ButtonPanel-OkButton {
-  float: right;
-  margin-right: 10px;
-}
-#CreateNewRequestDialog-ButtonPanel-CancelButton {
-  margin-left: 10px;
-}
 
 
 
 #RequestDetailsDialog {
-  position: fixed;
-  left: 20%;
-  top: 100px;
-  width: 60%;
-  
-  z-index: 100;
-  
-  padding: 5px;
-  
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-
-  background: rgb(220, 220, 220);
 }
 #RequestDetailsDialog-ContentPanel {
 }
@@ -180,31 +142,9 @@
   display: inline-block;
   margin-left: 10px;
 }
-#RequestDetailsDialog-ButtonPanel {
-}
-#RequestDetailsDialog-ButtonPanel-CancelButton {
-  margin-left: 10px;
-}
-#RequestDetailsDialog-ButtonPanel-OfferButton {
-  float: right;
-  margin-right: 10px;
-}
 
 
 #CreateNewOfferDialog {
-  position: fixed;
-  left: 20%;
-  top: 100px;
-  width: 60%;
-  
-  padding: 5px;
-  
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-
-  background: rgb(220, 220, 220);
 }
 #CreateNewOfferDialog-ContentPanel-DescriptionLabel {
   margin-top: 10px;
@@ -277,32 +217,9 @@
   display: inline-block;
   width: 100px;
 }
-#CreateNewOfferDialog-ButtonPanel {
-  margin-top: 10px;
-}
-#CreateNewOfferDialog-ButtonPanel-OkButton {
-  float: right;
-  margin-right: 10px;
-}
-#CreateNewOfferDialog-ButtonPanel-CancelButton {
-  margin-left: 10px;
-}
 
 
 #NegotiateRequestDialog {
-  position: fixed;
-  left: 20%;
-  top: 100px;
-  width: 60%;
-  
-  padding: 5px;
-  
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-  border-radius: 5px;
-
-  background: rgb(220, 220, 220);
 }
 #NegotiateRequestDialog-ContentPanel-WhenPanel {
   margin-top: 10px;
@@ -376,14 +293,4 @@
   width: calc(100% - 70px);
   height: 30px;
   margin-top: 10px;
-}
-#CreateNewOfferDialog-ButtonPanel {
-  margin-top: 10px;
-}
-#NegotiateRequestDialog-ButtonPanel-OkButton {
-  float: right;
-  margin-right: 10px;
-}
-#NegotiateRequestDialog-ButtonPanel-CancelButton {
-  margin-left: 10px;
 }

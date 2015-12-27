@@ -96,7 +96,7 @@ Dialogs.showCreateNewRequestDialog = function() {
         var request = {
           category: categoryChooser.getValue(),
           text: descriptionEditor.getValue(),
-          delivery: deliveryChooser.getValue(),
+          pickup: deliveryChooser.getValue(),
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
           payment: {
