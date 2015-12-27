@@ -43,7 +43,7 @@ Application.start = function() {
   
   $("#Footer-ContactUs").text(I18n.getLocale().literals.ContactUs);
   $("#Footer-ContactUs").click(function() {
-    UIUtils.showDialog("", "We will need to find a way to open this page");
+    UIUtils.showDialog("ContactInformation", "Contact Information", "We will need to find a way to open this page");
   });
 
   

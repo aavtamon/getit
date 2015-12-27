@@ -148,7 +148,7 @@ RequestDetailsPage.prototype._updateRequest = function() {
     if (Backend.isOwnedRequest(request)) {
       Dialogs.showRecallRequestDialog(requestElement, this._requestId);
     } else {
-      UIUtils.showDialog(this.getLocale().RequestHasOffer, this.getLocale().RequestHasOfferText, {
+      var dialog = UIUtils.showDialog("RequestDismiss", this.getLocale().RequestHasOffer, this.getLocale().RequestHasOfferText, {
         ok: {
           display: I18n.getLocale().literals.ConfirmButton,
           listener: function() {
@@ -156,6 +156,7 @@ RequestDetailsPage.prototype._updateRequest = function() {
               //TODO: Recall offers?
               Backend.removeRequest(this._requestId);
             }.bind(this));
+            dialog.close();
           }
         },
         cancel: {
@@ -552,11 +553,12 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_CONFIRM)) {
     var confirmButton = UIUtils.appendButton(controlPanel, "ConfirmButton", I18n.getLocale().literals.ConfirmButton);
     UIUtils.setClickListener(confirmButton, function() {
-      UIUtils.showDialog(this.getLocale().ConfirmOffer, this.getLocale().ConfirmOfferTextProvider(), {
+      var dialog = UIUtils.showDialog("OfferConfirmation", this.getLocale().ConfirmOffer, this.getLocale().ConfirmOfferTextProvider(), {
         ok: {
           display: this.getLocale().ConfirmOfferButton,
           listener: function() {
             Backend.addNegotiation(this._requestId, offerId, Backend.Negotiation.TYPE_CONFIRM);
+            dialog.close();
           }
         },
         cancel: {

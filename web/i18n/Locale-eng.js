@@ -50,6 +50,7 @@ var Locale_eng = {
   },
   "dialogs": {
     "CreateNewRequestDialog": {
+      "Title": "Request Creation",
       "CategoryLabel": "My need belongs in:",
       "DescriptionLabel": "I am looking for:",
       "GetOnLabel": "I want to get it on:",
@@ -65,9 +66,11 @@ var Locale_eng = {
       "FailedToSendRequest": "We failed to send your request. Please try again",
     },
     "RequestDetailsDialog": {
+      "Title": "Request Details",
       "OfferButton": "Make an offer",
     },
     "CreateNewOfferDialog": {
+      "Title": "Making An Offer...",
       "DescriptionLabel": "I am offerring:",
       "GetOnLabel": "I can provide it on:",
       "ReturnByLabel": "I want it back by:",
@@ -85,7 +88,11 @@ var Locale_eng = {
       "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
     },
     "NegotiateRequestDialog": {
+      "Title": "Negotiate...",
       "MessageLabel": "Note:"
+    },
+    "NegotiateOfferDialog": {
+      "Title": "Negotiate...",
     },
     "RecallRequestDialog": {
       "RecallRequest": "Request Cancellation",
