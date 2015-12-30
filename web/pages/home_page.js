@@ -3,6 +3,7 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
 
   this._requestsPanel;
   this._rootElement;
+  this._requestObjects = [];
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
@@ -41,6 +42,10 @@ HomePage.prototype.onHide = function() {
   AbstractDataPage.prototype.onHide.call(this);
   
   Backend.removeCacheChangeListener(this._cacheChangeListener);
+  
+  for (var i in this._requestObjects) {
+    this._requestObjects[i].destroy();
+  }
 }
 
 HomePage.prototype.onDestroy = function() {
@@ -54,79 +59,51 @@ HomePage.prototype._showRequests = function() {
   var requestIds = Backend.getRequestIds();
   
   for (var requestIndex in requestIds) {
-    var requestId = requestIds[requestIndex];
-    this._appendRequest(requestId);
+    var requestObject = new HomePage._RequestOutlineObject(requestIds[requestIndex]);
+    
+    this._requestObjects.push(requestObject);
+    requestObject.append(this._requestsPanel);
   }
-}
-
-
-HomePage.prototype._appendRequest = function(requestId) {
-  var requestElement = UIUtils.appendBlock(this._requestsPanel, requestId);
-  
-  this._updateRequest(requestId);
 }
 
 HomePage.prototype._updateRequest = function(requestId) {
-  var request = Backend.getRequest(requestId);
-  if (request == null) {
-    return;
-  }
-  
-  var requestElement = document.getElementById(UIUtils.createId(this._requestsPanel, requestId));
-  if (requestElement == null) {
-    return;
-  }
-  UIUtils.emptyContainer(requestElement);
-
-  UIUtils.addClass(requestElement, "request-outline");
-  
-  var requestCloser = UIUtils.appendXCloser(requestElement, "Closer");
-  UIUtils.addClass(requestCloser, "request-closer");
-  UIUtils.setClickListener(requestCloser, function() {
-    if (Backend.isOwnedRequest(request)) {
-      Dialogs.showRecallRequestDialog(requestElement, requestId);
-    } else {
-      UIUtils.fadeOut(requestElement, null, function() {
-        Backend.removeRequest(requestId);
-      });
+  for (var i in this._requestObjects) {
+    if (this._requestObjects[i].getId() == requestId) {
+      this._requestObjects[i].update();
+      break;
     }
-    
-    return false; 
-  }.bind(this));
-  
-  var isActive = request.status == Backend.Request.STATUS_ACTIVE;
-  
-  if (!isActive) {
-    UIUtils.addClass(requestElement, "inactive-request-outline");
-  } else if (Backend.isOwnedRequest(request)) {
-    UIUtils.addClass(requestElement, "outgoing-request-outline");
-  } else {
-    UIUtils.addClass(requestElement, "incoming-request-outline");
   }
-  UIUtils.setClickListener(requestElement, function() {
+}
+
+
+
+
+HomePage._RequestOutlineObject = ClassUtils.defineClass(AbstractRequestObject, function RequestOutlineObject(id) {
+  AbstractRequestObject.call(this, id, "request-outline");
+});
+                                               
+HomePage._RequestOutlineObject.prototype._appendRequestContent = function(root) {
+  var request = Backend.getRequest(this.getId());
+  
+  UIUtils.setClickListener(root, function() {
     var callback = {
       success: function() {
-        var pulledOffers = Backend.getOfferIds(requestId);
+        var pulledOffers = Backend.getOfferIds(this.getId());
         if (offers != null && offers.length > 0) {
-          Application.showPage(RequestDetailsPage.name, { requestId: requestId });
+          Application.showPage(RequestDetailsPage.name, { requestId: this.getId() });
         }
-      }
+      }.bind(this)
     }
-    var offers = Backend.getOfferIds(requestId, callback);
+    var offers = Backend.getOfferIds(this.getId(), callback);
     if (offers == null || offers.length == 0) {
-      Dialogs.showRequestDetailsDialog(requestId);
+      Dialogs.showRequestDetailsDialog(this.getId());
     } else {
-      Application.showPage(RequestDetailsPage.name, { requestId: requestId });
+      Application.showPage(RequestDetailsPage.name, { requestId: this.getId() });
     }
-  })
+  }.bind(this));
   
-  var firstRow = UIUtils.appendBlock(requestElement, "FirstRow");
-  if (!isActive) {
-    var recallElement = UIUtils.appendBlock(firstRow, "Recall");
-    UIUtils.addClass(recallElement, "request-recall");
-    recallElement.innerHTML = I18n.getLocale().literals.Recalled;
-  }
-  
+  var firstRow = UIUtils.appendBlock(this.getElement(), "FirstRow");
+
   var categoryElement = UIUtils.appendBlock(firstRow, "Category");
   UIUtils.addClass(categoryElement, "request-category");
   categoryElement.innerHTML = request.category;
@@ -154,9 +131,9 @@ HomePage.prototype._updateRequest = function(requestId) {
   }
   
   
-  var secondRow = UIUtils.appendBlock(requestElement, "SecondRow");
+  var secondRow = UIUtils.appendBlock(this.getElement(), "SecondRow");
 
-  var getonLabel = UIUtils.appendLabel(secondRow, "GetOnlabel", this.getLocale().RequestOutlineGetOnLabel);
+  var getonLabel = UIUtils.appendLabel(secondRow, "GetOnlabel", I18n.getLocale().pages.HomePage.RequestOutlineGetOnLabel);
   UIUtils.addClass(getonLabel, "request-geton-label");
   
   var getOnElement = UIUtils.appendBlock(secondRow, "GetOn");
@@ -164,7 +141,7 @@ HomePage.prototype._updateRequest = function(requestId) {
   date = new Date(request.get_on);
   getOnElement.innerHTML = date.toLocaleDateString();
 
-  var returnByLabel = UIUtils.appendLabel(secondRow, "ReturnBylabel", this.getLocale().RequestOutlineReturnByLabel);
+  var returnByLabel = UIUtils.appendLabel(secondRow, "ReturnBylabel", I18n.getLocale().pages.HomePage.RequestOutlineReturnByLabel);
   UIUtils.addClass(returnByLabel, "request-returnby-label");
   
   var returnByElement = UIUtils.appendBlock(secondRow, "ReturnBy");
@@ -172,7 +149,7 @@ HomePage.prototype._updateRequest = function(requestId) {
   date = new Date(request.get_on);
   returnByElement.innerHTML = date.toLocaleDateString();
 
-  var pickupLabel = UIUtils.appendLabel(secondRow, "PickupLabel", this.getLocale().RequestOutlinePickupLabel);
+  var pickupLabel = UIUtils.appendLabel(secondRow, "PickupLabel", I18n.getLocale().pages.HomePage.RequestOutlinePickupLabel);
   UIUtils.addClass(pickupLabel, "request-pickup-label");
   
   var pickupElement = UIUtils.appendBlock(secondRow, "Pickup");

@@ -25,6 +25,7 @@ var Locale_eng = {
     
     "NameMe": "Me",
     "Recalled": "R E C A L L E D",
+    "Closed": "C l o s e d",
     
     
     "LanguageRussian": "Russian",
@@ -188,6 +189,8 @@ var Locale_eng = {
       "MakeOfferButton": "Make an offer",
       
       "StatusLabel": "Important:",
+      "StatusMessageRecalled": "The request was recalled and is no longer accessible. Please remove it from your view.",
+      "StatusMessageClosed": "The request was closed and is no longer accessible. Please remove it from your view.",
       "StatusMessageUpdating": "Updating...",
       "StatusMessageNoOffers": "You are still waiting for a response. No updates just yet",
       "StatusMessageOffersWaitingResponse": "There are offers for your attention",

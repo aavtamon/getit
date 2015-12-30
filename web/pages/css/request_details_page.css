@@ -45,6 +45,24 @@
 
   box-shadow: 5px 5px 5px darkgray;  
 }
+.request-details .request-recalled {
+  display: inline-block;
+  position: absolute;
+  bottom: -5px;
+  right: 50px;
+  font-size: 40px;
+  
+  color: red;
+}
+.request-details .request-closed {
+  display: inline-block;
+  position: absolute;
+  bottom: -5px;
+  right: 50px;
+  font-size: 40px;
+  
+  color: green;
+}
 .request-details .request-category {
   display: inline-block;
   margin-bottom: 10px;
@@ -123,7 +141,7 @@
   margin-top: 10px;
   margin-left: 10px;
 }
-.request-details .request-closer {
+.request-details .closer {
   position: absolute;
   top: -7;
   right: -10;
@@ -131,7 +149,7 @@
   width: 15px;
   height: 15px;
 }
-.request-details:hover .request-closer {
+.request-details:hover .closer {
   display: inline-block;
 }
 

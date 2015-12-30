@@ -6,6 +6,8 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
   this._requestId;
   this._statusElement;
   
+  this._requestObject;
+  
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
       if (!GeneralUtils.containsInArray(Backend.getRequestIds(), event.requestId)) {
@@ -13,6 +15,9 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
       }
     } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER_IDS && event.objectId == this._requestId) {
       this._updateOffers();
+      this._updateStatus();
+    } else if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST) {
+      this._updateRequest();
       this._updateStatus();
     } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER) {
       this._updateOffer(event.objectId);
@@ -41,7 +46,7 @@ RequestDetailsPage.prototype.onShow = function(root, paramBundle) {
   this._requestId = paramBundle.requestId;
 
   this._updateStatus();
-  this._appendRequest();
+  this._showRequest();
   
   Backend.addCacheChangeListener(this._cacheChangeListener);
 }
@@ -51,6 +56,8 @@ RequestDetailsPage.prototype.onHide = function() {
   
   UIUtils.emptyContainer(this._requestPanel);
   UIUtils.emptyContainer(this._offersPanel);
+  
+  this._requestObject.destroy();
   
   Backend.removeCacheChangeListener(this._cacheChangeListener);
 }
@@ -104,6 +111,16 @@ RequestDetailsPage.prototype._getGrouppedOffers = function() {
 }
 
 RequestDetailsPage.prototype._updateStatus = function() {
+  var request = Backend.getRequest(this._requestId);
+  
+  if (request.status == Backend.Request.STATUS_RECALLED) {
+    this._statusElement.innerHTML = this.getLocale().StatusMessageRecalled;
+    return;
+  } else if (request.status == Backend.Request.STATUS_CLOSED) {
+    this._statusElement.innerHTML = this.getLocale().StatusMessageClosed;
+    return;
+  }
+  
   var offers = this._getGrouppedOffers();
   if (offers == null) {
     this._statusElement.innerHTML = this.getLocale().StatusMessageUpdating;
@@ -126,59 +143,14 @@ RequestDetailsPage.prototype._updateStatus = function() {
   }
 }
 
-
-RequestDetailsPage.prototype._appendRequest = function() {
-  this._updateRequest();
-
-  this._updateOffers();
-}
-
-RequestDetailsPage.prototype._updateRequest = function() {
-  var request = Backend.getRequest(this._requestId);
-  if (request == null) {
-    return;
-  }
+RequestDetailsPage._RequestDetailsObject = ClassUtils.defineClass(AbstractRequestObject, function RequestDetailsObject(id) {
+  AbstractRequestObject.call(this, id, "request-details");
+});
+                                               
+RequestDetailsPage._RequestDetailsObject.prototype._appendRequestContent = function(root) {
+  var request = Backend.getRequest(this.getId());
   
-  var requestElement = UIUtils.appendBlock(this._requestPanel, "Request");
-  UIUtils.addClass(requestElement, "request-details");
-  
-  var requestCloser = UIUtils.appendXCloser(requestElement, "Closer");
-  UIUtils.addClass(requestCloser, "request-closer");
-  UIUtils.setClickListener(requestCloser, function() {
-    if (Backend.isOwnedRequest(request)) {
-      Dialogs.showRecallRequestDialog(requestElement, this._requestId);
-    } else {
-      var dialog = UIUtils.showDialog("RequestDismiss", this.getLocale().RequestHasOffer, this.getLocale().RequestHasOfferText, {
-        ok: {
-          display: I18n.getLocale().literals.ConfirmButton,
-          listener: function() {
-            UIUtils.fadeOut(requestElement, null, function() {
-              //TODO: Recall offers?
-              Backend.removeRequest(this._requestId);
-            }.bind(this));
-            dialog.close();
-          }
-        },
-        cancel: {
-          display: I18n.getLocale().literals.CancelOperationButton,
-          alignment: "left"
-        }
-      });
-    }
-    
-    return false; 
-  }.bind(this));
-
-  if (request.status != Backend.Request.STATUS_ACTIVE) {
-    UIUtils.addClass(requestElement, "inactive-request-details");
-  } else if (Backend.isOwnedRequest(request)) {
-    UIUtils.addClass(requestElement, "outgoing-request-details");
-  } else {
-    UIUtils.addClass(requestElement, "incoming-request-details");
-  }
-  
-  
-  var header = UIUtils.appendBlock(requestElement, "Header");
+  var header = UIUtils.appendBlock(this.getElement(), "Header");
 
   var categoryElement = UIUtils.appendBlock(header, "Category");
   UIUtils.addClass(categoryElement, "request-category");
@@ -202,17 +174,17 @@ RequestDetailsPage.prototype._updateRequest = function() {
     nameElement.innerHTML = request.user_name;
   }
 
-  var textElement = UIUtils.appendBlock(requestElement, "Text");
+  var textElement = UIUtils.appendBlock(this.getElement(), "Text");
   UIUtils.addClass(textElement, "request-text");
   textElement.innerHTML = request.text;
 
   if (!Backend.isOwnedRequest(request)) {
-    var ratingElement = UIUtils.appendRatingBar(requestElement, "Rating");
+    var ratingElement = UIUtils.appendRatingBar(this.getElement(), "Rating");
     UIUtils.addClass(ratingElement, "request-rating");
     ratingElement.setRating(request.star_rating);
   }
 
-  var whenAndHow = UIUtils.appendBlock(requestElement, "WhenAndHow");
+  var whenAndHow = UIUtils.appendBlock(this.getElement(), "WhenAndHow");
 
   var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.GetOnLabel);
   UIUtils.addClass(getOnLabel, "request-geton-label");
@@ -234,7 +206,7 @@ RequestDetailsPage.prototype._updateRequest = function() {
   UIUtils.addClass(pickupElement, "request-pickup");
   pickupElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PICKUP_OPTIONS, request.pickup);
 
-  var payment = UIUtils.appendBlock(requestElement, "Payment");
+  var payment = UIUtils.appendBlock(this.getElement(), "Payment");
   var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.PaymentLabel);
   UIUtils.addClass(paymentLabel, "request-payment-label");
   if (request.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
@@ -245,6 +217,17 @@ RequestDetailsPage.prototype._updateRequest = function() {
   var payRateElement = UIUtils.appendBlock(payment, "Payrate");
   UIUtils.addClass(payRateElement, "request-payrate");
   payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payment.payrate);
+}
+
+RequestDetailsPage.prototype._showRequest = function() {
+  this._requestObject = new RequestDetailsPage._RequestDetailsObject(this._requestId);
+  this._requestObject.append(this._requestPanel);
+
+  this._updateOffers();
+}
+
+RequestDetailsPage.prototype._updateRequest = function() {
+  this._requestObject.update();
 }
 
 RequestDetailsPage.prototype._updateOffers = function() {
