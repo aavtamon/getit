@@ -26,6 +26,7 @@ var Locale_eng = {
     "NameMe": "Me",
     "Recalled": "R E C A L L E D",
     "Closed": "C l o s e d",
+    "Declined": "D e c l i n e d",
     
     
     "LanguageRussian": "Russian",

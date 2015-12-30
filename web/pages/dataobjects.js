@@ -42,6 +42,11 @@ AbstractDataObject.prototype.remove = function() {
   this._baseElement = null;
 }
 
+AbstractDataObject.prototype.dismiss = function(observer) {
+  UIUtils.fadeOut(this.getElement(), null, observer);
+}
+
+
 AbstractDataObject.prototype.destroy = function() {
   this.remove();
 }
@@ -100,7 +105,7 @@ AbstractRequestObject.prototype.close = function() {
         ok: {
           display: I18n.getLocale().literals.ConfirmButton,
           listener: function() {
-            UIUtils.fadeOut(this.getElement(), null, function() {
+            this.dismiss(function() {
               //TODO: Recall offers?
               Backend.removeRequest(this._requestId);
             }.bind(this));
@@ -113,7 +118,7 @@ AbstractRequestObject.prototype.close = function() {
         }
       });
     } else {
-      UIUtils.fadeOut(this.getElement(), null, function() {
+      this.dismiss(function() {
         Backend.removeRequest(this.getId());
       }.bind(this));
     }
@@ -141,12 +146,78 @@ AbstractRequestObject.prototype._appendContent = function(root) {
     UIUtils.addClass(recallElement, "request-recalled");
     recallElement.innerHTML = I18n.getLocale().literals.Recalled;
   } else if (request.status == Backend.Request.STATUS_CLOSED) {
-    var recallElement = UIUtils.appendBlock(this.getElement(), "Closed");
-    UIUtils.addClass(recallElement, "request-closed");
-    recallElement.innerHTML = I18n.getLocale().literals.Closed;
+    var closedElement = UIUtils.appendBlock(this.getElement(), "Closed");
+    UIUtils.addClass(closedElement, "request-closed");
+    closedElement.innerHTML = I18n.getLocale().literals.Closed;
   }
   
   this._appendRequestContent(root);
 }
 
+
+
+AbstractOfferObject = ClassUtils.defineClass(AbstractDataObject, function AbstractOfferObject(requestId, id, baseCss) {
+  AbstractDataObject.call(this, id, baseCss);
+  this._requestId = requestId;
+});
+                                               
+AbstractOfferObject.prototype._appendOfferContent = function(root) {
+  throw "Not implemented";
+}
+
+AbstractOfferObject.prototype.isClosable = function() {
+  var request = Backend.getRequest(this._requestId);
+  if (request == null) {
+    return false;
+  }
+  
+  return request.status == Backend.Request.STATUS_ACTIVE;
+}
+AbstractOfferObject.prototype.close = function() {
+  var offer = Backend.getOffer(this._requestId, this.getId());
+  if (offer == null) {
+    return;
+  }
+  
+  if (Backend.isOwnedOffer(offer)) {
+    Dialogs.showRecallOfferDialog(offerElement, this._requestId, this.getId());
+  } else {
+    this.dismiss(function() {
+      Backend.removeOffer(this._requestId, this.getId());
+    }.bind(this));
+  }
+}
+
+AbstractOfferObject.prototype._appendContent = function(root) {
+  var offer = Backend.getOffer(this._requestId, this.getId());
+  if (offer == null) {
+    return;
+  }
+  
+  var classPrefix;
+  if (!Backend.isOfferActive(offer)) {
+    classPrefix = "inactive";
+  } else if (Backend.isOwnedOffer(offer)) {
+    classPrefix = "outgoing";
+  } else {
+    classPrefix = "incoming";
+  }
+  UIUtils.addClass(this.getElement(), classPrefix + "-" + this.getBaseCss());
+  
+  if (Backend.offerHasNegotiationType(Backend.Negotiation.TYPE_RECALL)) {
+    var recallElement = UIUtils.appendBlock(this.getElement(), "Recalled");
+    UIUtils.addClass(recallElement, "offer-recalled");
+    recallElement.innerHTML = I18n.getLocale().literals.Recalled;
+  } else if (Backend.offerHasNegotiationType(Backend.Negotiation.TYPE_CLOSE)) {
+    var closedElement = UIUtils.appendBlock(this.getElement(), "Closed");
+    UIUtils.addClass(closedElement, "offer-closed");
+    closedElement.innerHTML = I18n.getLocale().literals.Closed;
+  } else if (Backend.offerHasNegotiationType(Backend.Negotiation.TYPE_DECLINE)) {
+    var declinedElement = UIUtils.appendBlock(this.getElement(), "Declined");
+    UIUtils.addClass(declinedElement, "offer-recalled");
+    declinedElement.innerHTML = I18n.getLocale().literals.Declined;
+  }
+  
+  this._appendOfferContent(root);
+}
 

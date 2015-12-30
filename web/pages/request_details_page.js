@@ -7,6 +7,7 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
   this._statusElement;
   
   this._requestObject;
+  this._offerObjects = [];
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
@@ -14,7 +15,7 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
         Application.goBack();
       }
     } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER_IDS && event.objectId == this._requestId) {
-      this._updateOffers();
+      this._showOffers();
       this._updateStatus();
     } else if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST) {
       this._updateRequest();
@@ -47,6 +48,7 @@ RequestDetailsPage.prototype.onShow = function(root, paramBundle) {
 
   this._updateStatus();
   this._showRequest();
+  this._showOffers();
   
   Backend.addCacheChangeListener(this._cacheChangeListener);
 }
@@ -58,6 +60,10 @@ RequestDetailsPage.prototype.onHide = function() {
   UIUtils.emptyContainer(this._offersPanel);
   
   this._requestObject.destroy();
+  for (var i in this._offerObjects) {
+    this._offerObjects[i].destroy();
+  }
+  this._offerObjects = [];
   
   Backend.removeCacheChangeListener(this._cacheChangeListener);
 }
@@ -222,30 +228,43 @@ RequestDetailsPage._RequestDetailsObject.prototype._appendRequestContent = funct
 RequestDetailsPage.prototype._showRequest = function() {
   this._requestObject = new RequestDetailsPage._RequestDetailsObject(this._requestId);
   this._requestObject.append(this._requestPanel);
-
-  this._updateOffers();
 }
 
 RequestDetailsPage.prototype._updateRequest = function() {
   this._requestObject.update();
 }
 
-RequestDetailsPage.prototype._updateOffers = function() {
-  var offers = Backend.getOfferIds(this._requestId);
-  if (offers == null) {
+
+RequestDetailsPage.prototype._showOffers = function() {
+  var offerIds = Backend.getOfferIds(this._requestId);
+  if (offerIds == null) {
     return;
   }
   
   UIUtils.emptyContainer(this._offersPanel);
+  
+  for (var i in this._offerObjects) {
+    this._offerObjects[i].remove();
+  }
 
-  if (offers.length > 0) {
+  if (offerIds.length > 0) {
     //TODO: sort offers
-    for (var i in offers) {
-      var offerPanel = UIUtils.appendBlock(this._offersPanel, offers[i]);
-      this._updateOffer(offers[i]);
+    for (var i in offerIds) {
+      var offerObject = new RequestDetailsPage._OfferObject(this._requestId, offerIds[i]);
+      offerObject.append(this._offersPanel);
+      this._offerObjects.push(offerObject);
     }
   } else {
     this._appendRequestControlPanel();
+  }
+}
+
+RequestDetailsPage.prototype._updateOffer = function(offerId) {
+  for (var i in this._offerObjects) {
+    if (this._offerObjects[i].getId() == offerId) {
+      this._offerObjects[i].update();
+      break;
+    }
   }
 }
 
@@ -269,154 +288,47 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
   }
 }
 
-RequestDetailsPage.prototype._updateOffer = function(offerId) {
-  var offer = Backend.getOffer(this._requestId, offerId);
+
+RequestDetailsPage._OfferObject = ClassUtils.defineClass(AbstractDataObject, function _OfferObject(requestId, offerId, baseCss) {
+  AbstractDataObject.call(this, offerId, "offer");
+  this._offerId = offerId;
+  this._requestId = requestId;
+  
+  this._offerDetailsObject = new RequestDetailsPage._OfferDetailsObject(requestId, offerId);
+});
+RequestDetailsPage._OfferObject.prototype.remove = function() {
+  AbstractDataObject.prototype.remove.call(this);
+  this._offerDetailsObject.remove();
+}
+RequestDetailsPage._OfferObject.prototype.destroy = function() {
+  AbstractDataObject.prototype.destroy.call(this);
+  this._offerDetailsObject.destroy();
+}
+AbstractDataObject.prototype._appendContent = function(root) {
+  var offer = Backend.getOffer(this._requestId, this._offerId);
   if (offer == null) {
     return;
   }
   
-  var offerPanel = document.getElementById(UIUtils.createId(this._offersPanel, offerId));
-  if (offerPanel == null) {
-    return;
-  }
-  
-  UIUtils.emptyContainer(offerPanel);
-  
-  var offerElement = UIUtils.appendBlock(offerPanel, "Offer");
-  this._appendOffer(offerElement, offerId, offer);
-  
-  this._appendNegotiations(offerPanel, offer);
-  
-  this._appendOfferControlPanel(offerPanel, offerId, offer);
-}
+  this._appendOffer();
 
-RequestDetailsPage.prototype._appendOffer = function(offerElement, offerId, offer) {
-  UIUtils.addClass(offerElement, "offer-details");
-  
-  //TBD - possible race condition if you dismiss your own offer whie someone is accepting it
-  if (offer.negotiations.length == 0) {
-    var offerCloser = UIUtils.appendXCloser(offerElement, "Closer");
-    UIUtils.addClass(offerCloser, "offer-closer");
-    UIUtils.setClickListener(offerCloser, function() {
-      if (Backend.isOwnedOffer(offer)) {
-        Dialogs.showRecallOfferDialog(offerElement, this._requestId, offerId);
-      } else {
-        UIUtils.fadeOut(offerElement, null, function() {
-          Backend.removeOffer(this._requestId, offerId);
-        }.bind(this));
-      }
-    
-      return false; 
-    }.bind(this));
-  }
-
-  if (Backend.isOwnedOffer(offer)) {
-    UIUtils.addClass(offerElement, "outgoing-offer-details");
-  } else {
-    UIUtils.addClass(offerElement, "incoming-offer-details");
-  }
-  
-  
-  var header = UIUtils.appendBlock(offerElement, "Header");
-
-  var dateElement = UIUtils.appendBlock(header, "Date");
-  UIUtils.addClass(dateElement, "offer-date");
-  var date = new Date(offer.timestamp);
-  dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
-
-  var nameElement = UIUtils.appendBlock(header, "Name");
-  UIUtils.addClass(nameElement, "offer-name");
-  if (Backend.isOwnedOffer(offer)) {
-    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
-  } else {
-    nameElement.innerHTML = offer.user_name;
-  }
-
-  var textElement = UIUtils.appendBlock(offerElement, "Text");
-  UIUtils.addClass(textElement, "offer-text");
-  textElement.innerHTML = offer.text;
-
-  if (!Backend.isOwnedOffer(offer)) {
-    var ratingElement = UIUtils.appendRatingBar(offerElement, "Rating");
-    UIUtils.addClass(ratingElement, "offer-rating");
-    ratingElement.setRating(offer.star_rating);
-  }
-  
-  if (offer.attachments != null && offer.attachments.length > 0) {
-    var attachmentBar = UIUtils.appendAttachmentBar(offerElement, "AttachmentBar", offer.attachments, false);
-    UIUtils.addClass(attachmentBar, "offer-attachments");
-  }
-  
-  
-  var whenAndHow = UIUtils.appendBlock(offerElement, "WhenAndHow");
-
-  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
-  UIUtils.addClass(getOnLabel, "offer-geton-label");
-  var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
-  UIUtils.addClass(getOnElement, "offer-geton");
-  date = new Date(offer.get_on);
-  getOnElement.innerHTML = date.toLocaleDateString();
-
-  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
-  UIUtils.addClass(returnByLabel, "offer-returnby-label");
-  var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
-  UIUtils.addClass(returnByElement, "offer-returnby");
-  date = new Date(offer.return_by);
-  returnByElement.innerHTML = date.toLocaleDateString();
-
-  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
-  UIUtils.addClass(deliveryLabel, "offer-delivery-label");
-  var deliveryElement = UIUtils.appendBlock(whenAndHow, "Delivery");
-  UIUtils.addClass(deliveryElement, "offer-delivery");
-  deliveryElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.DELIVERY_OPTIONS, offer.delivery);
-
-  
-  var where = UIUtils.appendBlock(offerElement, "Where");
-  
-  var zipLabel = UIUtils.appendLabel(where, "ZipLabel", this.getLocale().ZipLabel);
-  UIUtils.addClass(zipLabel, "offer-zip-label");
-  var zipElement = UIUtils.appendBlock(where, "Zip");
-  UIUtils.addClass(zipElement, "offer-zip");
-  zipElement.innerHTML = offer.zipcode;
-  
-  var distanceLabel = UIUtils.appendLabel(where, "DistanceLabel", this.getLocale().DistanceLabel);
-  UIUtils.addClass(distanceLabel, "offer-distance-label");
-  var distanceElement = UIUtils.appendBlock(where, "Distance");
-  UIUtils.addClass(distanceElement, "offer-distance");
-  distanceElement.innerHTML = offer.distance;
-  
-  
-  var payment = UIUtils.appendBlock(offerElement, "Payment");
-  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
-  UIUtils.addClass(paymentLabel, "offer-payment-label");
-  if (offer.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
-    var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
-    UIUtils.addClass(paymentElement, "offer-payment");
-    paymentElement.innerHTML = "$" + offer.payment.payment;
-  }
-  var payRateElement = UIUtils.appendBlock(payment, "Payrate");
-  UIUtils.addClass(payRateElement, "offer-payrate");
-  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, offer.payment.payrate);
-  
-  var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
-  UIUtils.addClass(depositLabel, "offer-deposit-label");
-  
-  var depositElement = UIUtils.appendBlock(payment, "Deposit");
-  UIUtils.addClass(depositElement, "offer-deposit");
-  depositElement.innerHTML = "$" + offer.payment.deposit;
-}
-
-RequestDetailsPage.prototype._appendNegotiations = function(root, offer) {
   for (var i in offer.negotiations) {
-    var negotiation = offer.negotiations[i];
-    var requestersNegotiation = offer.user_id != negotiation.user_id;
-    
-    this._appendNegotiation(root, i, negotiation, requestersNegotiation);
+    this._appendNegotiation(i);
   }
+
+  this._appendOfferControlPanel();
+}
+RequestDetailsPage._OfferObject.prototype._appendOffer = function() {
+  this._offerDetailsObject.append(this.getElement());
 }
 
-RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiation, isRequestersNegotiation) {
-  var negotiationElement = UIUtils.appendBlock(root, "Negotiation" + negId);
+RequestDetailsPage._OfferObject.prototype._appendNegotiation = function(negId) {
+  var offer = Backend.getOffer(this._requestId, this._offerId);
+  var negotiation = offer.negotiations[negId];
+  
+  var isRequestersNegotiation = offer.user_id != negotiation.user_id;
+  
+  var negotiationElement = UIUtils.appendBlock(this.getElement(), "Negotiation" + negId);
   UIUtils.addClass(negotiationElement, "negotiation-details");
   
   if (Backend.isOwnedNegotiation(negotiation)) {
@@ -424,7 +336,6 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
   } else {
     UIUtils.addClass(negotiationElement, "incoming-negotiation-details");
   }
-  
   
   var header = UIUtils.appendBlock(negotiationElement, "Header");
 
@@ -501,48 +412,50 @@ RequestDetailsPage.prototype._appendNegotiation = function(root, negId, negotiat
 }
 
 
-RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, offer) {
-  var controlPanel = UIUtils.appendBlock(root, "ControlPanel");
+RequestDetailsPage._OfferObject.prototype._appendOfferControlPanel = function() {
+  var offer = Backend.getOffer(this._requestId, this._offerId);
+  
+  var controlPanel = UIUtils.appendBlock(this.getElement(), "ControlPanel");
   UIUtils.addClass(controlPanel, "offer-control-panel");
 
   var actions = this._getApplicableActions(offer);
   
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_RECALL)) {
-    var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", this.getLocale().RecallOfferButton);
+    var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", I18n.getLocale().pages.RequestDetailsPage.RecallOfferButton);
     UIUtils.setClickListener(recallButton, function() {
-      Dialogs.showRecallOfferDialog(root, this._requestId, offerId);
+      Dialogs.showRecallOfferDialog(this.getElement(), this._requestId, this._offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_NEGOTIATE)) {
-    var negotiateButton = UIUtils.appendButton(controlPanel, "NegotiateButton", this.getLocale().NegotiateButton);
+    var negotiateButton = UIUtils.appendButton(controlPanel, "NegotiateButton", I18n.getLocale().pages.RequestDetailsPage.NegotiateButton);
     UIUtils.setClickListener(negotiateButton, function() {
       if (Backend.isOwnedOffer(offer)) {
-        Dialogs.showNegotiateRequestDialog(this._requestId, offerId, offer);
+        Dialogs.showNegotiateRequestDialog(this._requestId, this._offerId, offer);
       } else {
-        Dialogs.showNegotiateOfferDialog(this._requestId, offerId, offer);
+        Dialogs.showNegotiateOfferDialog(this._requestId, this._offerId, offer);
       }
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_ACCEPT)) {
-    var acceptButton = UIUtils.appendButton(controlPanel, "AcceptButton", this.getLocale().AcceptButton);
+    var acceptButton = UIUtils.appendButton(controlPanel, "AcceptButton", I18n.getLocale().pages.RequestDetailsPage.AcceptButton);
     UIUtils.setClickListener(acceptButton, function() {
-      this._showAcceptOfferDialog(offerId, offer);
+      this._showAcceptOfferDialog(this._offerId, offer);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DECLINE)) {
-    var declineButton = UIUtils.appendButton(controlPanel, "DeclineButton", this.getLocale().DeclineButton);
+    var declineButton = UIUtils.appendButton(controlPanel, "DeclineButton", I18n.getLocale().pages.RequestDetailsPage.DeclineButton);
     UIUtils.setClickListener(declineButton, function() {
-      Backend.declineOffer(this._requestId, offerId);
+      Backend.declineOffer(this._requestId, this._offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_CONFIRM)) {
     var confirmButton = UIUtils.appendButton(controlPanel, "ConfirmButton", I18n.getLocale().literals.ConfirmButton);
     UIUtils.setClickListener(confirmButton, function() {
-      var dialog = UIUtils.showDialog("OfferConfirmation", this.getLocale().ConfirmOffer, this.getLocale().ConfirmOfferTextProvider(), {
+      var dialog = UIUtils.showDialog("OfferConfirmation", this.getLocale().ConfirmOffer, I18n.getLocale().pages.RequestDetailsPage.ConfirmOfferTextProvider(), {
         ok: {
           display: this.getLocale().ConfirmOfferButton,
           listener: function() {
-            Backend.addNegotiation(this._requestId, offerId, Backend.Negotiation.TYPE_CONFIRM);
+            Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_CONFIRM);
             dialog.close();
           }
         },
@@ -554,33 +467,37 @@ RequestDetailsPage.prototype._appendOfferControlPanel = function(root, offerId, 
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DELIVERY)) {
-    var confirmDeliveryButton = UIUtils.appendButton(controlPanel, "ConfirmDeliveryButton", this.getLocale().ConfirmDeliveryButton);
+    var confirmDeliveryButton = UIUtils.appendButton(controlPanel, "ConfirmDeliveryButton", I18n.getLocale().pages.RequestDetailsPage.ConfirmDeliveryButton);
     UIUtils.setClickListener(confirmDeliveryButton, function() {
-      Backend.addNegotiation(this._requestId, offerId, Backend.Negotiation.TYPE_DELIVERY);
+      Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_DELIVERY);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DELIVERY_ACCEPT)) {
-    var acceptDeliveryButton = UIUtils.appendButton(controlPanel, "AcceptDeliveryButton", this.getLocale().AcceptDeliveryButton);
+    var acceptDeliveryButton = UIUtils.appendButton(controlPanel, "AcceptDeliveryButton", I18n.getLocale().pages.RequestDetailsPage.AcceptDeliveryButton);
     UIUtils.setClickListener(acceptDeliveryButton, function() {
-      Backend.addNegotiation(this._requestId, offerId, Backend.Negotiation.TYPE_DELIVERY_ACCEPT);
+      Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_DELIVERY_ACCEPT);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_RETURN)) {
-    var confirmReturnButton = UIUtils.appendButton(controlPanel, "ConfirmReturnButton", this.getLocale().ConfirmReturnButton);
+    var confirmReturnButton = UIUtils.appendButton(controlPanel, "ConfirmReturnButton", I18n.getLocale().pages.RequestDetailsPage.ConfirmReturnButton);
     UIUtils.setClickListener(confirmReturnButton, function() {
-      Backend.addNegotiation(this._requestId, offerId, Backend.Negotiation.TYPE_RETURN);
+      Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_RETURN);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_CLOSE)) {
-    var acceptReturnButton = UIUtils.appendButton(controlPanel, "AcceptReturnButton", this.getLocale().AcceptReturnButton);
+    var acceptReturnButton = UIUtils.appendButton(controlPanel, "AcceptReturnButton", I18n.getLocale().pages.RequestDetailsPage.AcceptReturnButton);
     UIUtils.setClickListener(acceptReturnButton, function() {
-      Backend.addNegotiation(this._requestId, offerId, Backend.Negotiation.TYPE_CLOSE);
+      Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_CLOSE);
     }.bind(this));
   }
 }
 
 
-RequestDetailsPage.prototype._getApplicableActions = function(offer) {
+RequestDetailsPage._OfferObject.prototype._getApplicableActions = function(offer) {
+  if (!Backend.isOfferActive(offer)) {
+    return [];
+  }
+  
   if (offer.negotiations.length == 0) {
     if (Backend.isOwnedOffer(offer)) {
       return [Backend.Negotiation.TYPE_RECALL, Backend.Negotiation.TYPE_NEGOTIATE]; 
@@ -638,3 +555,111 @@ RequestDetailsPage.prototype._getApplicableActions = function(offer) {
     }
   }
 }
+
+                                                         
+                                                         
+
+RequestDetailsPage._OfferDetailsObject = ClassUtils.defineClass(AbstractOfferObject, function OfferDetailsObject(requestId, offerId) {
+  AbstractOfferObject.call(this, requestId, offerId, "offer-details");
+});
+                                               
+RequestDetailsPage._OfferDetailsObject.prototype._appendOfferContent = function(root) {
+  var offer = Backend.getOffer(this._requestId, this.getId());
+  if (offer == null) {
+    return;
+  }
+  
+  var header = UIUtils.appendBlock(this.getElement(), "Header");
+
+  var dateElement = UIUtils.appendBlock(header, "Date");
+  UIUtils.addClass(dateElement, "offer-date");
+  var date = new Date(offer.timestamp);
+  dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+
+  var nameElement = UIUtils.appendBlock(header, "Name");
+  UIUtils.addClass(nameElement, "offer-name");
+  if (Backend.isOwnedOffer(offer)) {
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
+  } else {
+    nameElement.innerHTML = offer.user_name;
+  }
+
+  var textElement = UIUtils.appendBlock(this.getElement(), "Text");
+  UIUtils.addClass(textElement, "offer-text");
+  textElement.innerHTML = offer.text;
+
+  if (!Backend.isOwnedOffer(offer)) {
+    var ratingElement = UIUtils.appendRatingBar(this.getElement(), "Rating");
+    UIUtils.addClass(ratingElement, "offer-rating");
+    ratingElement.setRating(offer.star_rating);
+  }
+  
+  if (offer.attachments != null && offer.attachments.length > 0) {
+    var attachmentBar = UIUtils.appendAttachmentBar(this.getElement(), "AttachmentBar", offer.attachments, false);
+    UIUtils.addClass(attachmentBar, "offer-attachments");
+  }
+  
+  
+  var whenAndHow = UIUtils.appendBlock(this.getElement(), "WhenAndHow");
+
+  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
+  UIUtils.addClass(getOnLabel, "offer-geton-label");
+  var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
+  UIUtils.addClass(getOnElement, "offer-geton");
+  date = new Date(offer.get_on);
+  getOnElement.innerHTML = date.toLocaleDateString();
+
+  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
+  UIUtils.addClass(returnByLabel, "offer-returnby-label");
+  var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
+  UIUtils.addClass(returnByElement, "offer-returnby");
+  date = new Date(offer.return_by);
+  returnByElement.innerHTML = date.toLocaleDateString();
+
+  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
+  UIUtils.addClass(deliveryLabel, "offer-delivery-label");
+  var deliveryElement = UIUtils.appendBlock(whenAndHow, "Delivery");
+  UIUtils.addClass(deliveryElement, "offer-delivery");
+  deliveryElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.DELIVERY_OPTIONS, offer.delivery);
+
+  
+  var where = UIUtils.appendBlock(this.getElement(), "Where");
+  
+  var zipLabel = UIUtils.appendLabel(where, "ZipLabel", I18n.getLocale().pages.RequestDetailsPage.ZipLabel);
+  UIUtils.addClass(zipLabel, "offer-zip-label");
+  var zipElement = UIUtils.appendBlock(where, "Zip");
+  UIUtils.addClass(zipElement, "offer-zip");
+  zipElement.innerHTML = offer.zipcode;
+  
+  var distanceLabel = UIUtils.appendLabel(where, "DistanceLabel", I18n.getLocale().pages.RequestDetailsPage.DistanceLabel);
+  UIUtils.addClass(distanceLabel, "offer-distance-label");
+  var distanceElement = UIUtils.appendBlock(where, "Distance");
+  UIUtils.addClass(distanceElement, "offer-distance");
+  distanceElement.innerHTML = offer.distance;
+  
+  
+  var payment = UIUtils.appendBlock(this.getElement(), "Payment");
+  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
+  UIUtils.addClass(paymentLabel, "offer-payment-label");
+  if (offer.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
+    var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
+    UIUtils.addClass(paymentElement, "offer-payment");
+    paymentElement.innerHTML = "$" + offer.payment.payment;
+  }
+  var payRateElement = UIUtils.appendBlock(payment, "Payrate");
+  UIUtils.addClass(payRateElement, "offer-payrate");
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, offer.payment.payrate);
+  
+  var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
+  UIUtils.addClass(depositLabel, "offer-deposit-label");
+  
+  var depositElement = UIUtils.appendBlock(payment, "Deposit");
+  UIUtils.addClass(depositElement, "offer-deposit");
+  depositElement.innerHTML = "$" + offer.payment.deposit;
+}
+
+
+
+
+
+

@@ -46,6 +46,7 @@ HomePage.prototype.onHide = function() {
   for (var i in this._requestObjects) {
     this._requestObjects[i].destroy();
   }
+  this._requestObjects = [];
 }
 
 HomePage.prototype.onDestroy = function() {

@@ -195,7 +195,6 @@ Backend.createOffer = function(requestId, offer, transactionCallback) {
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
   
   var newOfferId = this._offerCount++;
-  
   var offerIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId);
   if (offerIds == null) {
     offerIds = [newOfferId];
@@ -204,6 +203,7 @@ Backend.createOffer = function(requestId, offer, transactionCallback) {
   }
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, requestId, offerIds);
   
+  offer.request_id = requestId;
   offer.user_id = Backend.getUserProfile().user_id;
   offer.star_rating = 0;
   offer.timestamp = Date.now();
@@ -213,7 +213,6 @@ Backend.createOffer = function(requestId, offer, transactionCallback) {
   offer.negotiations = [];
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, newOfferId, offer);
-
   if (transactionCallback != null) {
     transactionCallback.success(newOfferId);
   }
@@ -316,6 +315,30 @@ Backend.isOwnedOffer = function(offer) {
 Backend.isOwnedNegotiation = function(neg) {
   return neg.user_id == Backend.getUserProfile().user_id;  
 }
+
+Backend.isRequestActive = function(request) {
+  return request.status == Backend.Request.STATUS_ACTIVE;
+}
+
+Backend.isOfferActive = function(offer) {
+  if (Backend.offerHasNegotiationType(offer, Backend.Negotiation.TYPE_RECALL) || Backend.offerHasNegotiationType(offer, Backend.Negotiation.TYPE_DECLINE) || Backend.offerHasNegotiationType(offer, Backend.Negotiation.TYPE_CLOSE)) {
+    return false;
+  }
+  
+  var request = Backend.getRequest(offer.request_id);
+  return Backend.isRequestActive(request);
+}
+
+Backend.offerHasNegotiationType = function(offer, type) {
+  for (var i in offer.negotiations) {
+    if (offer.negotiations[i].type == type) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
 
 
 
