@@ -17,11 +17,15 @@ Backend.Request = {};
 Backend.Request.PICKUP_PICKUP = "pickup";
 Backend.Request.PICKUP_DELIVERY = "delivery";
 Backend.Request.PICKUP_ANY = "any";
+
+Backend.Request.STATUS_ACTIVE = "active";
+Backend.Request.STATUS_CLOSED = "closed";
+Backend.Request.STATUS_RECALLED = "recalled";
 /*
   Request.revision: number, automatic
   Request.user_id: number
   Request.star_rating: number, 0-5
-  Request.timestamp: date
+  Request.creation_time: date
   Request.user_name: string
   Request.zipcode: number
   Request.geolocation: string, optional
@@ -33,18 +37,19 @@ Backend.Request.PICKUP_ANY = "any";
   Request.payment: {
     payrate: ["free" | "daily" | "weekly" | "monthly"]
     payment: number
-  };
+  }
+  Request.status: ["active" | "closed" | "recalled"]
 */
 
 Backend.Offer = {}; //Offer
 Backend.Offer.DELIVERY_PICKUP = Backend.Request.PICKUP_PICKUP;
 Backend.Offer.DELIVERY_DELIVERY = Backend.Request.PICKUP_DELIVERY;
-Backend.Offer.DELIVERY_ANT = Backend.Request.PICKUP_ANY;
+Backend.Offer.DELIVERY_ANY = Backend.Request.PICKUP_ANY;
 /*
   Offer.revision: number, automatic
-  Offer.user_id; number
+  Offer.user_id: number
   Offer.request_id: number
-  Offer.timestamp: date
+  Offer.creation_time: date
   Offer.user_name: string
   Offer.star_rating: number, 0-5
   Offer.zipcode: number
@@ -79,14 +84,14 @@ Backend.Negotiation.TYPE_CLOSE = "close";
 Backend.Negotiation.DELIVERY_PICKUP = Backend.Request.PICKUP_PICKUP;
 Backend.Negotiation.DELIVERY_DELIVERY = Backend.Request.PICKUP_DELIEVRY;
 /*
-  Negotiation.user_id; number
-  Negotiation.timestamp: date
+  Negotiation.user_id: number
+  Negotiation.creation_time: date
   Negotiation.user_name: string
-  Negotiation.type: ["negotiation" | "accept" | "confirm" | "decline" | "delivery" | "delivery_accept" |"return" | "close"]
-  Negotiation.text: string
+  Negotiation.type: ["recall" | "negotiation" | "accept" | "confirm" | "decline" | "delivery" | "delivery_accept" |"return" | "close"]
+  Negotiation.text: string, optional
   Negotiation.get_on: date
   Negotiation.return_by: date
-  Negotiation.delivery: ["pickup" | "delivery"]
+  Negotiation.delivery: ["pickup" | "delivery" | "any"]
   Negotiation.address: string, optional
   Negotiation.payment: {
     payrate: ["free" | "daily" | "weekly" | "monthly"]
@@ -109,11 +114,18 @@ Backend.getRequestIds = function(transactionCallback) {
 }
 
 Backend.removeRequest = function(requestId, transactionCallback) {
-  Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
+  var request = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST, requestId);
   
-  var requestIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
-  var requestIds = GeneralUtils.removeFromArray(requestIds, requestId);
-  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, requestIds);
+  if (request.user_id == Backend.getUserProfile().user_id) {
+    Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST, requestId);
+    request.status = Backend.Request.STATUS_RECALLED;
+    Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, requestId, request);
+  } else {
+    Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
+    var requestIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
+    var requestIds = GeneralUtils.removeFromArray(requestIds, requestId);
+    Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, requestIds);
+  }
   
   if (transactionCallback != null) {
     transactionCallback.success();
@@ -253,16 +265,7 @@ Backend.declineOffer = function(requestId, offerId, transactionCallback) {
 }
 
 Backend.recallOffer = function(requestId, offerId, transactionCallback) {
-  var updateCallback = {
-    success: function() {
-      Backend.removeOffer(requestId, offerId, transactionCallback);
-    },
-    failure: function() {
-      transactionCallback.failure();
-    }
-  }
-
-  Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_RECALL, null, updateCallback);
+  this.removeOffer(requestId, offerId, transactionCallback);
 }
 
 Backend.addNegotiation = function(requestId, offerId, negotiationType, negotiation, transactionCallback) {
@@ -332,7 +335,8 @@ var __init = function() {
     payment: {
       payrate: "free",
       payment: 0
-    }
+    },
+    status: Backend.Request.STATUS_ACTIVE
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 1, {
@@ -349,7 +353,8 @@ var __init = function() {
     payment: {
       payrate: "free",
       payment: 0
-    }
+    },
+    status: Backend.Request.STATUS_ACTIVE
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 2, {
@@ -366,7 +371,8 @@ var __init = function() {
     payment: {
       payrate: "day",
       payment: 1.56
-    }
+    },
+    status: Backend.Request.STATUS_ACTIVE
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 3, {
@@ -383,7 +389,8 @@ var __init = function() {
     payment: {
       payrate: "free",
       payment: 0
-    }
+    },
+    status: Backend.Request.STATUS_ACTIVE
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 4, {
@@ -400,7 +407,8 @@ var __init = function() {
     payment: {
       payrate: "free",
       payment: 0
-    }
+    },
+    status: Backend.Request.STATUS_ACTIVE
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 5, {
@@ -417,7 +425,8 @@ var __init = function() {
     payment: {
       payrate: "month",
       payment: 3.15
-    }
+    },
+    status: Backend.Request.STATUS_ACTIVE
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 6, {
@@ -434,7 +443,8 @@ var __init = function() {
     payment: {
       payrate: "week",
       payment: 2.50
-    }
+    },
+    status: Backend.Request.STATUS_RECALLED
   });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, [6, 5, 4, 3, 2, 1, 0]);
@@ -462,9 +472,30 @@ var __init = function() {
     },
     negotiations: []
   });
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, 1, {
+    user_id: Backend.getUserProfile().user_id,
+    request_id: 6,
+    timestamp: Date.now(),
+    user_name: Backend.getUserProfile().name,
+    star_rating: 3,
+    zipcode: 12345,
+    distance: 15,
+    get_on: Date.now(),
+    return_by: Date.now() + 3 * 24 * 60 * 60 * 1000,
+    text: "I tebe dau. Davay beri!",
+    attachments: [{name: "free", url: "file:///Users/aavtamonov/project/other/getit/web/imgs/free.jpeg", type: "image"}, {name: "paid", url: "file:///Users/aavtamonov/project/other/getit/web/imgs/paid.jpeg", type: "image"}],
+    delivery: "any",
+    payment: {
+      payrate: "free",
+      payment: 0,
+      deposit: 5
+    },
+    negotiations: []
+  });
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, 0, [0]);
-  Backend._offerCount = 1;
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER_IDS, 6, [1]);
+  Backend._offerCount = 2;
   
 }
 setTimeout(__init, 2000);

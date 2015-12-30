@@ -94,7 +94,11 @@ HomePage.prototype._updateRequest = function(requestId) {
     return false; 
   }.bind(this));
   
-  if (Backend.isOwnedRequest(request)) {
+  var isActive = request.status == Backend.Request.STATUS_ACTIVE;
+  
+  if (!isActive) {
+    UIUtils.addClass(requestElement, "inactive-request-outline");
+  } else if (Backend.isOwnedRequest(request)) {
     UIUtils.addClass(requestElement, "outgoing-request-outline");
   } else {
     UIUtils.addClass(requestElement, "incoming-request-outline");
@@ -117,6 +121,11 @@ HomePage.prototype._updateRequest = function(requestId) {
   })
   
   var firstRow = UIUtils.appendBlock(requestElement, "FirstRow");
+  if (!isActive) {
+    var recallElement = UIUtils.appendBlock(firstRow, "Recall");
+    UIUtils.addClass(recallElement, "request-recall");
+    recallElement.innerHTML = I18n.getLocale().literals.Recalled;
+  }
   
   var categoryElement = UIUtils.appendBlock(firstRow, "Category");
   UIUtils.addClass(categoryElement, "request-category");

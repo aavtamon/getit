@@ -141,6 +141,9 @@
 .incoming-request-details {
   background: rgb(200, 230, 240);
 }
+.inactive-request-details {
+  background: rgb(180, 180, 180);
+}
 
 
 

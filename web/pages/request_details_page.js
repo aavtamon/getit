@@ -168,8 +168,10 @@ RequestDetailsPage.prototype._updateRequest = function() {
     
     return false; 
   }.bind(this));
-  
-  if (Backend.isOwnedRequest(request)) {
+
+  if (request.status != Backend.Request.STATUS_ACTIVE) {
+    UIUtils.addClass(requestElement, "inactive-request-details");
+  } else if (Backend.isOwnedRequest(request)) {
     UIUtils.addClass(requestElement, "outgoing-request-details");
   } else {
     UIUtils.addClass(requestElement, "incoming-request-details");

@@ -26,6 +26,16 @@
 
   box-shadow: 5px 5px 5px darkgray;  
 }
+.request-outline .request-recall {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 200px;
+  font-size: 40px;
+  
+  color: red;
+  opacity: 0.5;
+}
 .request-outline .request-category {
   display: inline-block;
   margin-bottom: 10px;
@@ -136,4 +146,7 @@
 }
 .incoming-request-outline:hover {
   background: rgb(170, 225, 240);
+}
+.inactive-request-outline {
+  background: rgb(180, 180, 180);
 }

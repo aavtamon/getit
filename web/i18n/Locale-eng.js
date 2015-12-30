@@ -24,6 +24,7 @@ var Locale_eng = {
     "RetypePasswordLabel": "Confirm Password",
     
     "NameMe": "Me",
+    "Recalled": "R E C A L L E D",
     
     
     "LanguageRussian": "Russian",
