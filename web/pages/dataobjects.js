@@ -180,7 +180,7 @@ AbstractOfferObject.prototype.close = function() {
   }
   
   if (Backend.isOwnedOffer(offer)) {
-    Dialogs.showRecallOfferDialog(offerElement, this._requestId, this.getId());
+    Dialogs.showRecallOfferDialog(this.getElement(), this._requestId, this.getId());
   } else {
     this.dismiss(function() {
       Backend.removeOffer(this._requestId, this.getId());

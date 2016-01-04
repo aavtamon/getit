@@ -274,6 +274,7 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
   var request = Backend.getRequest(this._requestId);
   if (Backend.isOwnedRequest(request)) {
     var recallRequestButton = UIUtils.appendButton(controlPanel, "RecallRequestButton", this.getLocale().RecallRequestButton);
+    UIUtils.addClass(recallRequestButton, "left-control-button");
     UIUtils.setClickListener(recallRequestButton, function() {
       Dialogs.showRecallRequestDialog(this._requestPanel, this._requestId);
     }.bind(this));
@@ -281,6 +282,7 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
     var offers = Backend.getOfferIds(this._requestId);
     if (offers != null && offers.length == 0) {
       var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", this.getLocale().MakeOfferButton);
+      UIUtils.addClass(offerButton, "right-control-button");
       UIUtils.setClickListener(offerButton, function() {
         Dialogs.showCreateNewOfferDialog(this._requestId);
       }.bind(this));

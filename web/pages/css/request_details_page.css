@@ -31,6 +31,12 @@
   text-align: center;
 }
 
+#RequestDetailsPage-ContentPanel-OffersPanel-ControlPanel {
+  display: inline-block;
+  width: 880px;
+  text-align: right;
+}
+
 
 
 #RequestDetailsPage-ContentPanel-RequestPanel .request-details {
