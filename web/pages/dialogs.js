@@ -659,3 +659,19 @@ Dialogs.showRecallOfferDialog = function(offerElement, requestId, offerId) {
     }
   });
 }
+
+Dialogs.showConfirmOfferDialog = function(requestId, offerId) {
+  var dialog = UIUtils.showDialog("OfferConfirmation", I18n.getLocale().dialogs.ConfirmOfferDialog.ConfirmOffer, I18n.getLocale().dialogs.ConfirmOfferDialog.ConfirmOfferTextProvider(), {
+    ok: {
+      display: I18n.getLocale().dialogs.ConfirmOfferDialog.ConfirmOfferButton,
+      listener: function() {
+        Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_CONFIRM);
+        dialog.close();
+      }
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
+}

@@ -104,6 +104,11 @@ var Locale_eng = {
     "RecallOfferDialog": {
       "RecallOffer": "Offer Recall",
       "RecallOfferText": "Do you really want to recall your offer?<br>It will remove it completely."
+    },
+    "ConfirmOfferDialog": {
+      "ConfirmOffer": "Offer Confirmation",
+      "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
+      "ConfirmOfferButton": "Confirm all conditions"
     }
   },
   "pages": {
@@ -170,8 +175,6 @@ var Locale_eng = {
       
     },
     "RequestDetailsPage": {
-      "ConfirmOffer": "Offer Confirmation",
-      "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
       "RequestHasOffer": "Remove The Request And Recall The Offer",
       "RequestHasOfferText": "Do you really want to recall the offer you have made and get rid of the request?",
       
@@ -180,7 +183,6 @@ var Locale_eng = {
       "NegotiateButton": "Negotiate",
       "AcceptButton": "Accept offer",
       "DeclineButton": "Decline offer",
-      "ConfirmOfferButton": "Confirm all conditions",
       
       "ZipLabel": "Zip code:",
       "DistanceLabel": "Distance:",

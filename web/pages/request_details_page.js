@@ -421,13 +421,15 @@ RequestDetailsPage._OfferObject.prototype._appendOfferControlPanel = function() 
   var actions = this._getApplicableActions(offer);
   
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_RECALL)) {
-    var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", I18n.getLocale().pages.RequestDetailsPage.RecallOfferButton);
+    var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", I18n.getLocale().pages.RequestDetailsPage.RecallOfferButton, true);
+    UIUtils.addClass(recallButton, "left-control-button");
     UIUtils.setClickListener(recallButton, function() {
       Dialogs.showRecallOfferDialog(this.getElement(), this._requestId, this._offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_NEGOTIATE)) {
     var negotiateButton = UIUtils.appendButton(controlPanel, "NegotiateButton", I18n.getLocale().pages.RequestDetailsPage.NegotiateButton);
+    UIUtils.addClass(negotiateButton, "right-control-button");
     UIUtils.setClickListener(negotiateButton, function() {
       if (Backend.isOwnedOffer(offer)) {
         Dialogs.showNegotiateRequestDialog(this._requestId, this._offerId, offer);
@@ -438,54 +440,49 @@ RequestDetailsPage._OfferObject.prototype._appendOfferControlPanel = function() 
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_ACCEPT)) {
     var acceptButton = UIUtils.appendButton(controlPanel, "AcceptButton", I18n.getLocale().pages.RequestDetailsPage.AcceptButton);
+    UIUtils.addClass(acceptButton, "right-control-button");
     UIUtils.setClickListener(acceptButton, function() {
       this._showAcceptOfferDialog(this._offerId, offer);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DECLINE)) {
-    var declineButton = UIUtils.appendButton(controlPanel, "DeclineButton", I18n.getLocale().pages.RequestDetailsPage.DeclineButton);
+    var declineButton = UIUtils.appendButton(controlPanel, "DeclineButton", I18n.getLocale().pages.RequestDetailsPage.DeclineButton, true);
+    UIUtils.addClass(declineButton, "left-control-button");
     UIUtils.setClickListener(declineButton, function() {
       Backend.declineOffer(this._requestId, this._offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_CONFIRM)) {
     var confirmButton = UIUtils.appendButton(controlPanel, "ConfirmButton", I18n.getLocale().literals.ConfirmButton);
+    UIUtils.addClass(confirmButton, "right-control-button");
     UIUtils.setClickListener(confirmButton, function() {
-      var dialog = UIUtils.showDialog("OfferConfirmation", this.getLocale().ConfirmOffer, I18n.getLocale().pages.RequestDetailsPage.ConfirmOfferTextProvider(), {
-        ok: {
-          display: this.getLocale().ConfirmOfferButton,
-          listener: function() {
-            Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_CONFIRM);
-            dialog.close();
-          }
-        },
-        cancel: {
-          display: I18n.getLocale().literals.CancelOperationButton,
-          alignment: "left"
-        }
-      });
+      Dialogs.showConfirmOfferDialog(this._requestId, this._offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DELIVERY)) {
     var confirmDeliveryButton = UIUtils.appendButton(controlPanel, "ConfirmDeliveryButton", I18n.getLocale().pages.RequestDetailsPage.ConfirmDeliveryButton);
+    UIUtils.addClass(confirmDeliveryButton, "right-control-button");
     UIUtils.setClickListener(confirmDeliveryButton, function() {
       Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_DELIVERY);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DELIVERY_ACCEPT)) {
     var acceptDeliveryButton = UIUtils.appendButton(controlPanel, "AcceptDeliveryButton", I18n.getLocale().pages.RequestDetailsPage.AcceptDeliveryButton);
+    UIUtils.addClass(acceptDeliveryButton, "right-control-button");
     UIUtils.setClickListener(acceptDeliveryButton, function() {
       Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_DELIVERY_ACCEPT);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_RETURN)) {
     var confirmReturnButton = UIUtils.appendButton(controlPanel, "ConfirmReturnButton", I18n.getLocale().pages.RequestDetailsPage.ConfirmReturnButton);
+    UIUtils.addClass(confirmReturnButton, "right-control-button");
     UIUtils.setClickListener(confirmReturnButton, function() {
       Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_RETURN);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_CLOSE)) {
     var acceptReturnButton = UIUtils.appendButton(controlPanel, "AcceptReturnButton", I18n.getLocale().pages.RequestDetailsPage.AcceptReturnButton);
+    UIUtils.addClass(acceptReturnButton, "right-control-button");
     UIUtils.setClickListener(acceptReturnButton, function() {
       Backend.addNegotiation(this._requestId, this._offerId, Backend.Negotiation.TYPE_CLOSE);
     }.bind(this));

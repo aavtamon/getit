@@ -385,3 +385,16 @@
 .incoming-negotiation-details {
   background: rgb(200, 230, 240);
 }
+
+
+.offer-control-panel {
+  text-align: right;
+}
+
+.right-control-button {
+  margin-left: 10px;
+}
+.left-control-button {
+  float: left;
+  margin-right: 10px;
+}
