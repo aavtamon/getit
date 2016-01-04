@@ -100,23 +100,8 @@ AbstractRequestObject.prototype.close = function() {
     var isActive = request.status == Backend.Request.STATUS_ACTIVE;
     
     var offerIds;
-    if (isActive && (offerIds = Backend.getOfferIds(this.getId())) != null && offers.length > 0) {
-      var dialog = UIUtils.showDialog("RequestDismiss", this.getLocale().RequestHasOffer, this.getLocale().RequestHasOfferText, {
-        ok: {
-          display: I18n.getLocale().literals.ConfirmButton,
-          listener: function() {
-            this.dismiss(function() {
-              //TODO: Recall offers?
-              Backend.removeRequest(this._requestId);
-            }.bind(this));
-            dialog.close();
-          }.bind(this)
-        },
-        cancel: {
-          display: I18n.getLocale().literals.CancelOperationButton,
-          alignment: "left"
-        }
-      });
+    if (isActive && (offerIds = Backend.getOfferIds(this.getId())) != null && offerIds.length > 0) {
+      Dialogs.showIgnoreRequestWithOffersDialog(this);
     } else {
       this.dismiss(function() {
         Backend.removeRequest(this.getId());

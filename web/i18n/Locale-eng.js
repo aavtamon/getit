@@ -109,6 +109,10 @@ var Locale_eng = {
       "ConfirmOffer": "Offer Confirmation",
       "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
       "ConfirmOfferButton": "Confirm all conditions"
+    },
+    "DismissRequestWithOffersDialog": {
+      "RequestHasOffer": "Remove The Request And Recall The Offer",
+      "RequestHasOfferText": "Do you really want to recall the offer you have made and get rid of the request?"
     }
   },
   "pages": {
@@ -175,9 +179,6 @@ var Locale_eng = {
       
     },
     "RequestDetailsPage": {
-      "RequestHasOffer": "Remove The Request And Recall The Offer",
-      "RequestHasOfferText": "Do you really want to recall the offer you have made and get rid of the request?",
-      
       "RecallOfferButton": "Recall my offer",
       "RecallRequestButton": "Recall my request",
       "NegotiateButton": "Negotiate",
@@ -186,6 +187,7 @@ var Locale_eng = {
       
       "ZipLabel": "Zip code:",
       "DistanceLabel": "Distance:",
+      "DistanceProvider": function(distance) { return distance + (distance == 1 ? " mile" : " miles"); },
       "DeliveryAddressLabel": "Delivery address:",
       "PickupAddressLabel": "Pickup address:",
       

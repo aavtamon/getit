@@ -11,7 +11,7 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
-      if (!GeneralUtils.containsInArray(Backend.getRequestIds(), event.requestId)) {
+      if (!GeneralUtils.containsInArray(Backend.getRequestIds(), this._requestId)) {
         Application.goBack();
       }
     } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER_IDS && event.objectId == this._requestId) {
@@ -273,10 +273,10 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
 
   var request = Backend.getRequest(this._requestId);
   if (Backend.isOwnedRequest(request)) {
-    var recallRequestButton = UIUtils.appendButton(controlPanel, "RecallRequestButton", this.getLocale().RecallRequestButton);
+    var recallRequestButton = UIUtils.appendButton(controlPanel, "RecallRequestButton", this.getLocale().RecallRequestButton, true);
     UIUtils.addClass(recallRequestButton, "left-control-button");
     UIUtils.setClickListener(recallRequestButton, function() {
-      Dialogs.showRecallRequestDialog(this._requestPanel, this._requestId);
+      Dialogs.showRecallRequestDialog(this._requestObject);
     }.bind(this));
   } else {
     var offers = Backend.getOfferIds(this._requestId);
@@ -426,7 +426,7 @@ RequestDetailsPage._OfferObject.prototype._appendOfferControlPanel = function() 
     var recallButton = UIUtils.appendButton(controlPanel, "RecallOfferButton", I18n.getLocale().pages.RequestDetailsPage.RecallOfferButton, true);
     UIUtils.addClass(recallButton, "left-control-button");
     UIUtils.setClickListener(recallButton, function() {
-      Dialogs.showRecallOfferDialog(this.getElement(), this._requestId, this._offerId);
+      Dialogs.showRecallOfferDialog(this, this._requestId, this._offerId);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_NEGOTIATE)) {
@@ -444,7 +444,7 @@ RequestDetailsPage._OfferObject.prototype._appendOfferControlPanel = function() 
     var acceptButton = UIUtils.appendButton(controlPanel, "AcceptButton", I18n.getLocale().pages.RequestDetailsPage.AcceptButton);
     UIUtils.addClass(acceptButton, "right-control-button");
     UIUtils.setClickListener(acceptButton, function() {
-      this._showAcceptOfferDialog(this._offerId, offer);
+      Dialogs.showAcceptOfferDialog(this._offerId, offer);
     }.bind(this));
   }
   if (GeneralUtils.containsInArray(actions, Backend.Negotiation.TYPE_DECLINE)) {
@@ -634,7 +634,7 @@ RequestDetailsPage._OfferDetailsObject.prototype._appendOfferContent = function(
   UIUtils.addClass(distanceLabel, "offer-distance-label");
   var distanceElement = UIUtils.appendBlock(where, "Distance");
   UIUtils.addClass(distanceElement, "offer-distance");
-  distanceElement.innerHTML = offer.distance;
+  distanceElement.innerHTML = I18n.getLocale().pages.RequestDetailsPage.DistanceProvider(offer.distance);
   
   
   var payment = UIUtils.appendBlock(this.getElement(), "Payment");

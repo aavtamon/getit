@@ -624,13 +624,13 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
 
 // Confirmation dialogs
 
-Dialogs.showRecallRequestDialog = function(requestElement, requestId) {
+Dialogs.showRecallRequestDialog = function(requestObject) {
   var dialog = UIUtils.showDialog("RecallRequest", I18n.getLocale().dialogs.RecallRequestDialog.RecallRequest, I18n.getLocale().dialogs.RecallRequestDialog.RecallRequestText, {
     ok: {
       display: I18n.getLocale().literals.ConfirmButton,
       listener: function() {
-        UIUtils.fadeOut(requestElement, null, function() {
-          Backend.removeRequest(requestId);
+        requestObject.dismiss(function() {
+          Backend.removeRequest(requestObject.getId());
         });
         dialog.close();
       }
@@ -642,12 +642,32 @@ Dialogs.showRecallRequestDialog = function(requestElement, requestId) {
   });
 }
 
-Dialogs.showRecallOfferDialog = function(offerElement, requestId, offerId) {
+Dialogs.showIgnoreRequestWithOffersDialog = function(requestObject) {
+  var dialog = UIUtils.showDialog("DismissRequestWithOffers", I18n.getLocale().dialogs.DismissRequestWithOffersDialog.RequestHasOffer, I18n.getLocale().dialogs.DismissRequestWithOffersDialog.RequestHasOfferText, {
+    ok: {
+      display: I18n.getLocale().literals.ConfirmButton,
+      listener: function() {
+        requestObject.dismiss(function() {
+          //TODO: Recall offers?
+          Backend.removeRequest(requestObject.getId());
+        });
+        dialog.close();
+      }.bind(this)
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
+}
+
+
+Dialogs.showRecallOfferDialog = function(offerObject, requestId, offerId) {
   var dialog = UIUtils.showDialog("RecallOffer", I18n.getLocale().dialogs.RecallOfferDialog.RecallOffer, I18n.getLocale().dialogs.RecallOfferDialog.RecallOfferText, {
     ok: {
       display: I18n.getLocale().literals.ConfirmButton,
       listener: function() {
-        UIUtils.fadeOut(offerElement, null, function() {
+        offerObject.dismiss(function() {
           Backend.recallOffer(requestId, offerId);
         });
         dialog.close();
@@ -675,3 +695,4 @@ Dialogs.showConfirmOfferDialog = function(requestId, offerId) {
     }
   });
 }
+

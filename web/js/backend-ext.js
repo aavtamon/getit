@@ -116,17 +116,12 @@ Backend.getRequestIds = function(transactionCallback) {
 Backend.removeRequest = function(requestId, transactionCallback) {
   var request = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST, requestId);
   
-  if (request.user_id == Backend.getUserProfile().user_id) {
-    Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST, requestId);
-    request.status = Backend.Request.STATUS_RECALLED;
-    Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, requestId, request);
-  } else {
-    Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
-    var requestIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
-    var requestIds = GeneralUtils.removeFromArray(requestIds, requestId);
-    Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, requestIds);
-  }
+  Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
   
+  var requestIds = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0);
+  var requestIds = GeneralUtils.removeFromArray(requestIds, requestId);
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, requestIds);
+
   if (transactionCallback != null) {
     transactionCallback.success();
   }
@@ -260,7 +255,7 @@ Backend.declineOffer = function(requestId, offerId, transactionCallback) {
     }
   }
   
-  Backend.addNegotiation(requestId, offerId, Backend.Negotition.TYPE_DECLINE, null, updateCallback);
+  Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_DECLINE, null, updateCallback);
 }
 
 Backend.recallOffer = function(requestId, offerId, transactionCallback) {
