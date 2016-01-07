@@ -95,7 +95,7 @@ AbstractRequestObject.prototype.close = function() {
   var request = Backend.getRequest(this.getId());
 
   if (Backend.isOwnedRequest(request)) {
-    Dialogs.showRecallRequestDialog(this.getElement(), this.getId());
+    Dialogs.showRecallRequestDialog(this, this.getId());
   } else {
     var isActive = request.status == Backend.Request.STATUS_ACTIVE;
     
