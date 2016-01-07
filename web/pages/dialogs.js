@@ -153,8 +153,8 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
     buttonSpec.offer = {
       display: I18n.getLocale().dialogs.RequestDetailsDialog.OfferButton,
       listener: function() {
-        Dialogs.showCreateNewOfferDialog(requestId);
         dialog.close();
+        Dialogs.showCreateNewOfferDialog(requestId);
       }
     }
   }
@@ -213,7 +213,7 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
     }
     var payRateElement = UIUtils.appendBlock(payment, "Payrate");
     payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payment.payrate);
-  }, buttonSpec);
+  }, buttonSpec, true);
 }
 
 
