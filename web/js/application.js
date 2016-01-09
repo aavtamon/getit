@@ -136,7 +136,7 @@ Application.setupUserMenuChooser = function() {
       Application.showPage(UserPreferencesPage.name);
     });
     
-    popup.appendChild(UIUtils.createSeparator());
+    UIUtils.appendSeparator(popup);
     
     var item = UIUtils.appendLink(popup, "LogOutItem", I18n.getLocale().literals.LogOutItem);
     UIUtils.addClass(item, "user-menu-item");
