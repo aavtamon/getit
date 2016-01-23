@@ -141,17 +141,17 @@ var Locale_eng = {
     },
     "RegisterPage": {
       "SignUpLabel": "Sign Up",
+      "NameLabel": "Name",
+      "ZipcodeLabel": "Zip Code",
+      
       "AppropriateAgeCheckbox": "I confirm that I am at least 18 years of age",
       "AcceptTermsProvider": function(linkId) { return "I acknowledge that have read and agree to the <a id='" + linkId + "'>Terms And Conditions</a>"; },
-      "LanguageClarificationText": "In what languages you would like to get inquiries. Specify those which you fluently speak and would like to use for your communication",
-      "NicknameClarificationText": "Nickname is optional and will never be visible to anybody. It is only used to address you",
-      
-      "ProvideLoginMessage": "The email is not provided or does not look like a valid email address",
-      "ProvideNicknameMessage": "You must provide a nickname",
-      "ProvideLanguageMessage": "One or more languages must be set",
+
+      "ProvideEmailMessage": "The email is not provided or does not look like a valid email address",
+      "ProvideNameMessage": "You must provide a valid name. Do not use special characters",
+      "ProvideZipMessage": "You must provide a valid zipcode",
       "ProvideCorrectPasswordMessage": "Password should be at least 5 symbols long",
       "PasswordsDoNotMatchMessage": "Passwords do not match. Please retype.",
-      "MustBeOver18Message": "Please confirm that your age is over 18",
       "MustAcceptTermsMessageProvider": function(linkId) { return "You must accept<p><a id='" + linkId + "'><b>Terms And Conditions<b></a>"; },
       "AccountCreationFailedMessage": "Failed to create an account",
       "AccountAlreadyExistsMessage": "This login (email) was already used"

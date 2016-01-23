@@ -3,13 +3,11 @@ RegisterPage = ClassUtils.defineClass(AbstractPage, function RegisterPage() {
   
   this._emailElement;
   this._nameElement;
-  this._genderElement;
-  this._ageElement;
-  this._languagesElement;
+  this._zipcodeElement;
   this._passwordElement;
   this._retypePasswordElement;
+  
   this._termsAndCondsCheckbox;
-  this._appropriateAgeCheckbox;
   
   this._signing = false;
 });
@@ -18,22 +16,31 @@ RegisterPage.prototype.definePageContent = function(root) {
   var signUpPanel = UIUtils.appendBlock(root, "SignUpPanel");
   UIUtils.appendLabel(signUpPanel, "SignUpLabel", this.getLocale().SignUpLabel);
   
-  this._emailElement = signUpPanel.appendChild(UIUtils.createLabeledTextInput(UIUtils.createId(signUpPanel, "Email"), I18n.getLocale().literals.EmailLoginLabel)).getInputElement();
-  this._nameElement = signUpPanel.appendChild(UIUtils.createLabeledTextInput(UIUtils.createId(signUpPanel, "Nickname"), I18n.getLocale().literals.NicknameLabel)).getInputElement();
+  var emailPanel = UIUtils.appendBlock(signUpPanel, "EmailPanel");
+  UIUtils.appendLabel(emailPanel, "EmailLabel", I18n.getLocale().literals.EmailLoginLabel);
+  this._emailElement = UIUtils.appendTextInput(emailPanel, "Email");
+
+  var namePanel = UIUtils.appendBlock(signUpPanel, "NamePanel");
+  UIUtils.appendLabel(namePanel, "NameLabel", this.getLocale().NameLabel);
+  this._nameElement = UIUtils.appendTextInput(namePanel, "Name", 30, ValidationUtils.ID_REGEXP);
+
+  var zipcodePanel = UIUtils.appendBlock(signUpPanel, "ZipcodePanel");
+  UIUtils.appendLabel(zipcodePanel, "ZipcodeLabel", this.getLocale().ZipcodeLabel);
+  this._zipcodeElement = UIUtils.appendTextInput(zipcodePanel, "Zipcode", 6, ValidationUtils.NUMBER_REGEXP);
+
+  var passwordPanel = UIUtils.appendBlock(signUpPanel, "PasswordPanel");
+  UIUtils.appendLabel(passwordPanel, "PasswordLabel", I18n.getLocale().literals.PasswordLabel);
+  this._passwordElement = UIUtils.appendPasswordInput(passwordPanel, "Password");
   
-  var genderAgeLanguagePanel = UIUtils.appendBlock(signUpPanel, "GenderAgeLanguagePanel");
-  this._genderElement = signUpPanel.appendChild(UIUtils.createLabeledDropList(UIUtils.createId(genderAgeLanguagePanel, "Gender"), I18n.getLocale().literals.GenderLabel, Application.Configuration.GENDERS)).getInputElement();
-  this._ageElement = signUpPanel.appendChild(UIUtils.createLabeledDropList(UIUtils.createId(genderAgeLanguagePanel, "Age"), I18n.getLocale().literals.AgeLabel, Application.Configuration.AGE_CATEGORIES)).getInputElement();
-  this._languagesElement = signUpPanel.appendChild(UIUtils.createLabeledMultiChoiceList(UIUtils.createId(genderAgeLanguagePanel, "Language"), I18n.getLocale().literals.LanguageLabel, Application.Configuration.LANGUAGES)).getInputElement();
-  
-  this._passwordElement = signUpPanel.appendChild(UIUtils.createLabeledPasswordInput(UIUtils.createId(signUpPanel, "Password"), I18n.getLocale().literals.PasswordLabel)).getInputElement();
-  this._retypePasswordElement = signUpPanel.appendChild(UIUtils.createLabeledPasswordInput(UIUtils.createId(signUpPanel, "RetypePassword"), I18n.getLocale().literals.RetypePasswordLabel)).getInputElement();
+  var retypePasswordPanel = UIUtils.appendBlock(signUpPanel, "RetypePasswordPanel");
+  UIUtils.appendLabel(retypePasswordPanel, "RetypePasswordLabel", I18n.getLocale().literals.RetypePasswordLabel);
+  this._retypePasswordElement = UIUtils.appendPasswordInput(retypePasswordPanel, "RetypePassword");
+
   UIUtils.get$(this._passwordElement).on("input", function() {
     this._retypePasswordElement.setValue("");
   }.bind(this));
 
-  this._appropriateAgeCheckbox = UIUtils.appendCheckbox(signUpPanel, "AppropriateAgeCheckbox", this.getLocale().AppropriateAgeCheckbox);
-  
+
   var licenseLinkId = UIUtils.createId(signUpPanel, "TermsAndCondsLink");
   this._termsAndCondsCheckbox = UIUtils.appendCheckbox(signUpPanel, "TermsAndCondsCheckbox", this.getLocale().AcceptTermsProvider(licenseLinkId));
   UIUtils.setClickListener(licenseLinkId, function() {
@@ -46,20 +53,12 @@ RegisterPage.prototype.definePageContent = function(root) {
   UIUtils.setClickListener(signUpButton, function() {
     this._signUp();
   }.bind(this));
-  
-  
-  var leftClarificationPanel = UIUtils.appendBlock(signUpPanel, "LeftClarificationPanel");
-  UIUtils.appendExplanationPad(leftClarificationPanel, "NicknameClarificationPanel", I18n.getLocale().literals.NicknameLabel, this.getLocale().NicknameClarificationText);
-
-  var rightClarificationPanel = UIUtils.appendBlock(signUpPanel, "RightClarificationPanel");
-  UIUtils.appendExplanationPad(rightClarificationPanel, "LanguageClarificationPanel", I18n.getLocale().literals.LanguageLabel, this.getLocale().LanguageClarificationText);
 }
 
 RegisterPage.prototype.onShow = function() {
   this._passwordElement.setValue("");
   this._retypePasswordElement.setValue("");
   this._termsAndCondsCheckbox.setValue(false);
-  this._appropriateAgeCheckbox.setValue(false);
   
   this._signing = false;
 }
@@ -74,17 +73,23 @@ RegisterPage.prototype._signUp = function() {
   }
   
   var email = this._emailElement.getValue();
-  var isValidEmail = ValidationUtils.isValidEmail(email);
-  if (!isValidEmail) {
+  if (!ValidationUtils.isValidEmail(email)) {
     UIUtils.indicateInvalidInput(this._emailElement);
-    UIUtils.showMessage(this.getLocale().ProvideLoginMessage);
+    UIUtils.showMessage(this.getLocale().ProvideEmailMessage);
     return;
   }
 
-  var languages = this._languagesElement.getSelectedChoices();
-  if (languages.length == 0) {
-    this._languagesElement.indicateInvalidInput();
-    UIUtils.showMessage(this.getLocale().ProvideLanguageMessage);
+  var name = this._nameElement.getValue();
+  if (!ValidationUtils.isValidId(name)) {
+    UIUtils.indicateInvalidInput(this._nameElement);
+    UIUtils.showMessage(this.getLocale().ProvideNameMessage);
+    return;
+  }
+
+  var zip = this._zipcodeElement.getValue();
+  if (!ValidationUtils.isValidZip(zip)) {
+    UIUtils.indicateInvalidInput(this._zipcodeElement);
+    UIUtils.showMessage(this.getLocale().ProvideZipMessage);
     return;
   }
 
@@ -99,11 +104,6 @@ RegisterPage.prototype._signUp = function() {
   if (retypePassword != password) {
     UIUtils.indicateInvalidInput(this._retypePasswordElement);
     UIUtils.showMessage(this.getLocale().PasswordsDoNotMatchMessage);
-    return;
-  }
-
-  if (!this._appropriateAgeCheckbox.getValue()) {
-    UIUtils.showMessage(this.getLocale().MustBeOver18Message);
     return;
   }
 
@@ -125,9 +125,7 @@ RegisterPage.prototype._signUp = function() {
 
       this._emailElement.setValue("");
       this._nameElement.setValue("");
-      this._genderElement.clearChoices();
-      this._ageElement.clearChoices();
-      this._languagesElement.clearChoices();
+      this._zipcodeElement.setValue("");
       this._passwordElement.setValue("");
       this._retypePasswordElement.setValue("");
 
@@ -156,10 +154,8 @@ RegisterPage.prototype._signUp = function() {
   var userProfile = {
     login: email,
     password: password,
-    name: this._nameElement.getValue() == "" ? null : this._nameElement.getValue(),
-    gender: this._genderElement.getSelectedData(),
-    languages: this._languagesElement.getSelectedData(),
-    age_category: this._ageElement.getSelectedData(),
+    name: name,
+    zipcode: zip,
   };
 
   this._signing = true;

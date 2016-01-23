@@ -11,6 +11,8 @@
   
   font-family: Verdana;
   font-size: 13px;
+  
+  text-align: left;
 }
 
 #RegisterPage-SignUpPanel-SignUpLabel {
@@ -19,38 +21,33 @@
   text-align: left;
   
   color: rgb(0, 133, 63);
+  
+  margin-bottom: 30px;
 }
 
-#RegisterPage-SignUpPanel-Email, #RegisterPage-SignUpPanel-Nickname, #RegisterPage-SignUpPanel-Password, #RegisterPage-SignUpPanel-RetypePassword, #RegisterPage-SignUpPanel-GenderAgeLanguagePanel {
+#RegisterPage-SignUpPanel-EmailPanel, #RegisterPage-SignUpPanel-NamePanel, #RegisterPage-SignUpPanel-ZipcodePanel, #RegisterPage-SignUpPanel-PasswordPanel, #RegisterPage-SignUpPanel-RetypePasswordPanel {
   margin-top: 10px;
-  font: inherit;
+  margin-left: 20px;
 }
-
-#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Gender, #RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Age, #RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Language {
+#RegisterPage-SignUpPanel-PasswordPanel {
+  margin-top: 20px;
+}
+#RegisterPage-SignUpPanel-EmailPanel-EmailLabel, #RegisterPage-SignUpPanel-NamePanel-NameLabel, #RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeLabel, #RegisterPage-SignUpPanel-PasswordPanel-PasswordLabel, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePasswordLabel {
   display: inline-block;
-  font: inherit;
-}
-#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Gender {
-  width: 120px;
-}
-#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Age {
-  width: 120px;
-
-  margin-left: 25px;
-  margin-right: 25px;
-}
-#RegisterPage-SignUpPanel-GenderAgeLanguagePanel-Language {
-  width: calc(100% - 240px - 50px);
+  width: 150px;
+  text-align: left;
 }
 
-#RegisterPage-SignUpPanel-AppropriateAgeCheckbox {
-  margin-top: 10px;
-  font: inherit;
+#RegisterPage-SignUpPanel-EmailPanel-Email, #RegisterPage-SignUpPanel-NamePanel-Name, #RegisterPage-SignUpPanel-ZipcodePanel-Zipcode, #RegisterPage-SignUpPanel-PasswordPanel-Password, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePassword {
+  display: inline-block;
+  width: 330px;
+}
+#RegisterPage-SignUpPanel-ZipcodePanel-Zipcode {
+  width: 100px;
 }
 
 #RegisterPage-SignUpPanel-TermsAndCondsCheckbox {
-  margin-top: 0px;
-  font: inherit;
+  margin-top: 20px;
 }
 #RegisterPage-SignUpPanel-TermsAndCondsLink {
   font: inherit;  
@@ -70,10 +67,9 @@
   
   border-width: 0px;
   
-  background-image: url(../../imgs/SignUp.png);
+  background-image: url(../../../../shared_tools/web/imgs/SignUp.png);
 }
 #RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton:active {
-  background-image: url(../../imgs/SignUp.png);
 }
 
 
