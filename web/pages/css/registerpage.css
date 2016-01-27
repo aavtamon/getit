@@ -30,7 +30,7 @@
   margin-left: 20px;
 }
 #RegisterPage-SignUpPanel-PasswordPanel {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 #RegisterPage-SignUpPanel-EmailPanel-EmailLabel, #RegisterPage-SignUpPanel-NamePanel-NameLabel, #RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeLabel, #RegisterPage-SignUpPanel-PasswordPanel-PasswordLabel, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePasswordLabel {
   display: inline-block;
@@ -44,6 +44,16 @@
 }
 #RegisterPage-SignUpPanel-ZipcodePanel-Zipcode {
   width: 100px;
+}
+#RegisterPage-SignUpPanel-ZipcodePanel {
+  position: relative;
+}
+#RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeExplanation {
+  position: absolute;
+  display: inline-block;
+  width: 300px;
+  left: -350px;
+  top: -10px;
 }
 
 #RegisterPage-SignUpPanel-TermsAndCondsCheckbox {

@@ -27,6 +27,7 @@ RegisterPage.prototype.definePageContent = function(root) {
   var zipcodePanel = UIUtils.appendBlock(signUpPanel, "ZipcodePanel");
   UIUtils.appendLabel(zipcodePanel, "ZipcodeLabel", this.getLocale().ZipcodeLabel);
   this._zipcodeElement = UIUtils.appendTextInput(zipcodePanel, "Zipcode", 6, ValidationUtils.NUMBER_REGEXP);
+  UIUtils.appendExplanationPad(zipcodePanel, "ZipcodeExplanation", this.getLocale().ZipcodeExplanationTilte, this.getLocale().ZipcodeExplanationText);
 
   var passwordPanel = UIUtils.appendBlock(signUpPanel, "PasswordPanel");
   UIUtils.appendLabel(passwordPanel, "PasswordLabel", I18n.getLocale().literals.PasswordLabel);

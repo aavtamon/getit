@@ -143,6 +143,8 @@ var Locale_eng = {
       "SignUpLabel": "Sign Up",
       "NameLabel": "Name",
       "ZipcodeLabel": "Zip Code",
+      "ZipcodeExplanationTilte": "What do we need you zip code for?",
+      "ZipcodeExplanationText": "We use your zip code to identify the area for the requests that might be of your interest",
       
       "AppropriateAgeCheckbox": "I confirm that I am at least 18 years of age",
       "AcceptTermsProvider": function(linkId) { return "I acknowledge that have read and agree to the <a id='" + linkId + "'>Terms And Conditions</a>"; },
@@ -154,7 +156,7 @@ var Locale_eng = {
       "PasswordsDoNotMatchMessage": "Passwords do not match. Please retype.",
       "MustAcceptTermsMessageProvider": function(linkId) { return "You must accept<p><a id='" + linkId + "'><b>Terms And Conditions<b></a>"; },
       "AccountCreationFailedMessage": "Failed to create an account",
-      "AccountAlreadyExistsMessage": "This login (email) was already used"
+      "AccountAlreadyExistsMessage": "This login (email) was already used",
     },
     "RestorePasswordPage": {
       "ChangePasswordButton": "Change password",
