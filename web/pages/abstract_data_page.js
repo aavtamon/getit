@@ -19,7 +19,7 @@ AbstractDataPage.prototype.definePageContent = function(root) {
 }
 
 AbstractDataPage.prototype.definePageNoContent = function(root, reason) {
-  var contentPanel = UIUtils.createBlock("AbstractDataPage-ContentPanel");
+  var contentPanel = UIUtils.appendBlock(root, "!AbstractDataPage-ContentPanel");
   root.appendChild(contentPanel);
   
   if (reason == AbstractPage.prototype.NO_CONTENT) {

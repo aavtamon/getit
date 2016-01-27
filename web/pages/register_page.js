@@ -156,7 +156,7 @@ RegisterPage.prototype._signUp = function() {
     login: email,
     password: password,
     name: name,
-    zipcode: zip,
+//    zipcode: zip,
   };
 
   this._signing = true;

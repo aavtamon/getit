@@ -1,0 +1,94 @@
+#UserProfilePage {
+  text-align: center;
+}
+
+#UserProfilePage-ProfilePanel {
+  width: 500px;
+  display: inline-block;
+  margin-top: 10px;
+  position: relative;
+  
+  text-align: left;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#UserProfilePage-ProfilePanel-ProfileLabel {
+  display: block;
+  font-size: 20px;
+  text-align: left;
+  
+  color: rgb(0, 133, 63);
+}
+
+
+#UserProfilePage-ProfilePanel-NamePanel, #UserProfilePage-ProfilePanel-ZipcodePanel, #UserProfilePage-ProfilePanel-NewPasswordPanel, #UserProfilePage-ProfilePanel-RetypePasswordPanel, #UserProfilePage-ProfilePanel-CurrentPasswordPanel {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+#UserProfilePage-ProfilePanel-NewPasswordPanel {
+  margin-top: 30px;
+}
+#UserProfilePage-ProfilePanel-CurrentPasswordPanel {
+  margin-top: 30px;
+}
+#UserProfilePage-ProfilePanel-NamePanel-NameLabel, #UserProfilePage-ProfilePanel-ZipcodePanel-ZipcodeLabel, #UserProfilePage-ProfilePanel-NewPasswordPanel-NewPasswordLabel, #UserProfilePage-ProfilePanel-RetypePasswordPanel-RetypePasswordLabel, #UserProfilePage-ProfilePanel-CurrentPasswordPanel-CurrentPasswordLabel {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+}
+
+#UserProfilePage-ProfilePanel-NamePanel-Name, #UserProfilePage-ProfilePanel-ZipcodePanel-Zipcode, #UserProfilePage-ProfilePanel-NewPasswordPanel-Password, #UserProfilePage-ProfilePanel-RetypePasswordPanel-RetypePassword, #UserProfilePage-ProfilePanel-CurrentPasswordPanel-CurrentPassword {
+  display: inline-block;
+  width: 330px;
+}
+#UserProfilePage-ProfilePanel-ZipcodePanel-Zipcode {
+  width: 100px;
+}
+
+#UserProfilePage-ProfilePanel-ButtonsPanel {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#UserProfilePage-ProfilePanel-ButtonsPanel-UpdateButton {
+  margin-right: 200px;
+  
+  font: inherit;
+}
+
+#UserProfilePage-ProfilePanel-ButtonsPanel-CancelButton {
+  font: inherit;
+}
+
+
+#UserProfilePage-ProfilePanel-LeftClarificationPanel {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: 520;
+  display: inline-block;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#UserProfilePage-ProfilePanel-RightClarificationPanel {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  left: 520;
+  display: inline-block;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#UserProfilePage-ProfilePanel-LeftClarificationPanel-PasswordClarification {
+  margin-top: 140px;
+}
+
+#UserProfilePage-ProfilePanel-RightClarificationPanel-LanguageClarification {
+  margin-top: 80px;
+}

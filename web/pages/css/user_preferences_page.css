@@ -1,0 +1,114 @@
+#RegisterPage {
+  text-align: center;
+  min-width: 950px;
+}
+
+#RegisterPage-SignUpPanel {
+  width: 500px;
+  display: inline-block;
+  margin-top: 10px;
+  position: relative;
+  
+  font-family: Verdana;
+  font-size: 13px;
+  
+  text-align: left;
+}
+
+#RegisterPage-SignUpPanel-SignUpLabel {
+  display: block;
+  font-size: 20px;
+  text-align: left;
+  
+  color: rgb(0, 133, 63);
+  
+  margin-bottom: 30px;
+}
+
+#RegisterPage-SignUpPanel-EmailPanel, #RegisterPage-SignUpPanel-NamePanel, #RegisterPage-SignUpPanel-ZipcodePanel, #RegisterPage-SignUpPanel-PasswordPanel, #RegisterPage-SignUpPanel-RetypePasswordPanel {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+#RegisterPage-SignUpPanel-PasswordPanel {
+  margin-top: 30px;
+}
+#RegisterPage-SignUpPanel-EmailPanel-EmailLabel, #RegisterPage-SignUpPanel-NamePanel-NameLabel, #RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeLabel, #RegisterPage-SignUpPanel-PasswordPanel-PasswordLabel, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePasswordLabel {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+}
+
+#RegisterPage-SignUpPanel-EmailPanel-Email, #RegisterPage-SignUpPanel-NamePanel-Name, #RegisterPage-SignUpPanel-ZipcodePanel-Zipcode, #RegisterPage-SignUpPanel-PasswordPanel-Password, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePassword {
+  display: inline-block;
+  width: 330px;
+}
+#RegisterPage-SignUpPanel-ZipcodePanel-Zipcode {
+  width: 100px;
+}
+#RegisterPage-SignUpPanel-ZipcodePanel {
+  position: relative;
+}
+#RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeExplanation {
+  position: absolute;
+  display: inline-block;
+  width: 300px;
+  left: -350px;
+  top: -10px;
+}
+
+#RegisterPage-SignUpPanel-TermsAndCondsCheckbox {
+  margin-top: 20px;
+}
+#RegisterPage-SignUpPanel-TermsAndCondsLink {
+  font: inherit;  
+}
+
+#RegisterPage-SignUpPanel-ButtonsPanel {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton {
+  width: 85px;
+  height: 35px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  
+  border-width: 0px;
+  
+  background-image: url(../../../../shared_tools/web/imgs/SignUp.png);
+}
+#RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton:active {
+}
+
+
+#RegisterPage-SignUpPanel-LeftClarificationPanel {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: 520;
+  display: inline-block;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#RegisterPage-SignUpPanel-RightClarificationPanel {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  left: 520;
+  display: inline-block;
+  
+  font-family: Verdana;
+  font-size: 13px;
+}
+
+#RegisterPage-SignUpPanel-LeftClarificationPanel-NicknameClarificationPanel {
+  margin-top: 70px;
+}
+
+#RegisterPage-SignUpPanel-RightClarificationPanel-LanguageClarificationPanel {
+  margin-top: 100px;
+}

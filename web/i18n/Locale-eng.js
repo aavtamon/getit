@@ -206,13 +206,13 @@ var Locale_eng = {
       "StatusMessageNewNegotiations": "New response(s) requires your attention, please review"
     },
     "UserProfilePage": {
-      "ProfileLabel": "Profile",
+      "ProfileLabel": "Your Profile",
+      "NameLabel": "Name",
+      "ZipcodeLabel": "Zip Code",
       "NewPasswordLabel": "New Password",
-      "ConfirmNewPasswordLabel": "Re-enter New Password",
+      "RetypePasswordLabel": "Re-enter Password",
       "CurrentPasswordLabel": "Current Password",
       "UpdateButton": "Update",
-      "PasswordClarificationText": "Type a new password only if you want to change the current one",
-      "LanguageClarificationText": "In what languages you would like to get inquiries",
       "EnterPasswordMessage": "You must enter current password to update your profile",
       "NameNotSetMessage": "Name should be set",
       "LanguageNotSetMessage": "Languages should be set",
@@ -220,6 +220,8 @@ var Locale_eng = {
       "PasswordsDoNotMatchMessage": "Passwords do not match. Please retype.",
       "ProfileUpdatedMessage": "Your profile was successfully updated",
       "UpdateFailedMessage": "Cannot update user profile.<br>Please make sure your current password is correct."
+    },
+    "UserPreferencesPage": {
     },
     "PageNotFoundPage": {
       "NotFoundLabel": "Page Not Found",
