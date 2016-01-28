@@ -222,6 +222,8 @@ var Locale_eng = {
       "UpdateFailedMessage": "Cannot update user profile.<br>Please make sure your current password is correct."
     },
     "UserPreferencesPage": {
+      "PreferencesLabel": "My Preferences",
+      "LocationPreferencesLabel": "Location"
     },
     "PageNotFoundPage": {
       "NotFoundLabel": "Page Not Found",

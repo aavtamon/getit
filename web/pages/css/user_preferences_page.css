@@ -1,90 +1,177 @@
-#RegisterPage {
-  text-align: center;
-  min-width: 950px;
+#UserPreferencesPage {
 }
 
-#RegisterPage-SignUpPanel {
+#UserPreferencesPage-PreferencesPanel {
   width: 500px;
   display: inline-block;
   margin-top: 10px;
+  margin-left: calc(50% - 300px);
   position: relative;
   
   font-family: Verdana;
   font-size: 13px;
-  
-  text-align: left;
 }
 
-#RegisterPage-SignUpPanel-SignUpLabel {
+#UserPreferencesPage-PreferencesPanel-PreferencesLabel {
   display: block;
   font-size: 20px;
   text-align: left;
   
   color: rgb(0, 133, 63);
-  
-  margin-bottom: 30px;
 }
 
-#RegisterPage-SignUpPanel-EmailPanel, #RegisterPage-SignUpPanel-NamePanel, #RegisterPage-SignUpPanel-ZipcodePanel, #RegisterPage-SignUpPanel-PasswordPanel, #RegisterPage-SignUpPanel-RetypePasswordPanel {
-  margin-top: 10px;
-  margin-left: 20px;
-}
-#RegisterPage-SignUpPanel-PasswordPanel {
-  margin-top: 30px;
-}
-#RegisterPage-SignUpPanel-EmailPanel-EmailLabel, #RegisterPage-SignUpPanel-NamePanel-NameLabel, #RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeLabel, #RegisterPage-SignUpPanel-PasswordPanel-PasswordLabel, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePasswordLabel {
-  display: inline-block;
-  width: 150px;
-  text-align: left;
-}
-
-#RegisterPage-SignUpPanel-EmailPanel-Email, #RegisterPage-SignUpPanel-NamePanel-Name, #RegisterPage-SignUpPanel-ZipcodePanel-Zipcode, #RegisterPage-SignUpPanel-PasswordPanel-Password, #RegisterPage-SignUpPanel-RetypePasswordPanel-RetypePassword {
-  display: inline-block;
-  width: 330px;
-}
-#RegisterPage-SignUpPanel-ZipcodePanel-Zipcode {
-  width: 100px;
-}
-#RegisterPage-SignUpPanel-ZipcodePanel {
-  position: relative;
-}
-#RegisterPage-SignUpPanel-ZipcodePanel-ZipcodeExplanation {
-  position: absolute;
-  display: inline-block;
-  width: 300px;
-  left: -350px;
-  top: -10px;
-}
-
-#RegisterPage-SignUpPanel-TermsAndCondsCheckbox {
+#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel {
   margin-top: 20px;
 }
-#RegisterPage-SignUpPanel-TermsAndCondsLink {
-  font: inherit;  
+
+#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-RequestsPreferencesLabel {
+  display: block;
+  font-size: 16px;
+  text-align: left;
+  
+  color: rgb(0, 133, 63);
 }
 
-#RegisterPage-SignUpPanel-ButtonsPanel {
+#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-Gender {
+  display: inline-block;
+  width: 200px;
+  margin-left: 50px;
+  margin-top: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-Age {
+  display: inline-block;
+  width: 200px;
+  margin-left: 50px;
+  margin-top: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-Quantity {
+  display: inline-block;
+  width: 200px;
+  margin-left: 50px;
+  margin-top: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-WaitTime {
+  display: inline-block;
+  width: 200px;
+  margin-left: 50px;
+  margin-top: 10px;
+  font: inherit;
+}
+
+
+#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel {
+  margin-top: 20px;
+}
+
+#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-InquiriesPreferencesLabel {
+  display: block;
+  font-size: 16px;
+  text-align: left;
+  
+  color: rgb(0, 133, 63);
+}
+
+#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-Gender {
+  display: inline-block;
+  width: 200px;
+  margin-left: 50px;
+  margin-top: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-Age {
+  display: inline-block;
+  width: 200px;
+  margin-left: 50px;
+  margin-top: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-DailyInquiryLimit {
+  margin-top: 10px;
+  margin-left: 50px;
+  font: inherit;
+}
+
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel {
+  margin-top: 20px;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalCategoriesLabel {
+  display: block;
+  font-size: 16px;
+  text-align: left;
+  
+  color: rgb(0, 133, 63);
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-Expertise {
+  margin-top: 10px;
+  margin-left: 50px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel {
+  margin-top: 10px;
+  margin-left: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-AllowContactInfo {
+  margin-top: 10px;
+  margin-left: 50px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-ContactInfoPanel {
+  margin-top: 10px;
+  margin-left: 50px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-ContactInfoPanel-Name {
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-ContactInfoPanel-Contact {
+  margin-top: 10px;
+  font: inherit;
+}
+
+#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-AllowHiddenText {
+  margin-top: 20px;
+  margin-left: 50px;
+  font: inherit;
+}
+
+
+
+#UserPreferencesPage-PreferencesPanel-ButtonsPanel {
   margin-top: 30px;
+  margin-left: 50px;
   text-align: center;
 }
 
-#RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton {
-  width: 85px;
-  height: 35px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: transparent;
+#UserPreferencesPage-PreferencesPanel-ButtonsPanel-UpdateButton {
+  margin-right: 200px;
   
-  border-width: 0px;
-  
-  background-image: url(../../../../shared_tools/web/imgs/SignUp.png);
+  font: inherit;
 }
-#RegisterPage-SignUpPanel-ButtonsPanel-SignUpButton:active {
+
+#UserPreferencesPage-PreferencesPanel-ButtonsPanel-CancelButton {
+  font: inherit;
 }
 
 
-#RegisterPage-SignUpPanel-LeftClarificationPanel {
-  width: 200px;
+#UserPreferencesPage-PreferencesPanel-LeftClarificationPanel {
+  width: 250px;
   position: absolute;
   top: 0;
   right: 520;
@@ -94,8 +181,8 @@
   font-size: 13px;
 }
 
-#RegisterPage-SignUpPanel-RightClarificationPanel {
-  width: 200px;
+#UserPreferencesPage-PreferencesPanel-RightClarificationPanel {
+  width: 350px;
   position: absolute;
   top: 0;
   left: 520;
@@ -105,10 +192,15 @@
   font-size: 13px;
 }
 
-#RegisterPage-SignUpPanel-LeftClarificationPanel-NicknameClarificationPanel {
-  margin-top: 70px;
+#UserPreferencesPage-PreferencesPanel-LeftClarificationPanel-ResponsesClarificationPanel {
+  margin-top: 120px;
 }
 
-#RegisterPage-SignUpPanel-RightClarificationPanel-LanguageClarificationPanel {
-  margin-top: 100px;
+#UserPreferencesPage-PreferencesPanel-RightClarificationPanel-TimeFrameClarificationPanel {
+  margin-top: 120px;
+  margin-right: 150px;
+}
+
+#UserPreferencesPage-PreferencesPanel-RightClarificationPanel-ProfessionalClarificationPanel {
+  margin-top: 140px;
 }
