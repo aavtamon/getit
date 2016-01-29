@@ -223,7 +223,14 @@ var Locale_eng = {
     },
     "UserPreferencesPage": {
       "PreferencesLabel": "My Preferences",
-      "LocationPreferencesLabel": "Location"
+      "LocationPreferencesLabel": "Location",
+      "RequestPreferencesLabel": "Incoming Requests",
+      
+      "DetailLocationLabel": "Block-level home location:",
+      "AddressLabel": "Street Address:",
+      "CategoryFilterLabel": "Only these categories:",
+      
+      "UpdateButton": "Update"
     },
     "PageNotFoundPage": {
       "NotFoundLabel": "Page Not Found",

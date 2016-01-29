@@ -15,18 +15,21 @@ UserPreferencesPage.prototype.definePageContent = function(root) {
   var locationPreferencesPanel = UIUtils.appendBlock(preferencesPanel, "LocationPreferencesPanel");
   UIUtils.appendLabel(locationPreferencesPanel, "LocationPreferencesLabel", this.getLocale().LocationPreferencesLabel);
   
-  var detailLocationPanel = UIUtils.appendBlock(preferencesPanel, "DetailLocationPanel");
-  UIUtils.appendLabel(detailLocationPanel, "DetailLocatonLabel", I18n.getLocale().literals.DetailLocationLabel);
+  var detailLocationPanel = UIUtils.appendBlock(locationPreferencesPanel, "DetailLocationPanel");
+  UIUtils.appendLabel(detailLocationPanel, "DetailLocationLabel", this.getLocale().DetailLocationLabel);
   this._detailLocationElement = UIUtils.appendTextInput(detailLocationPanel, "DetailLocation");
   
-  var addressPanel = UIUtils.appendBlock(preferencesPanel, "AddressPanel");
-  UIUtils.appendLabel(addressPanel, "AddressLabel", I18n.getLocale().literals.AddressLabel);
-  this._addressElement = UIUtils.appendTextInput(detailLocationPanel, "DetailLocation");
+  var addressPanel = UIUtils.appendBlock(locationPreferencesPanel, "AddressPanel");
+  UIUtils.appendLabel(addressPanel, "AddressLabel", this.getLocale().AddressLabel);
+  this._addressElement = UIUtils.appendTextInput(addressPanel, "Address");
   
   
   var requestPreferencesPanel = UIUtils.appendBlock(preferencesPanel, "RequestPreferencesPanel");
   UIUtils.appendLabel(requestPreferencesPanel, "RequestPreferencesLabel", this.getLocale().RequestPreferencesLabel);
-  this._categoryFilterElement = UIUtils.appendMultiOptionList(requestPreferencesPanel, "RequestPreferences", Backend.getUserSettings().categories, false);
+  
+  var categoryFilterPanel = UIUtils.appendBlock(requestPreferencesPanel, "CategoryFilterPanel");
+  UIUtils.appendLabel(categoryFilterPanel, "CategoryFilterLabel", this.getLocale().CategoryFilterLabel);
+  this._categoryFilterElement = UIUtils.appendMultiOptionList(categoryFilterPanel, "CategoryFilter", Backend.getUserSettings().expertise_categories, false);
   
   
   var buttonsPanel = UIUtils.appendBlock(preferencesPanel, "ButtonsPanel");

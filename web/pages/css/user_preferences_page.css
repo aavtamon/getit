@@ -1,12 +1,13 @@
 #UserPreferencesPage {
+  text-align: center;
 }
 
 #UserPreferencesPage-PreferencesPanel {
   width: 500px;
   display: inline-block;
   margin-top: 10px;
-  margin-left: calc(50% - 300px);
-  position: relative;
+  
+  text-align: left;
   
   font-family: Verdana;
   font-size: 13px;
@@ -20,11 +21,11 @@
   color: rgb(0, 133, 63);
 }
 
-#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel {
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel {
   margin-top: 20px;
 }
 
-#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-RequestsPreferencesLabel {
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-LocationPreferencesLabel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-RequestPreferencesLabel {
   display: block;
   font-size: 16px;
   text-align: left;
@@ -32,124 +33,21 @@
   color: rgb(0, 133, 63);
 }
 
-#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-Gender {
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel {
+  margin-left: 30px;
+  margin-top: 10px;
+  font: inherit;
+}
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel-DetailLocationLabel, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel-AddressLabel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel-CategoryFilterLabel {
   display: inline-block;
-  width: 200px;
-  margin-left: 50px;
-  margin-top: 10px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-Age {
-  display: inline-block;
-  width: 200px;
-  margin-left: 50px;
-  margin-top: 10px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-Quantity {
-  display: inline-block;
-  width: 200px;
-  margin-left: 50px;
-  margin-top: 10px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-RequestsPreferencesPanel-WaitTime {
-  display: inline-block;
-  width: 200px;
-  margin-left: 50px;
-  margin-top: 10px;
-  font: inherit;
-}
-
-
-#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel {
-  margin-top: 20px;
-}
-
-#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-InquiriesPreferencesLabel {
-  display: block;
-  font-size: 16px;
-  text-align: left;
-  
-  color: rgb(0, 133, 63);
-}
-
-#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-Gender {
-  display: inline-block;
-  width: 200px;
-  margin-left: 50px;
-  margin-top: 10px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-Age {
-  display: inline-block;
-  width: 200px;
-  margin-left: 50px;
-  margin-top: 10px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-InquiriesPreferencesPanel-DailyInquiryLimit {
-  margin-top: 10px;
-  margin-left: 50px;
-  font: inherit;
-}
-
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel {
-  margin-top: 20px;
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalCategoriesLabel {
-  display: block;
-  font-size: 16px;
-  text-align: left;
-  
-  color: rgb(0, 133, 63);
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-Expertise {
-  margin-top: 10px;
-  margin-left: 50px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel {
-  margin-top: 10px;
+  width: 190px;
   margin-left: 10px;
-  font: inherit;
+}
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel-DetailLocation, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel-Address, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel-CategoryFilter {
+  display: inline-block;
+  width: 270px;
 }
 
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-AllowContactInfo {
-  margin-top: 10px;
-  margin-left: 50px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-ContactInfoPanel {
-  margin-top: 10px;
-  margin-left: 50px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-ContactInfoPanel-Name {
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-ContactInfoPanel-Contact {
-  margin-top: 10px;
-  font: inherit;
-}
-
-#UserPreferencesPage-PreferencesPanel-ProfessionalCategoriesPanel-ProfessionalFeaturesPanel-AllowHiddenText {
-  margin-top: 20px;
-  margin-left: 50px;
-  font: inherit;
-}
 
 
 

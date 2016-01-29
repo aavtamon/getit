@@ -11,6 +11,7 @@ Backend.CacheChangeEvent.TYPE_OFFER = "offer_changed";
 
 
 
+
 // REQUEST/RESPONSE management
 
 Backend.Request = {};
