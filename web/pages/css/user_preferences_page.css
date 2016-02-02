@@ -21,11 +21,11 @@
   color: rgb(0, 133, 63);
 }
 
-#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel {
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel {
   margin-top: 20px;
 }
 
-#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-LocationPreferencesLabel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-RequestPreferencesLabel {
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-LocationPreferencesLabel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-RequestPreferencesLabel, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolLibraryLabel {
   display: block;
   font-size: 16px;
   text-align: left;
@@ -33,7 +33,7 @@
   color: rgb(0, 133, 63);
 }
 
-#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel {
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolList, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel {
   margin-left: 30px;
   margin-top: 10px;
   font: inherit;
@@ -48,6 +48,9 @@
   width: 270px;
 }
 
+#UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel-AddButton, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel-RemoveButton, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel-EditButton {
+  margin-right: 10px;
+}
 
 
 

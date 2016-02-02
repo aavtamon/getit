@@ -230,6 +230,12 @@ var Locale_eng = {
       "AddressLabel": "Street Address:",
       "CategoryFilterLabel": "Only these categories:",
       
+      "ToolLibraryLabel": "My Tool Collection",
+      "AddButton": "Add",
+      "RemoveButton": "Remove",
+      "EditButton": "Edit",
+      
+      
       "UpdateButton": "Update"
     },
     "PageNotFoundPage": {

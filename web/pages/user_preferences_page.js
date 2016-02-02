@@ -4,6 +4,7 @@ UserPreferencesPage = ClassUtils.defineClass(AbstractDataPage, function UserPref
   this._detailLocationElement;
   this._addressElement;
   this._categoryFilterElement;
+  this._toolList;
   
   this._updating = false;
 });
@@ -32,6 +33,30 @@ UserPreferencesPage.prototype.definePageContent = function(root) {
   this._categoryFilterElement = UIUtils.appendMultiOptionList(categoryFilterPanel, "CategoryFilter", Backend.getUserSettings().expertise_categories, false);
   
   
+  var toolLibraryPanel = UIUtils.appendBlock(preferencesPanel, "ToolLibraryPanel");
+  UIUtils.appendLabel(toolLibraryPanel, "ToolLibraryLabel", this.getLocale().ToolLibraryLabel);
+  
+  this._toolList = UIUtils.appendList(toolLibraryPanel, "ToolList");
+  
+  var toolControlPanel = UIUtils.appendBlock(toolLibraryPanel, "ToolListControlPanel");
+  var addButton = UIUtils.appendButton(toolControlPanel, "AddButton", this.getLocale().AddButton);
+  addButton.setClickListener(this._addTool.bind(this));
+  
+  var removeButton = UIUtils.appendButton(toolControlPanel, "RemoveButton", this.getLocale().RemoveButton);
+  removeButton.setClickListener(this._removeTool.bind(this));
+  removeButton.setEnabled(false);
+  
+  var editButton = UIUtils.appendButton(toolControlPanel, "EditButton", this.getLocale().EditButton);
+  editButton.setClickListener(this._editTool.bind(this));
+  editButton.setEnabled(false);
+
+  this._toolList.setSelectionListener(function(selectedItem) {
+    var isEnabled = selectedItem != null;
+    removeButton.setEnabled(isEnabled);
+    editButton.setEnabled(isEnabled);
+  });
+  
+  
   var buttonsPanel = UIUtils.appendBlock(preferencesPanel, "ButtonsPanel");
   var updateButton = UIUtils.appendButton(buttonsPanel, "UpdateButton", this.getLocale().UpdateButton);
   UIUtils.setClickListener(updateButton, function() {
@@ -58,6 +83,7 @@ UserPreferencesPage.prototype.onShow = function() {
   this._detailLocationElement.setValue(Backend.getUserPreferences().detail_location);
   this._addressElement.setValue(Backend.getUserPreferences().address);
   this._categoryFilterElement.selectData(Backend.getUserPreferences().category_filter);
+  this._toolList.setItems(Backend.getUserPreferences().tool_library);
   
   this._updating = false;
 }
@@ -65,6 +91,15 @@ UserPreferencesPage.prototype.onShow = function() {
 UserPreferencesPage.prototype.onHide = function() {
 }
 
+
+UserPreferencesPage.prototype._addTool = function() {
+}
+
+UserPreferencesPage.prototype._removeTool = function() {
+}
+
+UserPreferencesPage.prototype._editTool = function() {
+}
 
 
 UserPreferencesPage.prototype._updateUserPreferences = function(callback) {
