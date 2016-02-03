@@ -93,12 +93,141 @@ UserPreferencesPage.prototype.onHide = function() {
 
 
 UserPreferencesPage.prototype._addTool = function() {
-}
-
-UserPreferencesPage.prototype._removeTool = function() {
+  this._addOrEditToolDialog();
 }
 
 UserPreferencesPage.prototype._editTool = function() {
+  var selection = this._toolList.getSelectedItem();
+  if (selection != null) {
+    this._addOrEditToolDialog(selection);
+  }
+}
+
+UserPreferencesPage.prototype._removeTool = function() {
+  var selection = this._toolList.getSelectedItem();
+  if (selection != null) {
+    var items = GeneralUtils.removeFromArray(this._toolList.getItems(), selection);
+    this._toolList.setItems(items);
+  }
+}
+
+
+UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
+  var page = this;
+  
+  var attachmentBar;
+  var payment;
+  var paymentChooser;
+  var depositChooser;
+  
+  var dialog = UIUtils.showDialog("CreateNewToolDialog", this.getLocale().EditToolDialogTitle, function(contentPanel) {
+    UIUtils.appendLabel(contentPanel, "DescriptionLabel", page.getLocale().EditToolDialog_DescriptionLabel);
+    descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
+    descriptionEditor.focus();
+
+    attachmentBar = UIUtils.appendAttachmentBar(contentPanel, "AttachmentBar", null, true, function(file) {
+      if (!FileUtils.isImage(file)) {
+        UIUtils.showMessage(I18n.getLocale().literals.IncorrectAttachmentMessage);
+        return false;
+      }
+
+      var maxFileSize = Backend.getUserSettings().attachment_limit;
+      if (file.size > maxFileSize * 1024 * 1000) {
+        UIUtils.showMessage(I18n.getLocale().literals.AttachmentTooBigMessageProvider(maxFileSize));
+        return false;
+      }
+
+      return true;
+    }.bind(this));
+    
+    var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
+    UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
+    payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
+    payment.value = "0.00";
+    payment.onchange = function() {
+      if (!ValidationUtils.isValidDollarAmount(payment.value)) {
+        UIUtils.indicateInvalidInput(payment);
+      }
+    };
+
+    paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
+    paymentChooser.setChangeListener(function(selectedItem) {
+      if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
+        payment.style.display = "inline-block";
+      } else {
+        payment.style.display = "none";
+      }
+    });
+
+    UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
+    depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
+    
+    if (tool != null) {
+      descriptionEditor.setValue(tool.description);
+      attachmentBar.setAttachments(tool.attachments);
+      payment.setValue(tool.payment);
+      paymentChooser.setValue(tool.payrate);
+      depositChooser.setValue(tool.deposit);
+    }
+  }, {
+    ok: {
+      display: I18n.getLocale().literals.ConfirmButton,
+      listener: function() {
+        if (dialog._processing) {
+          return;
+        }
+
+        if (descriptionEditor.getValue() == "") {
+          UIUtils.indicateInvalidInput(descriptionEditor);
+          UIUtils.showMessage(page.getLocale().CreateNewToolDialog_IncorrectDescriptionMessage);
+          return;
+        }
+
+        if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
+            && !ValidationUtils.isValidDollarAmount(payment.value)) {
+          UIUtils.indicateInvalidInput(payment);
+          UIUtils.showMessage(page.getLocale().CreateNewToolDialog_IncorrectPaymentMessage);
+          return;
+        }
+
+        var items = page._toolList.getItems();
+        if (items == null) {
+          items = [];
+        }
+        
+        if (tool != null) {
+          for (var i in items) {
+            if (items[i] == tool) {
+              items[i].description = descriptionEditor.getValue();
+              items[i].attachments = attachmentBar.getAttachments();
+              items[i].payment = payment;
+              items[i].payrate = paymentChooser.getValue();
+              items[i].deposit = depositChooser.getValue();
+              
+              break;
+            }
+          }
+        } else {
+          var newTool = {
+            description: descriptionEditor.getValue(),
+            attachments: attachmentBar.getAttachments(),
+            payment: payment,
+            payrate: paymentChooser.getValue(),
+            deposit: depositChooser.getValue()
+          }
+
+          items.push(newTool);
+          page._toolList.setItems(items);
+        }
+        
+        dialog.close();
+      }
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
 }
 
 

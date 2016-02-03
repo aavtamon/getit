@@ -234,13 +234,13 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
 
     attachmentBar = UIUtils.appendAttachmentBar(contentPanel, "AttachmentBar", null, true, function(file) {
       if (!FileUtils.isImage(file)) {
-        UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectAttachmentMessage);
+        UIUtils.showMessage(I18n.getLocale().literals.IncorrectAttachmentMessage);
         return false;
       }
 
       var maxFileSize = Backend.getUserSettings().attachment_limit;
       if (file.size > maxFileSize * 1024 * 1000) {
-        UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.AttachmentTooBigMessageProvider(maxFileSize));
+        UIUtils.showMessage(I18n.getLocale().literals.AttachmentTooBigMessageProvider(maxFileSize));
         return false;
       }
 

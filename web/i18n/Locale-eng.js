@@ -50,6 +50,9 @@ var Locale_eng = {
     "DeliveryPickup": "let you pickup",
     "DeliveryDeliver": "deliver",
     "DeliveryAny": "deliver or let you pickup",
+    
+    "IncorrectAttachmentMessage": "You can only attach images",
+    "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
   },
   "dialogs": {
     "CreateNewRequestDialog": {
@@ -86,9 +89,7 @@ var Locale_eng = {
       "IncorrectOfferGetOnDateMessage": "Please select a valid pickup/delivery date. It must be a valid future date",
       "IncorrectOfferReturnByDateMessage": "Please select a valid return date. It must be a valid date after a pickup date",
       "OfferIsSentMessage": "Your offer is sent. You will know soon if it is accepted",
-      "FailedToSendOffer": "We failed to send your offer. Please try again",
-      "IncorrectAttachmentMessage": "You can only attach images",
-      "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
+      "FailedToSendOffer": "We failed to send your offer. Please try again"
     },
     "NegotiateRequestDialog": {
       "Title": "Negotiate...",
