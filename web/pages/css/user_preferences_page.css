@@ -104,3 +104,57 @@
 #UserPreferencesPage-PreferencesPanel-RightClarificationPanel-ProfessionalClarificationPanel {
   margin-top: 140px;
 }
+
+
+
+#EditToolDialog {
+}
+#EditToolDialog-ContentPanel-ToolNameLabel {
+  margin-top: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+#EditToolDialog-ContentPanel-ToolName {
+  display: inline-block;
+  width: 200px;
+}
+#EditToolDialog-ContentPanel-DescriptionLabel {
+  margin-top: 10px;
+  display: block;
+}
+#EditToolDialog-ContentPanel-DescriptionEditor {
+  height: 60px;
+}
+#EditToolDialog-ContentPanel-AttachmentBar {
+  margin-top: 10px;
+}
+#EditToolDialog-ContentPanel-PaymentPanel {
+  margin-top: 10px;
+}
+#EditToolDialog-ContentPanel-PaymentPanel-PaymentLabel {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#EditToolDialog-ContentPanel-PaymentPanel-Payment {
+  display: none;
+  width: 50px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+#EditToolDialog-ContentPanel-PaymentPanel-PaymentRateChooser {
+  display: inline-block;
+  width: 150px;
+}
+#EditToolDialog-ContentPanel-PaymentPanel-DepositLabel {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 50px;
+  vertical-align: top;
+  margin-top: 1px;
+}
+#EditToolDialog-ContentPanel-PaymentPanel-DepositChooser {
+  display: inline-block;
+  width: 100px;
+}

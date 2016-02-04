@@ -239,9 +239,12 @@ var Locale_eng = {
       
       "EditToolDialogTitle": "Create Or Edit The Tool",
       "ToolNameLabel": "Tool name:",
-      "EditToolDialog_DescriptionLabel": "Tool Description",
+      "EditToolDialog_DescriptionLabel": "Describe what you have to offer",
       "EditToolDialog_IncorrectDescriptionMessage": "Please describe what you have to offer",
-      "EditToolDialog_IncorrectPaymentMessage": "Payment should be expressed as a valud dollar amount"
+      "EditToolDialog_IncorrectPaymentMessage": "Payment should be expressed as a valud dollar amount",
+      
+      "PreferencesUpdatedMessage": "User preferences were successfully updated",
+      "UpdateFailedMessage": "Failed to update user preferences"
     },
     "PageNotFoundPage": {
       "NotFoundLabel": "Page Not Found",

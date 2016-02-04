@@ -125,13 +125,12 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
   var paymentChooser;
   var depositChooser;
   
-  var dialog = UIUtils.showDialog("CreateNewToolDialog", this.getLocale().EditToolDialogTitle, function(contentPanel) {
-    UIUtils.appendLabel(contentPanel, "DescriptionLabel", page.getLocale().EditToolDialog_DescriptionLabel);
-    
+  var dialog = UIUtils.showDialog("EditToolDialog", this.getLocale().EditToolDialogTitle, function(contentPanel) {
     UIUtils.appendLabel(contentPanel, "ToolNameLabel", page.getLocale().ToolNameLabel);
     toolNameInput = UIUtils.appendTextInput(contentPanel, "ToolName", 30, ValidationUtils.ID_REGEXP);
     toolNameInput.focus();
     
+    UIUtils.appendLabel(contentPanel, "DescriptionLabel", page.getLocale().EditToolDialog_DescriptionLabel);
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
 
     attachmentBar = UIUtils.appendAttachmentBar(contentPanel, "AttachmentBar", null, true, function(file) {
@@ -151,7 +150,7 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
     
     var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
     UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
-    payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
+    payment = UIUtils.appendTextInput(paymentPanel, "Payment");
     payment.value = "0.00";
     payment.onchange = function() {
       if (!ValidationUtils.isValidDollarAmount(payment.value)) {
@@ -161,7 +160,7 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
 
     paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
     paymentChooser.setChangeListener(function(selectedItem) {
-      if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
+      if (selectedItem != Application.Configuration.PAYMENT_RATES[0].data) {
         payment.style.display = "inline-block";
       } else {
         payment.style.display = "none";
@@ -276,9 +275,6 @@ UserPreferencesPage.prototype._updateUserPreferences = function(callback) {
   UIUtils.showSpinningWheel();
 
   var userPreferences = {
-    detail_location: this._detailLocationElement.getValue(),
-    address: this._addressElement.getValue(),
-    category_filter: this._inquiryGenderElement.getSelectedData()
   };
   
   Backend.updateUserPreferences(userPreferences, callback);

@@ -275,7 +275,7 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
 
     paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
     paymentChooser.setChangeListener(function(selectedItem) {
-      if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
+      if (selectedItem != Application.Configuration.PAYMENT_RATES[0].data) {
         payment.style.display = "inline-block";
       } else {
         payment.style.display = "none";
