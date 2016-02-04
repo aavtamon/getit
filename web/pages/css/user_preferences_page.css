@@ -41,7 +41,6 @@
 #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel-DetailLocationLabel, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel-AddressLabel, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel-CategoryFilterLabel {
   display: inline-block;
   width: 190px;
-  margin-left: 10px;
 }
 #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel-DetailLocation, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel-Address, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel-CategoryFilter {
   display: inline-block;

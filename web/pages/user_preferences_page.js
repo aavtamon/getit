@@ -108,6 +108,9 @@ UserPreferencesPage.prototype._removeTool = function() {
   if (selection != null) {
     var items = GeneralUtils.removeFromArray(this._toolList.getItems(), selection);
     this._toolList.setItems(items);
+    if (items.length > 0) {
+      this._toolList.setSelectedItem(items[0]);
+    }
   }
 }
 
@@ -115,6 +118,8 @@ UserPreferencesPage.prototype._removeTool = function() {
 UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
   var page = this;
   
+  var toolNameInput;
+  var descriptionEditor;
   var attachmentBar;
   var payment;
   var paymentChooser;
@@ -122,8 +127,12 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
   
   var dialog = UIUtils.showDialog("CreateNewToolDialog", this.getLocale().EditToolDialogTitle, function(contentPanel) {
     UIUtils.appendLabel(contentPanel, "DescriptionLabel", page.getLocale().EditToolDialog_DescriptionLabel);
+    
+    UIUtils.appendLabel(contentPanel, "ToolNameLabel", page.getLocale().ToolNameLabel);
+    toolNameInput = UIUtils.appendTextInput(contentPanel, "ToolName", 30, ValidationUtils.ID_REGEXP);
+    toolNameInput.focus();
+    
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
-    descriptionEditor.focus();
 
     attachmentBar = UIUtils.appendAttachmentBar(contentPanel, "AttachmentBar", null, true, function(file) {
       if (!FileUtils.isImage(file)) {
@@ -163,6 +172,7 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
     depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
     
     if (tool != null) {
+      toolNameInput.setValue(tool.display);
       descriptionEditor.setValue(tool.description);
       attachmentBar.setAttachments(tool.attachments);
       payment.setValue(tool.payment);
@@ -179,14 +189,14 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
 
         if (descriptionEditor.getValue() == "") {
           UIUtils.indicateInvalidInput(descriptionEditor);
-          UIUtils.showMessage(page.getLocale().CreateNewToolDialog_IncorrectDescriptionMessage);
+          UIUtils.showMessage(page.getLocale().EditToolDialog_IncorrectDescriptionMessage);
           return;
         }
 
         if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
             && !ValidationUtils.isValidDollarAmount(payment.value)) {
           UIUtils.indicateInvalidInput(payment);
-          UIUtils.showMessage(page.getLocale().CreateNewToolDialog_IncorrectPaymentMessage);
+          UIUtils.showMessage(page.getLocale().EditToolDialog_IncorrectPaymentMessage);
           return;
         }
 
@@ -198,20 +208,23 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
         if (tool != null) {
           for (var i in items) {
             if (items[i] == tool) {
+              items[i].display = toolNameInput.getValue();
               items[i].description = descriptionEditor.getValue();
               items[i].attachments = attachmentBar.getAttachments();
-              items[i].payment = payment;
+              items[i].payment = payment.getValue();
               items[i].payrate = paymentChooser.getValue();
               items[i].deposit = depositChooser.getValue();
               
               break;
             }
           }
+          page._toolList.setItems(items);
         } else {
           var newTool = {
+            display: toolNameInput.getValue(),
             description: descriptionEditor.getValue(),
             attachments: attachmentBar.getAttachments(),
-            payment: payment,
+            payment: payment.getValue(),
             payrate: paymentChooser.getValue(),
             deposit: depositChooser.getValue()
           }

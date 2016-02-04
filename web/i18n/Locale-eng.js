@@ -235,9 +235,13 @@ var Locale_eng = {
       "AddButton": "Add",
       "RemoveButton": "Remove",
       "EditButton": "Edit",
+      "UpdateButton": "Update",
       
-      
-      "UpdateButton": "Update"
+      "EditToolDialogTitle": "Create Or Edit The Tool",
+      "ToolNameLabel": "Tool name:",
+      "EditToolDialog_DescriptionLabel": "Tool Description",
+      "EditToolDialog_IncorrectDescriptionMessage": "Please describe what you have to offer",
+      "EditToolDialog_IncorrectPaymentMessage": "Payment should be expressed as a valud dollar amount"
     },
     "PageNotFoundPage": {
       "NotFoundLabel": "Page Not Found",
