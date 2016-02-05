@@ -44,11 +44,41 @@
 }
 #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel-DetailLocation, #UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel-Address, #UserPreferencesPage-PreferencesPanel-RequestPreferencesPanel-CategoryFilterPanel-CategoryFilter {
   display: inline-block;
-  width: 270px;
+  width: 280px;
 }
 
 #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel-AddButton, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel-RemoveButton, #UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolListControlPanel-EditButton {
   margin-right: 10px;
+}
+
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel {
+  position: relative;
+}
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-DetailLocationPanel-DetailLocationExplanation {
+  position: absolute;
+  top: 0px;
+  left: -350px;
+  width: 300px;
+}
+
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel {
+  position: relative;
+}
+#UserPreferencesPage-PreferencesPanel-LocationPreferencesPanel-AddressPanel-AddressExplanation {
+  position: absolute;
+  top: 0px;
+  left: 500px;
+  width: 300px;
+}
+
+#UserPreferencesPage-PreferencesPanel-ToolLibraryPanel {
+  position: relative;
+}
+#UserPreferencesPage-PreferencesPanel-ToolLibraryPanel-ToolLibraryExplanation {
+  position: absolute;
+  top: 0px;
+  left: -350px;
+  width: 300px;
 }
 
 

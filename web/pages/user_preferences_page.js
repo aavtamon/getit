@@ -19,10 +19,12 @@ UserPreferencesPage.prototype.definePageContent = function(root) {
   var detailLocationPanel = UIUtils.appendBlock(locationPreferencesPanel, "DetailLocationPanel");
   UIUtils.appendLabel(detailLocationPanel, "DetailLocationLabel", this.getLocale().DetailLocationLabel);
   this._detailLocationElement = UIUtils.appendTextInput(detailLocationPanel, "DetailLocation");
+  UIUtils.appendExplanationPad(detailLocationPanel, "DetailLocationExplanation", this.getLocale().DetailLocationExplanationTitle, this.getLocale().DetailLocationExplanationText);
   
   var addressPanel = UIUtils.appendBlock(locationPreferencesPanel, "AddressPanel");
   UIUtils.appendLabel(addressPanel, "AddressLabel", this.getLocale().AddressLabel);
   this._addressElement = UIUtils.appendTextInput(addressPanel, "Address");
+  UIUtils.appendExplanationPad(addressPanel, "AddressExplanation", this.getLocale().AddressExplanationTitle, this.getLocale().AddressExplanationText);
   
   
   var requestPreferencesPanel = UIUtils.appendBlock(preferencesPanel, "RequestPreferencesPanel");
@@ -35,6 +37,7 @@ UserPreferencesPage.prototype.definePageContent = function(root) {
   
   var toolLibraryPanel = UIUtils.appendBlock(preferencesPanel, "ToolLibraryPanel");
   UIUtils.appendLabel(toolLibraryPanel, "ToolLibraryLabel", this.getLocale().ToolLibraryLabel);
+  UIUtils.appendExplanationPad(toolLibraryPanel, "ToolLibraryExplanation", this.getLocale().ToolLibraryExplanationTitle, this.getLocale().ToolLibraryExplanationText);
   
   this._toolList = UIUtils.appendList(toolLibraryPanel, "ToolList");
   
@@ -55,6 +58,9 @@ UserPreferencesPage.prototype.definePageContent = function(root) {
     removeButton.setEnabled(isEnabled);
     editButton.setEnabled(isEnabled);
   });
+  this._toolList.setClickListener(function(item) {
+    this._editTool();
+  }.bind(this));
   
   
   var buttonsPanel = UIUtils.appendBlock(preferencesPanel, "ButtonsPanel");
@@ -183,6 +189,12 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
       display: I18n.getLocale().literals.ConfirmButton,
       listener: function() {
         if (dialog._processing) {
+          return;
+        }
+
+        if (toolNameInput.getValue() == "") {
+          UIUtils.indicateInvalidInput(toolNameInput);
+          UIUtils.showMessage(page.getLocale().EditToolDialog_IncorrectToolNameMessage);
           return;
         }
 

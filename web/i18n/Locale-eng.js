@@ -228,10 +228,16 @@ var Locale_eng = {
       "RequestPreferencesLabel": "Incoming Requests",
       
       "DetailLocationLabel": "Block-level home location:",
+      "DetailLocationExplanationTitle": "Block-level location",
+      "DetailLocationExplanationText": "Provide this location so that others can generally identify the area of your service",
       "AddressLabel": "Street Address:",
+      "AddressExplanationTitle": "Street Address",
+      "AddressExplanationText": "This is the detailed address that will only be made avalable to others when you request to deliver something to your house",
       "CategoryFilterLabel": "Only these categories:",
       
       "ToolLibraryLabel": "My Tool Collection",
+      "ToolLibraryExplanationTitle": "Tool Library",
+      "ToolLibraryExplanationText": "If you have a set of tools that you are going to offer, you may want to define them here and then easily offer in one click",
       "AddButton": "Add",
       "RemoveButton": "Remove",
       "EditButton": "Edit",
@@ -240,6 +246,7 @@ var Locale_eng = {
       "EditToolDialogTitle": "Create Or Edit The Tool",
       "ToolNameLabel": "Tool name:",
       "EditToolDialog_DescriptionLabel": "Describe what you have to offer",
+      "EditToolDialog_IncorrectToolNameMessage": "Please give your tool a name",
       "EditToolDialog_IncorrectDescriptionMessage": "Please describe what you have to offer",
       "EditToolDialog_IncorrectPaymentMessage": "Payment should be expressed as a valud dollar amount",
       
