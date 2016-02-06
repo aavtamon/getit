@@ -78,7 +78,7 @@ var Locale_eng = {
     "CreateNewOfferDialog": {
       "Title": "Making An Offer...",
       "DescriptionLabel": "I am offerring:",
-      "ChooseToolText": "Choose A Tool From Collection",
+      "ChooseToolText": "You can choose from your collection...",
       "GetOnLabel": "I can provide it on:",
       "ReturnByLabel": "I want it back by:",
       "DeliveryLabel": "I can:",

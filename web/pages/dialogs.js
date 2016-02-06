@@ -10,7 +10,7 @@ Dialogs.showCreateNewRequestDialog = function() {
   var returnByChooser;
   var deliveryChooser;
   var payment;
-  var paymentChooser;
+  var payrateChooser;
   
   var dialog = UIUtils.showDialog("CreateNewRequestDialog", I18n.getLocale().dialogs.CreateNewRequestDialog.Title, function(contentPanel) {
     UIUtils.appendLabel(contentPanel, "CategoryLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.CategoryLabel);
@@ -46,8 +46,8 @@ Dialogs.showCreateNewRequestDialog = function() {
       }
     };
 
-    paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
-    paymentChooser.setChangeListener(function(selectedItem) {
+    payrateChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
+    payrateChooser.setChangeListener(function(selectedItem) {
       if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
         payment.style.display = "inline-block";
       } else {
@@ -68,7 +68,7 @@ Dialogs.showCreateNewRequestDialog = function() {
           return;
         }
 
-        if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
+        if (payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
             && !ValidationUtils.isValidDollarAmount(payment.value)) {
           UIUtils.indicateInvalidInput(payment);
           UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewRequestDialog.IncorrectRequestProposedPaymentMessage);
@@ -100,8 +100,8 @@ Dialogs.showCreateNewRequestDialog = function() {
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
           payment: {
-            payrate: paymentChooser.getValue(),
-            payment: paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null
+            payrate: payrateChooser.getValue(),
+            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null
           }
         };
 
@@ -224,14 +224,24 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
   var returnByChooser;
   var deliveryChooser;
   var payment;
-  var paymentChooser;
+  var payrateChooser;
   var depositChooser;
   
   var dialog = UIUtils.showDialog("CreateNewOfferDialog", I18n.getLocale().dialogs.CreateNewOfferDialog.Title, function(contentPanel) {
     UIUtils.appendLabel(contentPanel, "DescriptionLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DescriptionLabel);
   
     if (Backend.getUserPreferences().tools != null && Backend.getUserPreferences().tools.length > 0) {
-      UIUtils.appendMultiOptionList(contentPanel, "ToolChooser", Backend.getUserPreferences().tools, true, I18n.getLocale().dialogs.CreateNewOfferDialog.ChooseToolText);
+      var toolChooser = UIUtils.appendMultiOptionList(contentPanel, "ToolChooser", Backend.getUserPreferences().tools, true, I18n.getLocale().dialogs.CreateNewOfferDialog.ChooseToolText);
+      
+      toolChooser.setChangeListener(function() {
+        var tool = toolChooser.getSelectedChoices()[0];
+        
+        descriptionEditor.setValue(tool.description);
+        attachmentBar.setAttachments(tool.attachments);
+        payment.setValue(tool.payment);
+        payrateChooser.setValue(tool.payrate);
+        depositChooser.setValue(tool.deposit);
+      });
     }
     
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
@@ -278,8 +288,8 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
       }
     };
 
-    paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
-    paymentChooser.setChangeListener(function(selectedItem) {
+    payrateChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
+    payrateChooser.setChangeListener(function(selectedItem) {
       if (selectedItem != Application.Configuration.PAYMENT_RATES[0].data) {
         payment.style.display = "inline-block";
       } else {
@@ -303,7 +313,7 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
           return;
         }
 
-        if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
+        if (payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
             && !ValidationUtils.isValidDollarAmount(payment.value)) {
           UIUtils.indicateInvalidInput(payment);
           UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectOfferProposedPaymentMessage);
@@ -334,8 +344,8 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
           return_by: returnByChooser.getDate().getTime(),
           attachments: attachmentBar.getAttachments(),
           payment: {
-            payrate: paymentChooser.getValue(),
-            payment: paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+            payrate: payrateChooser.getValue(),
+            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
             deposit: depositChooser.getValue()
           }
         };
@@ -375,7 +385,7 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
   var returnByChooser;
   var deliveryChooser;
   var payment;
-  var paymentChooser;
+  var payrateChooser;
   var depositChooser;
   var descriptionEditor;
   
@@ -407,15 +417,15 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
       }
     };
 
-    paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
-    paymentChooser.setChangeListener(function(selectedItem) {
+    payrateChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
+    payrateChooser.setChangeListener(function(selectedItem) {
       if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
         payment.style.display = "inline-block";
       } else {
         payment.style.display = "none";
       }
     });
-    paymentChooser.selectData(lastNegotiatedObject.payment.payrate);
+    payrateChooser.selectData(lastNegotiatedObject.payment.payrate);
 
     UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
     depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
@@ -431,7 +441,7 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
         if (Dialogs._processing) {
           return;
         }
-        if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
+        if (payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
             && !ValidationUtils.isValidDollarAmount(payment.value)) {
           UIUtils.indicateInvalidInput(payment);
           UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectOfferProposedPaymentMessage);
@@ -461,8 +471,8 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
           payment: {
-            payrate: paymentChooser.getValue(),
-            payment: paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+            payrate: payrateChooser.getValue(),
+            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
             deposit: depositChooser.getValue()
           }
         };
@@ -502,7 +512,7 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
   var returnByChooser;
   var deliveryChooser;
   var payment;
-  var paymentChooser;
+  var payrateChooser;
   var depositChooser;
   var descriptionEditor;
   
@@ -534,15 +544,15 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
       }
     };
 
-    paymentChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
-    paymentChooser.setChangeListener(function(selectedItem) {
+    payrateChooser = UIUtils.appendDropList(paymentPanel, "PaymentRateChooser", Application.Configuration.PAYMENT_RATES);
+    payrateChooser.setChangeListener(function(selectedItem) {
       if (selectedItem != Application.Configuration.PAYMENT_RATES[0]) {
         payment.style.display = "inline-block";
       } else {
         payment.style.display = "none";
       }
     });
-    paymentChooser.selectData(lastNegotiatedObject.payment.payrate);
+    payrateChooser.selectData(lastNegotiatedObject.payment.payrate);
 
     UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
     depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
@@ -558,7 +568,7 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
         if (Dialogs._processing) {
           return;
         }
-        if (paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
+        if (payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data
             && !ValidationUtils.isValidDollarAmount(payment.value)) {
           UIUtils.indicateInvalidInput(payment);
           UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewOfferDialog.IncorrectOfferProposedPaymentMessage);
@@ -588,8 +598,8 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
           payment: {
-            payrate: paymentChooser.getValue(),
-            payment: paymentChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+            payrate: payrateChooser.getValue(),
+            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
             deposit: depositChooser.getValue()
           }
         };
