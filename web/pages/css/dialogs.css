@@ -148,10 +148,17 @@
 }
 #CreateNewOfferDialog-ContentPanel-DescriptionLabel {
   margin-top: 10px;
-  display: block;
+  vertical-align: top;
+}
+#CreateNewOfferDialog-ContentPanel-ToolChooser {
+  display: inline-block;
+  width: 400px;
+  margin-left: 20px;
 }
 #CreateNewOfferDialog-ContentPanel-DescriptionEditor {
+  display: block;
   height: 60px;
+  margin-top: 10px;
 }
 #CreateNewOfferDialog-ContentPanel-AttachmentBar {
   margin-top: 10px;

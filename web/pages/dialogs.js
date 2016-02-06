@@ -229,6 +229,11 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
   
   var dialog = UIUtils.showDialog("CreateNewOfferDialog", I18n.getLocale().dialogs.CreateNewOfferDialog.Title, function(contentPanel) {
     UIUtils.appendLabel(contentPanel, "DescriptionLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DescriptionLabel);
+  
+    if (Backend.getUserPreferences().tools != null && Backend.getUserPreferences().tools.length > 0) {
+      UIUtils.appendMultiOptionList(contentPanel, "ToolChooser", Backend.getUserPreferences().tools, true, I18n.getLocale().dialogs.CreateNewOfferDialog.ChooseToolText);
+    }
+    
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
     descriptionEditor.focus();
 

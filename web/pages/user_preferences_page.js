@@ -73,23 +73,13 @@ UserPreferencesPage.prototype.definePageContent = function(root) {
   UIUtils.setClickListener(cancelButton, function() {
     Application.goBack();
   }.bind(this));
-  
-//  
-//  
-//  var leftClarificationPanel = UIUtils.appendBlock(preferencesPanel, "LeftClarificationPanel");
-//  UIUtils.appendExplanationPad(leftClarificationPanel, "ResponsesClarificationPanel", I18n.getLocale().literals.NumOfResponsesPreferenceLabel, this.getLocale().ResponsesClarificationText);
-//  
-//
-//  var rightClarificationPanel = UIUtils.appendBlock(preferencesPanel, "RightClarificationPanel");
-//  UIUtils.appendExplanationPad(rightClarificationPanel, "TimeFrameClarificationPanel", I18n.getLocale().literals.WaitPreferenceLabel, this.getLocale().TimeFrameClarificationText);
-//  UIUtils.appendExplanationPad(rightClarificationPanel, "ProfessionalClarificationPanel", this.getLocale().ContactPreferencesLabel, this.getLocale().ProfessionalClarificationText);
 }
 
 UserPreferencesPage.prototype.onShow = function() {
   this._detailLocationElement.setValue(Backend.getUserPreferences().detail_location);
   this._addressElement.setValue(Backend.getUserPreferences().address);
-  this._categoryFilterElement.selectData(Backend.getUserPreferences().category_filter);
-  this._toolList.setItems(Backend.getUserPreferences().tool_library);
+  this._categoryFilterElement.setValue(Backend.getUserPreferences().category_filter);
+  this._toolList.setItems(Backend.getUserPreferences().tools);
   
   this._updating = false;
 }
@@ -287,6 +277,10 @@ UserPreferencesPage.prototype._updateUserPreferences = function(callback) {
   UIUtils.showSpinningWheel();
 
   var userPreferences = {
+    detail_location: page._detailLocationElement.getValue(),
+    address: page._addressElement.getValue(),
+    category_filter: page._categoryFilterElement.getValue(),
+    tools: page._toolList.getValue()
   };
   
   Backend.updateUserPreferences(userPreferences, callback);

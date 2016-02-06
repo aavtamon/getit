@@ -78,6 +78,7 @@ var Locale_eng = {
     "CreateNewOfferDialog": {
       "Title": "Making An Offer...",
       "DescriptionLabel": "I am offerring:",
+      "ChooseToolText": "Choose A Tool From Collection",
       "GetOnLabel": "I can provide it on:",
       "ReturnByLabel": "I want it back by:",
       "DeliveryLabel": "I can:",
@@ -114,6 +115,9 @@ var Locale_eng = {
     "DismissRequestWithOffersDialog": {
       "RequestHasOffer": "Remove The Request And Recall The Offer",
       "RequestHasOfferText": "Do you really want to recall the offer you have made and get rid of the request?"
+    },
+    "ChooseToolDialog": {
+      "Title": "Choose Tool From Collection",
     }
   },
   "pages": {
