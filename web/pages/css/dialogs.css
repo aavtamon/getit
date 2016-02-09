@@ -144,6 +144,17 @@
 }
 
 
+#WriteMessageDialog {
+}
+#WriteMessageDialog-ContentPanel-DescriptionLabel {
+  margin-top: 10px;
+  vertical-align: top;
+}
+#WriteMessageDialog-ContentPanel-AttachmentBar {
+  margin-top: 10px;
+}
+
+
 #CreateNewOfferDialog {
 }
 #CreateNewOfferDialog-ContentPanel-DescriptionLabel {

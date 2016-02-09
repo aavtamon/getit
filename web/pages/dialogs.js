@@ -124,6 +124,8 @@ Dialogs.showCreateNewRequestDialog = function() {
             Dialogs._processing = false;
           }
         }
+        
+        Dialogs._processing = true;
         Backend.createRequest(request, backendCallback);
       }
     },
@@ -150,6 +152,14 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
   var request = Backend.getRequest(requestId);
   
   if (!Backend.isOwnedRequest(request)) {
+    buttonSpec.message = {
+      display: I18n.getLocale().dialogs.RequestDetailsDialog.MessageButton,
+      listener: function() {
+        dialog.close();
+        Dialogs.showWriteMessageDialog(requestId);
+      }
+    }
+    
     buttonSpec.offer = {
       display: I18n.getLocale().dialogs.RequestDetailsDialog.OfferButton,
       listener: function() {
@@ -217,6 +227,67 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
 }
 
 
+Dialogs.showWriteMessageDialog = function(requestId) {
+  var messageEditor;
+  var attachmentBar;
+  
+  var dialog = UIUtils.showDialog("WriteMessageDialog", I18n.getLocale().dialogs.WriteMessageDialog.Title, function(contentPanel) {
+    descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
+    descriptionEditor.focus();
+
+    attachmentBar = Dialogs._appendAttachmentBar(contentPanel);
+  }, {
+    ok: {
+      display: I18n.getLocale().dialogs.WriteMessageDialog.SendButton,
+      listener: function() {
+        if (Dialogs._processing) {
+          return;
+        }
+
+        if (descriptionEditor.getValue() == "") {
+          UIUtils.indicateInvalidInput(descriptionEditor);
+          UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.IncorrectMessageMessage);
+          return;
+        }
+
+        var negotiation = {
+          text: descriptionEditor.getValue(),
+          attachments: attachmentBar.getAttachments(),
+        };
+
+        var backendCallback = {
+          success: function() {
+            this._onCompletion();
+            UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
+
+            dialog.close();
+          },
+          failure: function() {
+            this._onCompletion();
+            UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
+          },
+          error: function() {
+            this._onCompletion();
+            UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
+          },
+
+          _onCompletion: function() {
+            Dialogs._processing = false;
+          }
+        }
+        
+        Dialogs._processing = true;
+        Backend.addNegotiation(requestId, Backend.Negotiation.TYPE_NEGOTIATE, negotiation, backendCallback);
+      }
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
+}
+
+
 Dialogs.showCreateNewOfferDialog = function(requestId) {
   var descriptionEditor;
   var attachmentBar;
@@ -247,20 +318,7 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
     descriptionEditor.focus();
 
-    attachmentBar = UIUtils.appendAttachmentBar(contentPanel, "AttachmentBar", null, true, function(file) {
-      if (!FileUtils.isImage(file)) {
-        UIUtils.showMessage(I18n.getLocale().literals.IncorrectAttachmentMessage);
-        return false;
-      }
-
-      var maxFileSize = Backend.getUserSettings().attachment_limit;
-      if (file.size > maxFileSize * 1024 * 1000) {
-        UIUtils.showMessage(I18n.getLocale().literals.AttachmentTooBigMessageProvider(maxFileSize));
-        return false;
-      }
-
-      return true;
-    }.bind(this));
+    attachmentBar = Dialogs._appendAttachmentBar(contentPanel);
 
     var whenPanel = UIUtils.appendBlock(contentPanel, "WhenPanel");
     UIUtils.appendLabel(whenPanel, "GetOnLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
@@ -370,6 +428,8 @@ Dialogs.showCreateNewOfferDialog = function(requestId) {
             Dialogs._processing = false;
           }
         }
+        
+        Dialogs._processing = true;
         Backend.createOffer(requestId, offer, backendCallback);
       }
     },
@@ -497,6 +557,8 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
             Dialogs._processing = false;
           }
         }
+        
+        Dialogs._processing = true;
         Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_NEGOTIATE, negotiation, backendCallback);
       }
     },
@@ -624,6 +686,8 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
             Dialogs._processing = false;
           }
         }
+        
+        Dialogs._processing = true;
         Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_NEGOTIATE, negotiation, backendCallback);
       }
     },
@@ -711,3 +775,20 @@ Dialogs.showConfirmOfferDialog = function(requestId, offerId) {
   });
 }
 
+
+Dialogs._appendAttachmentBar = function(root) {
+  return UIUtils.appendAttachmentBar(root, "AttachmentBar", null, true, function(file) {
+    if (!FileUtils.isImage(file)) {
+      UIUtils.showMessage(I18n.getLocale().literals.IncorrectAttachmentMessage);
+      return false;
+    }
+
+    var maxFileSize = Backend.getUserSettings().attachment_limit;
+    if (file.size > maxFileSize * 1024 * 1000) {
+      UIUtils.showMessage(I18n.getLocale().literals.AttachmentTooBigMessageProvider(maxFileSize));
+      return false;
+    }
+
+    return true;
+  });
+}

@@ -74,6 +74,14 @@ var Locale_eng = {
     "RequestDetailsDialog": {
       "Title": "Request Details",
       "OfferButton": "Make an offer",
+      "MessageButton": "Write a message"
+    },
+    "WriteMessageDialog": {
+      "Title": "Send A Message...",
+      "SendButton": "Send",
+      "IncorrectMessageMessage": "Please write a message that you want to send",
+      "MessageIsSentMessage": "Your message is sent successfully",
+      "FailedToSendMessage": "Failed to send the message"
     },
     "CreateNewOfferDialog": {
       "Title": "Making An Offer...",

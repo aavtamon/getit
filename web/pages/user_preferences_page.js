@@ -129,20 +129,7 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
     UIUtils.appendLabel(contentPanel, "DescriptionLabel", page.getLocale().EditToolDialog_DescriptionLabel);
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
 
-    attachmentBar = UIUtils.appendAttachmentBar(contentPanel, "AttachmentBar", null, true, function(file) {
-      if (!FileUtils.isImage(file)) {
-        UIUtils.showMessage(I18n.getLocale().literals.IncorrectAttachmentMessage);
-        return false;
-      }
-
-      var maxFileSize = Backend.getUserSettings().attachment_limit;
-      if (file.size > maxFileSize * 1024 * 1000) {
-        UIUtils.showMessage(I18n.getLocale().literals.AttachmentTooBigMessageProvider(maxFileSize));
-        return false;
-      }
-
-      return true;
-    }.bind(this));
+    attachmentBar = Dialogs._appendAttachmentBar(contentPanel);
     
     var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
     UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);

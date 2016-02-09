@@ -211,5 +211,3 @@ Application._setPopupCloser = function(popupClass) {
       });
   });
 }
-
-
