@@ -255,12 +255,30 @@ Dialogs.showWriteMessageDialog = function(requestId) {
           attachments: attachmentBar.getAttachments(),
         };
 
-        var backendCallback = {
-          success: function() {
-            this._onCompletion();
-            UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
+        var streamCreationCallback = {
+          success: function(newStreamId) {
+            var negotiationCallback = {
+              success: function() {
+                this._onCompletion();
+                
+                UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
+                dialog.close();
+              },
+              failure: function() {
+                this._onCompletion();
+                UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
+              },
+              error: function() {
+                this._onCompletion();
+                UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
+              },
 
-            dialog.close();
+              _onCompletion: function() {
+                Dialogs._processing = false;
+              }
+            }
+            
+            Backend.addNegotiationMessage(requestId, newStreamId, descriptionEditor.getValue(), attachmentBar.getAttachments(), negotiationCallback);
           },
           failure: function() {
             this._onCompletion();
@@ -277,7 +295,7 @@ Dialogs.showWriteMessageDialog = function(requestId) {
         }
         
         Dialogs._processing = true;
-        Backend.addNegotiation(requestId, Backend.Negotiation.TYPE_NEGOTIATE, negotiation, backendCallback);
+        Backend.createNegotiationStream(requestId, streamCreationCallback);
       }
     },
     cancel: {

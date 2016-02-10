@@ -89,14 +89,14 @@ HomePage._RequestOutlineObject.prototype._appendRequestContent = function(root) 
   UIUtils.setClickListener(root, function() {
     var callback = {
       success: function() {
-        var pulledOffers = Backend.getOfferIds(this.getId());
-        if (offers != null && offers.length > 0) {
+        var pulledSTreamIds = Backend.getNegotiationStreamIds(this.getId());
+        if (pulledSTreamIds != null && pulledSTreamIds.length > 0) {
           Application.showPage(RequestDetailsPage.name, { requestId: this.getId() });
         }
       }.bind(this)
     }
-    var offers = Backend.getOfferIds(this.getId(), callback);
-    if (offers == null || offers.length == 0) {
+    var streamIds = Backend.getNegotiationStreamIds(this.getId(), callback);
+    if (streamIds == null || streamIds.length == 0) {
       Dialogs.showRequestDetailsDialog(this.getId());
     } else {
       Application.showPage(RequestDetailsPage.name, { requestId: this.getId() });
