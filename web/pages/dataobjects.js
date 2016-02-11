@@ -99,8 +99,8 @@ AbstractRequestObject.prototype.close = function() {
   } else {
     var isActive = request.status == Backend.Request.STATUS_ACTIVE;
     
-    var offerIds;
-    if (isActive && (offerIds = Backend.getOfferIds(this.getId())) != null && offerIds.length > 0) {
+    var streamIds;
+    if (isActive && (streamIds = Backend.getNegotiationStreamIds(this.getId())) != null && streamIds.length > 0) {
       Dialogs.showIgnoreRequestWithOffersDialog(this);
     } else {
       this.dismiss(function() {
@@ -140,7 +140,7 @@ AbstractRequestObject.prototype._appendContent = function(root) {
 }
 
 
-
+/*
 AbstractOfferObject = ClassUtils.defineClass(AbstractDataObject, function AbstractOfferObject(requestId, id, baseCss) {
   AbstractDataObject.call(this, id, baseCss);
   this._requestId = requestId;
@@ -205,4 +205,4 @@ AbstractOfferObject.prototype._appendContent = function(root) {
   
   this._appendOfferContent(root);
 }
-
+*/

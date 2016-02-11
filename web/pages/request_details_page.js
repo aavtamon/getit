@@ -2,26 +2,26 @@ RequestDetailsPage = ClassUtils.defineClass(AbstractDataPage, function RequestDe
   AbstractDataPage.call(this, RequestDetailsPage.name);
 
   this._requestPanel;
-  this._offersPanel;
+  this._streamsPanel;
   this._requestId;
   this._statusElement;
   
   this._requestObject;
-  this._offerObjects = [];
+  this._streamObjects = [];
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
       if (!GeneralUtils.containsInArray(Backend.getRequestIds(), this._requestId)) {
         Application.goBack();
       }
-    } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER_IDS && event.objectId == this._requestId) {
-      this._showOffers();
+    } else if (event.type == Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM_IDS && event.objectId == this._requestId) {
+      this._showStreams();
       this._updateStatus();
     } else if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST) {
       this._updateRequest();
       this._updateStatus();
-    } else if (event.type == Backend.CacheChangeEvent.TYPE_OFFER) {
-      this._updateOffer(event.objectId);
+    } else if (event.type == Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM) {
+      this._updateStream(event.objectId);
       this._updateStatus();
     }
   }.bind(this);
@@ -39,7 +39,7 @@ RequestDetailsPage.prototype.definePageContent = function(root) {
   
   
   this._requestPanel = UIUtils.appendBlock(contentPanel, "RequestPanel");
-  this._offersPanel = UIUtils.appendBlock(contentPanel, "OffersPanel");
+  this._streamsPanel = UIUtils.appendBlock(contentPanel, "StreamsPanel");
 }
 
 RequestDetailsPage.prototype.onShow = function(root, paramBundle) {
@@ -48,7 +48,7 @@ RequestDetailsPage.prototype.onShow = function(root, paramBundle) {
 
   this._updateStatus();
   this._showRequest();
-  this._showOffers();
+  this._showStreams();
   
   Backend.addCacheChangeListener(this._cacheChangeListener);
 }
@@ -57,13 +57,13 @@ RequestDetailsPage.prototype.onHide = function() {
   AbstractDataPage.prototype.onHide.call(this);
   
   UIUtils.emptyContainer(this._requestPanel);
-  UIUtils.emptyContainer(this._offersPanel);
+  UIUtils.emptyContainer(this._streamsPanel);
   
   this._requestObject.destroy();
-  for (var i in this._offerObjects) {
-    this._offerObjects[i].destroy();
+  for (var i in this._streamObjects) {
+    this._streamObjects[i].destroy();
   }
-  this._offerObjects = [];
+  this._streamObjects = [];
   
   Backend.removeCacheChangeListener(this._cacheChangeListener);
 }
@@ -73,6 +73,10 @@ RequestDetailsPage.prototype.onDestroy = function() {
 
 
 
+RequestDetailsPage.prototype._updateStatus = function() {
+}
+
+/*
 
 RequestDetailsPage.prototype._getGrouppedOffers = function() {
   var offerIds = Backend.getOfferIds(this._requestId);
@@ -148,6 +152,8 @@ RequestDetailsPage.prototype._updateStatus = function() {
     this._statusElement.innerHTML = this.getLocale().StatusMessageNewNegotiations;
   }
 }
+
+*/
 
 RequestDetailsPage._RequestDetailsObject = ClassUtils.defineClass(AbstractRequestObject, function RequestDetailsObject(id) {
   AbstractRequestObject.call(this, id, "request-details");
@@ -235,41 +241,41 @@ RequestDetailsPage.prototype._updateRequest = function() {
 }
 
 
-RequestDetailsPage.prototype._showOffers = function() {
-  var offerIds = Backend.getOfferIds(this._requestId);
-  if (offerIds == null) {
+RequestDetailsPage.prototype._showStreams = function() {
+  var streamIds = Backend.getNegotiationStreamIds(this._requestId);
+  if (streamIds == null) {
     return;
   }
   
-  UIUtils.emptyContainer(this._offersPanel);
+  UIUtils.emptyContainer(this._streamsPanel);
   
-  for (var i in this._offerObjects) {
-    this._offerObjects[i].remove();
+  for (var i in this._streamObjects) {
+    this._streamObjects[i].remove();
   }
 
-  if (offerIds.length > 0) {
-    //TODO: sort offers
-    for (var i in offerIds) {
-      var offerObject = new RequestDetailsPage._OfferObject(this._requestId, offerIds[i]);
-      offerObject.append(this._offersPanel);
-      this._offerObjects.push(offerObject);
+  if (streamIds.length > 0) {
+    //TODO: sort streams
+    for (var i in streamIds) {
+      var streamObject = new RequestDetailsPage._NegotiationStreamObject(this._requestId, streamIds[i]);
+      streamObject.append(this._streamsPanel);
+      this._streamObjects.push(streamObject);
     }
   } else {
     this._appendRequestControlPanel();
   }
 }
 
-RequestDetailsPage.prototype._updateOffer = function(offerId) {
-  for (var i in this._offerObjects) {
-    if (this._offerObjects[i].getId() == offerId) {
-      this._offerObjects[i].update();
+RequestDetailsPage.prototype._updateStream = function(streamId) {
+  for (var i in this._streamObjects) {
+    if (this._streamObjects[i].getId() == streamId) {
+      this._streamObjects[i].update();
       break;
     }
   }
 }
 
 RequestDetailsPage.prototype._appendRequestControlPanel = function() {
-  var controlPanel = UIUtils.appendBlock(this._offersPanel, "ControlPanel");
+  var controlPanel = UIUtils.appendBlock(this._streamsPanel, "ControlPanel");
 
   var request = Backend.getRequest(this._requestId);
   if (Backend.isOwnedRequest(request)) {
@@ -279,8 +285,8 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
       Dialogs.showRecallRequestDialog(this._requestObject);
     }.bind(this));
   } else {
-    var offers = Backend.getOfferIds(this._requestId);
-    if (offers != null && offers.length == 0) {
+    var streams = Backend.getNegotiationStreamIds(this._requestId);
+    if (streams != null && streams.length == 0) {
       var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", this.getLocale().MakeOfferButton);
       UIUtils.addClass(offerButton, "right-control-button");
       UIUtils.setClickListener(offerButton, function() {
@@ -291,38 +297,66 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
 }
 
 
-RequestDetailsPage._OfferObject = ClassUtils.defineClass(AbstractDataObject, function _OfferObject(requestId, offerId, baseCss) {
-  AbstractDataObject.call(this, offerId, "offer");
-  this._offerId = offerId;
+
+RequestDetailsPage._NegotiationStreamObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationStreamObject(requestId, streamId) {
+  AbstractDataObject.call(this, streamId, "stream");
+  this._streamId = streamId;
   this._requestId = requestId;
   
-  this._offerDetailsObject = new RequestDetailsPage._OfferDetailsObject(requestId, offerId);
-});
-RequestDetailsPage._OfferObject.prototype.remove = function() {
-  AbstractDataObject.prototype.remove.call(this);
-  this._offerDetailsObject.remove();
-}
-RequestDetailsPage._OfferObject.prototype.destroy = function() {
-  AbstractDataObject.prototype.destroy.call(this);
-  this._offerDetailsObject.destroy();
-}
-AbstractDataObject.prototype._appendContent = function(root) {
-  var offer = Backend.getOffer(this._requestId, this._offerId);
-  if (offer == null) {
-    return;
-  }
+  this._negotiationObjects = [];
   
-  this._appendOffer();
+  var negotiations = Backend.getNegotiationStream(requestId, streamId).negotiations;
+  for (var i in negotiations) {
+    var neg = negotiations[i];
+    
+    this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg));
+  }
+});
+RequestDetailsPage._NegotiationStreamObject.prototype.remove = function() {
+  AbstractDataObject.prototype.remove.call(this);
+  
+  for (var i in this._negotiationObjects) {
+    this._negotiationObjects[i].remove();
+  }
+}
+RequestDetailsPage._NegotiationStreamObject.prototype.destroy = function() {
+  AbstractDataObject.prototype.destroy.call(this);
 
-  for (var i in offer.negotiations) {
-    this._appendNegotiation(i);
+  for (var i in this._negotiationObjects) {
+    this._negotiationObjects[i].destroy();
+  }
+  this._negotiationObjects = [];
+}
+RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
+  var header = UIUtils.appendBlock(root, "Header");
+  
+  for (var i in this._negotiationObjects) {
+    this._negotiationObjects[i].append(root);
   }
 
-  this._appendOfferControlPanel();
+  this.__appendStreamControlPanel();
 }
-RequestDetailsPage._OfferObject.prototype._appendOffer = function() {
-  this._offerDetailsObject.append(this.getElement());
+RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel = function() {
+  
 }
+
+
+
+
+RequestDetailsPage._NegotiationObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationObject(id, negotiation) {
+  AbstractDataObject.call(this, id, "stream");
+  
+  this._negotiation = negotiation;
+});
+RequestDetailsPage._NegotiationObject.prototype._appendContent = function(root) {
+  if (this._negotiation.type == Backend.Negotiation.TYPE_MESSAGE) {
+    root.innerHTML = this._negotiation.text;
+  }
+}
+
+
+
+/*
 
 RequestDetailsPage._OfferObject.prototype._appendNegotiation = function(negId) {
   var offer = Backend.getOffer(this._requestId, this._offerId);
@@ -656,7 +690,7 @@ RequestDetailsPage._OfferDetailsObject.prototype._appendOfferContent = function(
   UIUtils.addClass(depositElement, "offer-deposit");
   depositElement.innerHTML = "$" + offer.payment.deposit;
 }
-
+*/
 
 
 
