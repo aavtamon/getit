@@ -329,6 +329,7 @@ RequestDetailsPage._NegotiationStreamObject.prototype.destroy = function() {
 }
 RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
   var header = UIUtils.appendBlock(root, "Header");
+  UIUtils.addClass(header, "stream-header");
   
   for (var i in this._negotiationObjects) {
     this._negotiationObjects[i].append(root);
@@ -344,12 +345,18 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
 
 
 RequestDetailsPage._NegotiationObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationObject(id, negotiation) {
-  AbstractDataObject.call(this, id, "stream");
+  AbstractDataObject.call(this, id, "negotiation");
   
   this._negotiation = negotiation;
 });
 RequestDetailsPage._NegotiationObject.prototype._appendContent = function(root) {
   if (this._negotiation.type == Backend.Negotiation.TYPE_MESSAGE) {
+    UIUtils.addClass(root, "negotiation-message");
+
+    if (Backend.isOwnedNegotiation(this._negotiation)) {
+      UIUtils.addClass(root, "negotiation-message-own");
+    }
+    
     root.innerHTML = this._negotiation.text;
   }
 }

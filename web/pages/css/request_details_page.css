@@ -27,18 +27,6 @@
   text-align: center;
 }
 
-#RequestDetailsPage-ContentPanel-OffersPanel {
-  text-align: center;
-}
-
-#RequestDetailsPage-ContentPanel-OffersPanel-ControlPanel {
-  display: inline-block;
-  width: 880px;
-  text-align: right;
-}
-
-
-
 #RequestDetailsPage-ContentPanel-RequestPanel .request-details {
   position: relative;
   display: inline-block;
@@ -48,7 +36,7 @@
   
   text-align: left;
 
-  box-shadow: 5px 5px 5px darkgray;  
+  box-shadow: 5px 5px 5px darkgray;
 }
 .request-details .request-recalled {
   display: inline-block;
@@ -170,7 +158,46 @@
 
 
 
-#RequestDetailsPage-ContentPanel-OffersPanel .offer {
+#RequestDetailsPage-ContentPanel-StreamsPanel {
+  text-align: center;
+}
+
+#RequestDetailsPage-ContentPanel-StreamsPanel-ControlPanel {
+  display: inline-block;
+  width: 880px;
+  text-align: right;
+}
+
+#RequestDetailsPage-ContentPanel-StreamsPanel .stream {
+  display: inline-block;
+  width: 800px;
+  margin-left: 80px;
+}
+
+#RequestDetailsPage-ContentPanel-StreamsPanel .stream-header {
+}
+
+#RequestDetailsPage-ContentPanel-StreamsPanel .negotiation {
+  font: 50px;
+}
+
+#RequestDetailsPage-ContentPanel-StreamsPanel .negotiation-message {
+  text-align: left;
+  padding: 5px;
+  background-color: rgb(200, 230, 190);
+  
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px darkgray;
+}
+#RequestDetailsPage-ContentPanel-StreamsPanel .negotiation-message-own {
+  background-color: rgb(230, 230, 230);
+}
+
+
+
+/*
+
+#RequestDetailsPage-ContentPanel-StreamsPanel .offer {
   display: inline-block;
   width: 800px;
   margin-left: 80px;
@@ -404,3 +431,4 @@
   float: left;
   margin-right: 10px;
 }
+*/

@@ -251,6 +251,10 @@ Backend.getNegotiationStream = function(requestId, streamId, transactionCallback
 
 
 Backend.addNegotiation = function(requestId, streamId, negotiation, transactionCallback) {
+  negotiation.user_id = Backend.getUserProfile().user_id;
+  negotiation.creation_time = Date.now();
+  negotiation.user_name = Backend.getUserProfile().name;
+  
   var stream = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
   
   Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
@@ -278,9 +282,6 @@ Backend.addNegotiationMessage = function(requestId, streamId, message, attachmen
 
 Backend.addNegotiationOffer = function(requestId, streamId, offer, transactionCallback) {
   var negotiation = {
-    user_id: Backend.getUserProfile().user_id,
-    creation_time: Date.now(),
-    user_name: Backend.getUserProfile().name,
     type: Backend.Negotiation.TYPE_OFFER,
     text: offer.text,
     attachments: offer.attachments,
