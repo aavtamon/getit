@@ -133,17 +133,6 @@
 .request-outline .request-rating {
   margin-left: 30px;
 }
-.request-outline .closer {
-  position: absolute;
-  top: -7;
-  right: -10;
-  
-  width: 15px;
-  height: 15px;
-}
-.request-outline:hover .closer {
-  display: inline-block;
-}
 
 .outgoing-request-outline {
   background: rgb(235, 215, 185);

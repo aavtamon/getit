@@ -327,17 +327,6 @@
   display: inline-block;
   margin-left: 10px;
 }
-.offer-details .closer {
-  position: absolute;
-  top: -7;
-  right: -10;
-  
-  width: 15px;
-  height: 15px;
-}
-.offer-details:hover .closer {
-  display: inline-block;
-}
 
 .outgoing-offer-details {
   background: rgb(235, 215, 185);
