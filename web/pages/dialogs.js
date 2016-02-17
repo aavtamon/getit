@@ -722,12 +722,31 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
 // Confirmation dialogs
 
 Dialogs.showRecallRequestDialog = function(requestObject) {
-  var dialog = UIUtils.showDialog("RecallRequest", I18n.getLocale().dialogs.RecallRequestDialog.RecallRequest, I18n.getLocale().dialogs.RecallRequestDialog.RecallRequestText, {
+  var dialog = UIUtils.showDialog("RecallRequest", I18n.getLocale().dialogs.RecallRequestDialog.Title, I18n.getLocale().dialogs.RecallRequestDialog.Text, {
     ok: {
       display: I18n.getLocale().literals.ConfirmButton,
       listener: function() {
         requestObject.dismiss(function() {
           Backend.removeRequest(requestObject.getId());
+        });
+        dialog.close();
+      }
+    },
+    cancel: {
+      display: I18n.getLocale().literals.CancelOperationButton,
+      alignment: "left"
+    }
+  });
+}
+
+
+Dialogs.showRecallStreamDialog = function(streamObject, requestId, streamId) {
+  var dialog = UIUtils.showDialog("RecallNegotiationStream", I18n.getLocale().dialogs.RecallNegotiationStreamDialog.Title, I18n.getLocale().dialogs.RecallNegotiationStreamDialog.Text, {
+    ok: {
+      display: I18n.getLocale().literals.ConfirmButton,
+      listener: function() {
+        streamObject.dismiss(function() {
+          Backend.removeNegotiationStream(requestId, streamId);
         });
         dialog.close();
       }

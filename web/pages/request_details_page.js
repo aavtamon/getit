@@ -300,12 +300,12 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
 
 RequestDetailsPage._NegotiationStreamObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationStreamObject(requestId, streamId) {
   AbstractDataObject.call(this, streamId, "stream");
-  this._streamId = streamId;
   this._requestId = requestId;
-  
   this._negotiationObjects = [];
+
+  this._stream = Backend.getNegotiationStream(requestId, streamId);
   
-  var negotiations = Backend.getNegotiationStream(requestId, streamId).negotiations;
+  var negotiations = this._stream.negotiations;
   for (var i in negotiations) {
     var neg = negotiations[i];
     
@@ -327,9 +327,35 @@ RequestDetailsPage._NegotiationStreamObject.prototype.destroy = function() {
   }
   this._negotiationObjects = [];
 }
+RequestDetailsPage._NegotiationStreamObject.prototype.isClosable = function() {
+  return true;
+}
+RequestDetailsPage._NegotiationStreamObject.prototype.close = function() {
+  if (Backend.isOwnedStream(this._stream)) {
+    Dialogs.showRecallStreamDialog(this, this._requestId, this.getId());
+  } else {
+    this.dismiss(function() {
+      Backend.removeNegotiationStream(this._requestId, this.getId());
+    }.bind(this));
+  }
+}
 RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
   var header = UIUtils.appendBlock(root, "Header");
   UIUtils.addClass(header, "stream-header");
+  
+  var nameElement = UIUtils.appendBlock(header, "Name");
+  UIUtils.addClass(nameElement, "stream-name");
+  if (Backend.isOwnedRequest(this._stream)) {
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
+  } else {
+    nameElement.innerHTML = this._stream.user_name;
+    
+    var ratingElement = UIUtils.appendRatingBar(this.getElement(), "Rating");
+    UIUtils.addClass(ratingElement, "stream-rating");
+    ratingElement.setRating(this._stream.star_rating);
+  }
+
+  
   
   for (var i in this._negotiationObjects) {
     this._negotiationObjects[i].append(root);

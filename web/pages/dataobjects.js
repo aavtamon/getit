@@ -65,7 +65,6 @@ AbstractDataObject.prototype._appendContent = function(root) {
 AbstractDataObject.prototype.__appendCloser = function() {
   if (this.isClosable()) {
     var closer = UIUtils.appendXCloser(this._baseElement, "Closer");
-    UIUtils.addClass(closer, "closer");
     UIUtils.setClickListener(closer, function() {
       this.close();
       return false; 

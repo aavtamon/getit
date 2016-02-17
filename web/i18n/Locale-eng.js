@@ -108,8 +108,12 @@ var Locale_eng = {
       "Title": "Negotiate...",
     },
     "RecallRequestDialog": {
-      "RecallRequest": "Request Cancellation",
-      "RecallRequestText": "Do you really want to cancel your request?<br>It will remove it completely. Any outstanding offers that you have will be declined."
+      "Title": "Request Cancellation",
+      "Text": "Do you really want to cancel your request?<br>It will remove it completely. Any outstanding offers that you have will be declined."
+    },
+    "RecallNegotiationStreamDialog": {
+      "Title": "Terminate This Conversation...",
+      "Text": "Do you really want to stop this conversation and cancel any offers/negotiations that you have made?"
     },
     "RecallOfferDialog": {
       "RecallOffer": "Offer Recall",
