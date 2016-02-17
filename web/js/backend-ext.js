@@ -126,7 +126,7 @@ Backend.createRequest = function(request, transactionCallback) {
   
   request.user_id = Backend.getUserProfile().user_id;
   request.star_rating = 0;
-  request.timestamp = Date.now();
+  request.creation_time = Date.now();
   request.user_name = Backend.getUserProfile().name;
   request.zipcode = 12345;
   request.status = Backend.Request.STATUS_ACTIVE;
@@ -329,7 +329,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 0, {
     user_id: Backend.getUserProfile().user_id,
     star_rating: 3,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: Backend.getUserProfile().name,
     zipcode: 12345,
     category: "construction",
@@ -345,7 +345,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 1, {
     user_id: Backend.getUserProfile().user_id,
     star_rating: 3,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: Backend.getUserProfile().name,
     zipcode: 12345,
     category: "general",
@@ -361,7 +361,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 2, {
     user_id: Backend.getUserProfile().user_id,
     star_rating: 3,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: Backend.getUserProfile().name,
     zipcode: 12345,
     category: "medicine",
@@ -377,7 +377,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 3, {
     user_id: 10,
     star_rating: 5,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: "Vasya",
     zipcode: 23456,
     category: "construction",
@@ -393,7 +393,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 4, {
     user_id: 8,
     star_rating: 2,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: "Petya",
     zipcode: 12345,
     category: "general",
@@ -409,7 +409,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 5, {
     user_id: 10,
     star_rating: 5,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: "Vasya",
     zipcode: 23456,
     category: "medicine",
@@ -425,7 +425,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST, 6, {
     user_id: 8,
     star_rating: 2,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: "Petya",
     zipcode: 12345,
     category: "law",
@@ -446,7 +446,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, 0, {
     user_id: 10,
     request_id: 0,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: "Vasya",
     star_rating: 5,
     zipcode: 12345,
@@ -466,7 +466,7 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, 1, {
     user_id: Backend.getUserProfile().user_id,
     request_id: 6,
-    timestamp: Date.now(),
+    creation_time: Date.now(),
     user_name: Backend.getUserProfile().name,
     star_rating: 3,
     zipcode: 12345,

@@ -175,7 +175,7 @@ RequestDetailsPage._RequestDetailsObject.prototype._appendRequestContent = funct
 
   var dateElement = UIUtils.appendBlock(header, "Date");
   UIUtils.addClass(dateElement, "request-date");
-  var date = new Date(request.timestamp);
+  var date = new Date(request.creation_time);
   dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
 
   var nameElement = UIUtils.appendBlock(header, "Name");
@@ -354,10 +354,27 @@ RequestDetailsPage._NegotiationObject.prototype._appendContent = function(root) 
     UIUtils.addClass(root, "negotiation-message");
 
     if (Backend.isOwnedNegotiation(this._negotiation)) {
-      UIUtils.addClass(root, "negotiation-message-own");
+      UIUtils.addClass(root, "outgoing-negotiation-message");
+    } else {
+      UIUtils.addClass(root, "incoming-negotiation-message");
     }
     
-    root.innerHTML = this._negotiation.text;
+    var dateElement = UIUtils.appendBlock(root, "Date");
+    UIUtils.addClass(dateElement, "negotiation-date");
+    var date = new Date(this._negotiation.creation_time);
+    dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+
+    var nameElement = UIUtils.appendBlock(root, "Name");
+    UIUtils.addClass(nameElement, "negotiation-name");
+    if (Backend.isOwnedNegotiation(this._negotiation)) {
+      nameElement.innerHTML = I18n.getLocale().literals.NameMe;
+    } else {
+      nameElement.innerHTML = this._negotiation.user_name;
+    }
+
+    var textElement = UIUtils.appendBlock(root, "Text");
+    UIUtils.addClass(textElement, "negotiation-text");
+    textElement.innerHTML = this._negotiation.text;
   }
 }
 
@@ -384,7 +401,7 @@ RequestDetailsPage._OfferObject.prototype._appendNegotiation = function(negId) {
 
   var dateElement = UIUtils.appendBlock(header, "Date");
   UIUtils.addClass(dateElement, "negotiation-date");
-  var date = new Date(negotiation.timestamp);
+  var date = new Date(negotiation.creation_time);
   dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
 
   var nameElement = UIUtils.appendBlock(header, "Name");
@@ -613,7 +630,7 @@ RequestDetailsPage._OfferDetailsObject.prototype._appendOfferContent = function(
 
   var dateElement = UIUtils.appendBlock(header, "Date");
   UIUtils.addClass(dateElement, "offer-date");
-  var date = new Date(offer.timestamp);
+  var date = new Date(offer.creation_time);
   dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
 
   var nameElement = UIUtils.appendBlock(header, "Name");

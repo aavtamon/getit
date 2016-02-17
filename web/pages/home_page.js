@@ -120,7 +120,7 @@ HomePage._RequestOutlineObject.prototype._appendRequestContent = function(root) 
 
   var dateElement = UIUtils.appendBlock(firstRow, "Date");
   UIUtils.addClass(dateElement, "request-date");
-  var date = new Date(request.timestamp);
+  var date = new Date(request.creation_time);
   dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
   
   var nameElement = UIUtils.appendBlock(firstRow, "Name");

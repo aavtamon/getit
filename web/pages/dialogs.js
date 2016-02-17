@@ -181,7 +181,7 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
     }
 
     var dateElement = UIUtils.appendBlock(header, "Date");
-    var date = new Date(request.timestamp);
+    var date = new Date(request.creation_time);
     dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
 
     if (!Backend.isOwnedRequest(request)) {
