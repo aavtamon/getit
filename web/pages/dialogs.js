@@ -217,12 +217,12 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
 
     var payment = UIUtils.appendBlock(contentPanel, "Payment");
     UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.PaymentLabel);
-    if (request.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
+    if (request.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
       var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
-      paymentElement.innerHTML = "$" + request.payment.payment;
+      paymentElement.innerHTML = "$" + request.payment;
     }
     var payRateElement = UIUtils.appendBlock(payment, "Payrate");
-    payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payment.payrate);
+    payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payrate);
   }, buttonSpec, true);
 }
 
@@ -488,7 +488,7 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
     var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
     UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
     payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
-    payment.value = lastNegotiatedObject.payment.payment;
+    payment.value = lastNegotiatedObject.payment;
     payment.onchange = function() {
       if (!ValidationUtils.isValidDollarAmount(payment.value)) {
         UIUtils.indicateInvalidInput(payment);
@@ -503,11 +503,11 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
         payment.style.display = "none";
       }
     });
-    payrateChooser.selectData(lastNegotiatedObject.payment.payrate);
+    payrateChooser.selectData(lastNegotiatedObject.payrate);
 
     UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
     depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
-    depositChooser.selectData(lastNegotiatedObject.payment.deposit);
+    depositChooser.selectData(lastNegotiatedObject.deposit);
 
     UIUtils.appendLabel(contentPanel, "MessageLabel", I18n.getLocale().dialogs.NegotiateRequestDialog.MessageLabel);
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "MessageEditor");
@@ -617,7 +617,7 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
     var paymentPanel = UIUtils.appendBlock(contentPanel, "PaymentPanel");
     UIUtils.appendLabel(paymentPanel, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
     payment = UIUtils.appendTextInput(paymentPanel, "PaymentField");
-    payment.value = lastNegotiatedObject.payment.payment;
+    payment.value = lastNegotiatedObject.payment;
     payment.onchange = function() {
       if (!ValidationUtils.isValidDollarAmount(payment.value)) {
         UIUtils.indicateInvalidInput(payment);
@@ -632,11 +632,11 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
         payment.style.display = "none";
       }
     });
-    payrateChooser.selectData(lastNegotiatedObject.payment.payrate);
+    payrateChooser.selectData(lastNegotiatedObject.payrate);
 
     UIUtils.appendLabel(paymentPanel, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
     depositChooser = UIUtils.appendDropList(paymentPanel, "DepositChooser", Application.Configuration.DEPOSITES);
-    depositChooser.selectData(lastNegotiatedObject.payment.deposit);
+    depositChooser.selectData(lastNegotiatedObject.deposit);
 
     UIUtils.appendLabel(contentPanel, "MessageLabel", I18n.getLocale().dialogs.NegotiateRequestDialog.MessageLabel);
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "MessageEditor");

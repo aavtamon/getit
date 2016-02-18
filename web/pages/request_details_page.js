@@ -224,11 +224,11 @@ RequestDetailsPage._RequestDetailsObject.prototype._appendRequestContent = funct
   if (request.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
     UIUtils.addClass(paymentElement, "request-payment");
-    paymentElement.innerHTML = "$" + request.payment.payment;
+    paymentElement.innerHTML = "$" + request.payment;
   }
   var payRateElement = UIUtils.appendBlock(payment, "Payrate");
   UIUtils.addClass(payRateElement, "request-payrate");
-  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payment.payrate);
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, request.payrate);
 }
 
 RequestDetailsPage.prototype._showRequest = function() {
@@ -482,18 +482,18 @@ RequestDetailsPage._OfferObject.prototype._appendNegotiation = function(negId) {
   if (negotiation.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
     UIUtils.addClass(paymentElement, "negotiation-payment");
-    paymentElement.innerHTML = "$" + negotiation.payment.payment;
+    paymentElement.innerHTML = "$" + negotiation.payment;
   }
   var payRateElement = UIUtils.appendBlock(payment, "Payrate");
   UIUtils.addClass(payRateElement, "negotiation-payrate");
-  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, negotiation.payment.payrate);
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, negotiation.payrate);
   
   if (!isRequestersNegotiation) {
     var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
     UIUtils.addClass(depositLabel, "negotiation-deposit-label");
     var depositElement = UIUtils.appendBlock(payment, "Deposit");
     UIUtils.addClass(depositElement, "negotiation-deposit");
-    depositElement.innerHTML = "$" + negotiation.payment.deposit;
+    depositElement.innerHTML = "$" + negotiation.deposit;
   }
 }
 
@@ -727,18 +727,18 @@ RequestDetailsPage._OfferDetailsObject.prototype._appendOfferContent = function(
   if (offer.payment.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
     var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
     UIUtils.addClass(paymentElement, "offer-payment");
-    paymentElement.innerHTML = "$" + offer.payment.payment;
+    paymentElement.innerHTML = "$" + offer.payment;
   }
   var payRateElement = UIUtils.appendBlock(payment, "Payrate");
   UIUtils.addClass(payRateElement, "offer-payrate");
-  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, offer.payment.payrate);
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, offer.payrate);
   
   var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
   UIUtils.addClass(depositLabel, "offer-deposit-label");
   
   var depositElement = UIUtils.appendBlock(payment, "Deposit");
   UIUtils.addClass(depositElement, "offer-deposit");
-  depositElement.innerHTML = "$" + offer.payment.deposit;
+  depositElement.innerHTML = "$" + offer.deposit;
 }
 */
 
