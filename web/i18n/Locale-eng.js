@@ -198,6 +198,7 @@ var Locale_eng = {
       
     },
     "RequestDetailsPage": {
+      "CancelStreamButton": "Recall my offers",
       "RecallOfferButton": "Recall my offer",
       "RecallRequestButton": "Recall my request",
       "NegotiateButton": "Negotiate",
@@ -210,7 +211,6 @@ var Locale_eng = {
       "DeliveryAddressLabel": "Delivery address:",
       "PickupAddressLabel": "Pickup address:",
       
-      "MakeOfferButton": "Make an offer",
       
       "StatusLabel": "Important:",
       "StatusMessageRecalled": "The request was recalled and is no longer accessible. Please remove it from your view.",
@@ -218,7 +218,7 @@ var Locale_eng = {
       "StatusMessageUpdating": "Updating...",
       "StatusMessageNoOffers": "You are still waiting for a response. No updates just yet",
       "StatusMessageOffersWaitingResponse": "There are offers for your attention",
-      "StatusMessageOfferConfirmed": "The offer that you accepted is confirmed. YOu should deliver/pickup as you agreed",
+      "StatusMessageOfferConfirmed": "The offer that you accepted is confirmed. You should deliver/pickup as you agreed",
       "StatusMessageOfferRecalled": "The offer was recalled",
       "StatusMessageNewNegotiations": "New response(s) requires your attention, please review"
     },

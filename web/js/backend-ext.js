@@ -265,7 +265,7 @@ Backend.addNegotiation = function(requestId, streamId, negotiation, transactionC
   }
   
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId, stream);
-  
+
   if (transactionCallback != null) {
     transactionCallback.success();
   }

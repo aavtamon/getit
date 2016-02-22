@@ -227,7 +227,7 @@ Dialogs.showRequestDetailsDialog = function(requestId) {
 }
 
 
-Dialogs.showWriteMessageDialog = function(requestId) {
+Dialogs.showWriteMessageDialog = function(requestId, streamId) {
   var messageEditor;
   var attachmentBar;
   
@@ -254,48 +254,58 @@ Dialogs.showWriteMessageDialog = function(requestId) {
           text: descriptionEditor.getValue(),
           attachments: attachmentBar.getAttachments(),
         };
-
-        var streamCreationCallback = {
-          success: function(newStreamId) {
-            var negotiationCallback = {
-              success: function() {
-                this._onCompletion();
-                
-                UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
-                dialog.close();
-              },
-              failure: function() {
-                this._onCompletion();
-                UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
-              },
-              error: function() {
-                this._onCompletion();
-                UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
-              },
-
-              _onCompletion: function() {
-                Dialogs._processing = false;
-              }
-            }
-            
-            Backend.addNegotiationMessage(requestId, newStreamId, descriptionEditor.getValue(), attachmentBar.getAttachments(), negotiationCallback);
-          },
-          failure: function() {
-            this._onCompletion();
-            UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
-          },
-          error: function() {
-            this._onCompletion();
-            UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
-          },
-
-          _onCompletion: function() {
-            Dialogs._processing = false;
-          }
-        }
         
-        Dialogs._processing = true;
-        Backend.createNegotiationStream(requestId, streamCreationCallback);
+        
+        var createMessage = function(streamId) {
+          var negotiationCallback = {
+            success: function() {
+              this._onCompletion();
+
+              UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
+              dialog.close();
+            },
+            failure: function() {
+              this._onCompletion();
+              UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
+            },
+            error: function() {
+              this._onCompletion();
+              UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
+            },
+
+            _onCompletion: function() {
+              Dialogs._processing = false;
+            }
+          }
+
+          Backend.addNegotiationMessage(requestId, streamId, descriptionEditor.getValue(), attachmentBar.getAttachments(), negotiationCallback);
+        };
+        
+        
+        if (streamId == null) {
+          var streamCreationCallback = {
+            success: function(newStreamId) {
+              createMessage(newStreamId);
+            },
+            failure: function() {
+              this._onCompletion();
+              UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
+            },
+            error: function() {
+              this._onCompletion();
+              UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
+            },
+
+            _onCompletion: function() {
+              Dialogs._processing = false;
+            }
+          }
+
+          Dialogs._processing = true;
+          Backend.createNegotiationStream(requestId, streamCreationCallback);
+        } else {
+          createMessage(streamId);
+        }
       }
     },
     cancel: {
@@ -306,7 +316,7 @@ Dialogs.showWriteMessageDialog = function(requestId) {
 }
 
 
-Dialogs.showCreateNewOfferDialog = function(requestId) {
+Dialogs.showCreateNewOfferDialog = function(requestId, streamId) {
   var descriptionEditor;
   var attachmentBar;
   var getOnChooser;

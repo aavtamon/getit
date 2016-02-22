@@ -253,6 +253,8 @@ RequestDetailsPage.prototype._showStreams = function() {
     this._streamObjects[i].remove();
   }
 
+  this._appendRequestControlPanel();
+
   if (streamIds.length > 0) {
     //TODO: sort streams
     for (var i in streamIds) {
@@ -260,8 +262,6 @@ RequestDetailsPage.prototype._showStreams = function() {
       streamObject.append(this._streamsPanel);
       this._streamObjects.push(streamObject);
     }
-  } else {
-    this._appendRequestControlPanel();
   }
 }
 
@@ -275,7 +275,7 @@ RequestDetailsPage.prototype._updateStream = function(streamId) {
 }
 
 RequestDetailsPage.prototype._appendRequestControlPanel = function() {
-  var controlPanel = UIUtils.appendBlock(this._streamsPanel, "ControlPanel");
+  var controlPanel = UIUtils.appendBlock(this._requestPanel, "ControlPanel");
 
   var request = Backend.getRequest(this._requestId);
   if (Backend.isOwnedRequest(request)) {
@@ -285,14 +285,22 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
       Dialogs.showRecallRequestDialog(this._requestObject);
     }.bind(this));
   } else {
-    var streams = Backend.getNegotiationStreamIds(this._requestId);
-    if (streams != null && streams.length == 0) {
-      var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", this.getLocale().MakeOfferButton);
-      UIUtils.addClass(offerButton, "right-control-button");
-      UIUtils.setClickListener(offerButton, function() {
-        Dialogs.showCreateNewOfferDialog(this._requestId);
-      }.bind(this));
+    var streamIds = Backend.getNegotiationStreamIds(this._requestId);
+    if (streamIds == null || streamIds.length > 0) {
+      return;
     }
+    
+    var writeMessageButton = UIUtils.appendButton(controlPanel, "MessageButton", I18n.getLocale().dialogs.RequestDetailsDialog.MessageButton);
+    UIUtils.addClass(writeMessageButton, "right-control-button");
+    UIUtils.setClickListener(writeMessageButton, function() {
+      Dialogs.showWriteMessageDialog(this._requestId);
+    }.bind(this));
+
+    var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", I18n.getLocale().dialogs.RequestDetailsDialog.OfferButton);
+    UIUtils.addClass(offerButton, "right-control-button");
+    UIUtils.setClickListener(offerButton, function() {
+      Dialogs.showCreateNewOfferDialog(this._requestId);
+    }.bind(this));
   }
 }
 
@@ -339,6 +347,21 @@ RequestDetailsPage._NegotiationStreamObject.prototype.close = function() {
     }.bind(this));
   }
 }
+RequestDetailsPage._NegotiationStreamObject.prototype.update = function() {
+  for (var i in this._negotiationObjects) {
+    this._negotiationObjects[i].destroy();
+  }
+  this._negotiationObjects = [];
+  
+  var negotiations = this._stream.negotiations;
+  for (var i in negotiations) {
+    var neg = negotiations[i];
+    
+    this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg));
+  }
+  
+  AbstractDataObject.prototype.update.call(this);
+}
 RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
   var header = UIUtils.appendBlock(root, "Header");
   UIUtils.addClass(header, "stream-header");
@@ -364,7 +387,28 @@ RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(
   this.__appendStreamControlPanel();
 }
 RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel = function() {
-  
+  var controlPanel = UIUtils.appendBlock(this.getElement(), "ControlPanel");
+
+  if (Backend.isOwnedStream(this._stream)) {
+    var recallStreamButton = UIUtils.appendButton(controlPanel, "CancelStreamButton", I18n.getLocale().pages.RequestDetailsPage.CancelStreamButton, true);
+    UIUtils.addClass(recallStreamButton, "left-control-button");
+    UIUtils.setClickListener(recallStreamButton, function() {
+      Dialogs.showRecallStreamDialog(this, this._requestId, this.getId());
+    }.bind(this));
+    
+    
+    var writeMessageButton = UIUtils.appendButton(controlPanel, "MessageButton", I18n.getLocale().dialogs.RequestDetailsDialog.MessageButton);
+    UIUtils.addClass(writeMessageButton, "right-control-button");
+    UIUtils.setClickListener(writeMessageButton, function() {
+      Dialogs.showWriteMessageDialog(this._requestId, this.getId());
+    }.bind(this));
+
+    var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", I18n.getLocale().dialogs.RequestDetailsDialog.OfferButton);
+    UIUtils.addClass(offerButton, "right-control-button");
+    UIUtils.setClickListener(offerButton, function() {
+      Dialogs.showCreateNewOfferDialog(this._requestId, this.getId());
+    }.bind(this));
+  }
 }
 
 
