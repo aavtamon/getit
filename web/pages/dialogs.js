@@ -99,10 +99,8 @@ Dialogs.showCreateNewRequestDialog = function() {
           pickup: deliveryChooser.getValue(),
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
-          payment: {
-            payrate: payrateChooser.getValue(),
-            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null
-          }
+          payrate: payrateChooser.getValue(),
+          payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null
         };
 
         var backendCallback = {
@@ -256,56 +254,28 @@ Dialogs.showWriteMessageDialog = function(requestId, streamId) {
         };
         
         
-        var createMessage = function(streamId) {
-          var negotiationCallback = {
-            success: function() {
-              this._onCompletion();
+        var negotiationCallback = {
+          success: function() {
+            this._onCompletion();
 
-              UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
-              dialog.close();
-            },
-            failure: function() {
-              this._onCompletion();
-              UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
-            },
-            error: function() {
-              this._onCompletion();
-              UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
-            },
+            UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.MessageIsSentMessage);
+            dialog.close();
+          },
+          failure: function() {
+            this._onCompletion();
+            UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
+          },
+          error: function() {
+            this._onCompletion();
+            UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
+          },
 
-            _onCompletion: function() {
-              Dialogs._processing = false;
-            }
+          _onCompletion: function() {
+            Dialogs._processing = false;
           }
-
-          Backend.addNegotiationMessage(requestId, streamId, descriptionEditor.getValue(), attachmentBar.getAttachments(), negotiationCallback);
-        };
-        
-        
-        if (streamId == null) {
-          var streamCreationCallback = {
-            success: function(newStreamId) {
-              createMessage(newStreamId);
-            },
-            failure: function() {
-              this._onCompletion();
-              UIUtils.showMessage(I18n.getLocale().dialogs.WriteMessageDialog.FailedToSendMessage);
-            },
-            error: function() {
-              this._onCompletion();
-              UIUtils.showMessage(I18n.getLocale().literals.ServerErrorMessage);
-            },
-
-            _onCompletion: function() {
-              Dialogs._processing = false;
-            }
-          }
-
-          Dialogs._processing = true;
-          Backend.createNegotiationStream(requestId, streamCreationCallback);
-        } else {
-          createMessage(streamId);
         }
+
+        Backend.addNegotiationMessage(requestId, streamId, descriptionEditor.getValue(), attachmentBar.getAttachments(), negotiationCallback);
       }
     },
     cancel: {
@@ -423,17 +393,17 @@ Dialogs.showCreateNewOfferDialog = function(requestId, streamId) {
           return;
         }
 
+        
         var offer = {
+          type: Backend.Negotiation.TYPE_OFFER,
           text: descriptionEditor.getValue(),
-          delivery: deliveryChooser.getValue(),
+          attachments: attachmentBar.getAttachments(),
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
-          attachments: attachmentBar.getAttachments(),
-          payment: {
-            payrate: payrateChooser.getValue(),
-            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
-            deposit: depositChooser.getValue()
-          }
+          delivery: deliveryChooser.getValue(),
+          payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+          payrate: payrateChooser.getValue(),
+          deposit: depositChooser.getValue()
         };
 
         var backendCallback = {
@@ -458,7 +428,7 @@ Dialogs.showCreateNewOfferDialog = function(requestId, streamId) {
         }
         
         Dialogs._processing = true;
-        Backend.createOffer(requestId, offer, backendCallback);
+        Backend.addNegotiation(requestId, streamId, offer, backendCallback);
       }
     },
     cancel: {
@@ -558,11 +528,9 @@ Dialogs.showNegotiateRequestDialog = function(requestId, offerId, offer) {
           delivery: deliveryChooser.getValue(),
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
-          payment: {
-            payrate: payrateChooser.getValue(),
-            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
-            deposit: depositChooser.getValue()
-          }
+          payrate: payrateChooser.getValue(),
+          payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+          deposit: depositChooser.getValue()
         };
 
         var backendCallback = {
@@ -687,11 +655,9 @@ Dialogs.showNegotiateOfferDialog = function(requestId, offerId, offer) {
           delivery: deliveryChooser.getValue(),
           get_on: getOnChooser.getDate().getTime(),
           return_by: returnByChooser.getDate().getTime(),
-          payment: {
-            payrate: payrateChooser.getValue(),
-            payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
-            deposit: depositChooser.getValue()
-          }
+          payrate: payrateChooser.getValue(),
+          payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null,
+          deposit: depositChooser.getValue()
         };
 
         var backendCallback = {

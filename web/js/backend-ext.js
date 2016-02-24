@@ -254,20 +254,42 @@ Backend.addNegotiation = function(requestId, streamId, negotiation, transactionC
   negotiation.user_id = Backend.getUserProfile().user_id;
   negotiation.creation_time = Date.now();
   negotiation.user_name = Backend.getUserProfile().name;
+
   
-  var stream = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
-  
-  Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
-  if (stream.negotiations == null) {
-    stream.negotiations = [negotiation];
-  } else {
-    stream.negotiations.push(negotiation);
+  var createStream = function(streamId) {
+    var stream = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
+
+    Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
+    if (stream.negotiations == null) {
+      stream.negotiations = [negotiation];
+    } else {
+      stream.negotiations.push(negotiation);
+    }
+
+    Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId, stream);
+
+    if (transactionCallback != null) {
+      transactionCallback.success();
+    }
   }
   
-  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId, stream);
+  
+  if (streamId == null) {
+    var streamCreationCallback = {
+      success: function(newStreamId) {
+        createStream(newStreamId);
+      },
+      failure: function() {
+        transactionCallback.failure();
+      },
+      error: function() {
+        transactionCallback.error();
+      }
+    }
 
-  if (transactionCallback != null) {
-    transactionCallback.success();
+    Backend.createNegotiationStream(requestId, streamCreationCallback);
+  } else {
+    createStream(streamId);
   }
 }
 
