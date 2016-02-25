@@ -388,6 +388,13 @@ RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(
 }
 RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel = function() {
   var controlPanel = UIUtils.appendBlock(this.getElement(), "ControlPanel");
+  UIUtils.addClass(controlPanel, "button-control-panel");
+
+  var writeMessageButton = UIUtils.appendButton(controlPanel, "MessageButton", I18n.getLocale().dialogs.RequestDetailsDialog.MessageButton);
+  UIUtils.addClass(writeMessageButton, "right-control-button");
+  UIUtils.setClickListener(writeMessageButton, function() {
+    Dialogs.showWriteMessageDialog(this._requestId, this.getId());
+  }.bind(this));
 
   if (Backend.isOwnedStream(this._stream)) {
     var recallStreamButton = UIUtils.appendButton(controlPanel, "CancelStreamButton", I18n.getLocale().pages.RequestDetailsPage.CancelStreamButton, true);
@@ -395,14 +402,15 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
     UIUtils.setClickListener(recallStreamButton, function() {
       Dialogs.showRecallStreamDialog(this, this._requestId, this.getId());
     }.bind(this));
-    
-    
-    var writeMessageButton = UIUtils.appendButton(controlPanel, "MessageButton", I18n.getLocale().dialogs.RequestDetailsDialog.MessageButton);
-    UIUtils.addClass(writeMessageButton, "right-control-button");
-    UIUtils.setClickListener(writeMessageButton, function() {
-      Dialogs.showWriteMessageDialog(this._requestId, this.getId());
+  } else {
+    var removeStreamButton = UIUtils.appendButton(controlPanel, "RemoveStreamButton", I18n.getLocale().pages.RequestDetailsPage.RemoveStreamButton, true);
+    UIUtils.addClass(removeStreamButton, "left-control-button");
+    UIUtils.setClickListener(removeStreamButton, function() {
+      Backend.removeNegotiationStream(this._requestId, this.getId());
     }.bind(this));
-
+  }
+  
+  if (this._stream.status == Backend.NegotiationStream.STATUS_ACTIVE) {
     var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", I18n.getLocale().dialogs.RequestDetailsDialog.OfferButton);
     UIUtils.addClass(offerButton, "right-control-button");
     UIUtils.setClickListener(offerButton, function() {

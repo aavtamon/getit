@@ -199,7 +199,7 @@ var Locale_eng = {
     },
     "RequestDetailsPage": {
       "CancelStreamButton": "Recall my offers",
-      "RecallOfferButton": "Recall my offer",
+      "RemoveOfferButton": "Remove/Ignore offer",
       "RecallRequestButton": "Recall my request",
       "NegotiateButton": "Negotiate",
       "AcceptButton": "Accept offer",
