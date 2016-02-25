@@ -218,41 +218,37 @@
   display: block;
 }
 
-/*
 
-#RequestDetailsPage-ContentPanel-StreamsPanel .offer {
-  display: inline-block;
-  width: 800px;
-  margin-left: 80px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-#RequestDetailsPage-ContentPanel-OffersPanel .offer-details {
+#RequestDetailsPage-ContentPanel-StreamsPanel .negotiation-offer {
   position: relative;
-  display: block;
+  text-align: left;
   padding: 5px 10px 5px 10px;
-  margin-bottom: 10px;
   
   text-align: left;
-
-  box-shadow: 5px 5px 5px darkgray;  
+  
+  box-shadow: 5px 5px 5px darkgray;
 }
-.offer-details .offer-date {
+#RequestDetailsPage-ContentPanel-StreamsPanel .incoming-negotiation-offer {
+  background-color: rgb(200, 230, 190);
+}
+#RequestDetailsPage-ContentPanel-StreamsPanel .outgoing-negotiation-offer {
+  background-color: rgb(230, 230, 230);
+}
+.negotiation-offer .negotiation-date {
   display: inline-block;
   margin-left: 400px;
   width: 200px;
   
   text-align: right;
 }
-.offer-details .offer-name {
+.negotiation-offer .negotiation-name {
   display: inline-block;
   margin-left: 70px;
   width: 100px;
   
   text-align: right;
 }
-.offer-details .offer-text {
+.negotiation-offer .negotiation-text {
   display: inline-block;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -264,172 +260,74 @@
   overflow: hidden;
   white-space: nowrap;
 }
-.offer-details .offer-rating {
+.negotiation-offer .negotiation-rating {
   margin-left: 20px;
 }
-.offer-details .offer-geton-label {
+.negotiation-offer .negotiation-geton-label {
   width: 120px;
 }
-.offer-details .offer-geton {
+.negotiation-offer .negotiation-geton {
   display: inline-block;
   margin-left: 10px;
   width: 100px;
 }
-.offer-details .offer-returnby-label {
+.negotiation-offer .negotiation-returnby-label {
   margin-left: 10px;
 }
-.offer-details .offer-returnby {
+.negotiation-offer .negotiation-returnby {
   display: inline-block;
   margin-left: 10px;
   width: 100px;
 }
-.offer-details .offer-delivery-label {
+.negotiation-offer .negotiation-delivery-label {
   margin-left: 50px;
 }
-.offer-details .offer-delivery {
+.negotiation-offer .negotiation-delivery {
   display: inline-block;
   margin-left: 10px;
   width: 100px;
 }
-.offer-details .offer-zip-label {
+.negotiation-offer .negotiation-zip-label {
   margin-left: 50px;
 }
-.offer-details .offer-zip {
+.negotiation-offer .negotiation-zip {
   display: inline-block;
   margin-top: 10px;
   margin-left: 10px;
   width: 100px;
 }
-.offer-details .offer-distance-label {
+.negotiation-offer .negotiation-distance-label {
   margin-left: 50px;
 }
-.offer-details .offer-distance {
+.negotiation-offer .negotiation-distance {
   display: inline-block;
   margin-left: 10px;
   width: 100px;
 }
-.offer-details .offer-payment-label {
+.negotiation-offer .negotiation-payment-label {
   margin-top: 10px;
 }
-.offer-details .offer-payment {
+.negotiation-offer .negotiation-payment {
   display: inline-block;
   margin-left: 10px;
 }
-.offer-details .offer-payrate {
-  display: inline-block;
-  margin-top: 10px;
-  margin-left: 10px;
-}
-.offer-details .offer-deposit-label {
-  margin-left: 50px;
-}
-.offer-details .offer-deposit {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-.outgoing-offer-details {
-  background: rgb(235, 215, 185);
-}
-.incoming-offer-details {
-  background: rgb(200, 230, 240);
-}
-.inactive-offer-details {
-  background: rgb(180, 180, 180);
-}
-
-
-#RequestDetailsPage-ContentPanel-OffersPanel .negotiation-details {
-  position: relative;
-  display: inline-block;
-  padding: 5px 10px 5px 10px;
-  width: 740px;
-  margin-left: 40px;
-  margin-bottom: 10px;
-  
-  text-align: left;
-
-  box-shadow: 5px 5px 5px darkgray;  
-}
-.negotiation-details .negotiation-date {
-  display: inline-block;
-  margin-left: 300px;
-  width: 200px;
-  
-  text-align: right;
-}
-.negotiation-details .negotiation-name {
-  display: inline-block;
-  margin-left: 130px;
-  width: 100px;
-  
-  text-align: right;
-}
-.negotiation-details .negotiation-text {
-  display: inline-block;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  width: 600px;
-  vertical-align: middle;
-  
-  font-family: Verdana;
-  
-  overflow: hidden;
-  white-space: nowrap;
-}
-.negotiation-details .negotiation-rating {
-  margin-left: 20px;
-}
-.negotiation-details .negotiation-geton-label {
-  width: 120px;
-}
-.negotiation-details .negotiation-geton {
-  display: inline-block;
-  margin-left: 10px;
-  width: 100px;
-}
-.negotiation-details .negotiation-returnby-label {
-  margin-left: 10px;
-}
-.negotiation-details .negotiation-returnby {
-  display: inline-block;
-  margin-left: 10px;
-  width: 100px;
-}
-.negotiation-details .negotiation-delivery-label {
-  margin-left: 50px;
-}
-.negotiation-details .negotiation-delivery {
-  display: inline-block;
-  margin-left: 10px;
-  width: 100px;
-}
-.negotiation-details .negotiation-payment-label {
-  margin-top: 10px;
-}
-.negotiation-details .negotiation-payment {
-  display: inline-block;
-  margin-left: 10px;
-}
-.negotiation-details .negotiation-payrate {
+.negotiation-offer .negotiation-payrate {
   display: inline-block;
   margin-top: 10px;
   margin-left: 10px;
 }
-.negotiation-details .negotiation-deposit-label {
+.negotiation-offer .negotiation-deposit-label {
   margin-left: 50px;
 }
-.negotiation-details .negotiation-deposit {
+.negotiation-offer .negotiation-deposit {
   display: inline-block;
   margin-left: 10px;
 }
 
-.outgoing-negotiation-details {
-  background: rgb(235, 215, 185);
-}
-.incoming-negotiation-details {
-  background: rgb(200, 230, 240);
-}
+
+
+
+
 
 
 .offer-control-panel {

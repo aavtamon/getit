@@ -357,7 +357,7 @@ RequestDetailsPage._NegotiationStreamObject.prototype.update = function() {
   for (var i in negotiations) {
     var neg = negotiations[i];
     
-    this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg));
+    this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg, this._stream));
   }
   
   AbstractDataObject.prototype.update.call(this);
@@ -414,39 +414,131 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
 
 
 
-RequestDetailsPage._NegotiationObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationObject(id, negotiation) {
+RequestDetailsPage._NegotiationObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationObject(id, negotiation, stream) {
   AbstractDataObject.call(this, id, "negotiation");
   
   this._negotiation = negotiation;
+  this._stream = stream;
 });
 RequestDetailsPage._NegotiationObject.prototype._appendContent = function(root) {
   if (this._negotiation.type == Backend.Negotiation.TYPE_MESSAGE) {
-    UIUtils.addClass(root, "negotiation-message");
+    this.__appendMessage(root);
+  } else if (this._negotiation.type == Backend.Negotiation.TYPE_OFFER) {
+    this.__appendOffer(root);
+  }
+}
+RequestDetailsPage._NegotiationObject.prototype.__appendMessage = function(root) {
+  UIUtils.addClass(root, "negotiation-message");
 
-    if (Backend.isOwnedNegotiation(this._negotiation)) {
-      UIUtils.addClass(root, "outgoing-negotiation-message");
-    } else {
-      UIUtils.addClass(root, "incoming-negotiation-message");
-    }
-    
-    var dateElement = UIUtils.appendBlock(root, "Date");
-    UIUtils.addClass(dateElement, "negotiation-date");
-    var date = new Date(this._negotiation.creation_time);
-    dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  if (Backend.isOwnedNegotiation(this._negotiation)) {
+    UIUtils.addClass(root, "outgoing-negotiation-message");
+  } else {
+    UIUtils.addClass(root, "incoming-negotiation-message");
+  }
 
-    var nameElement = UIUtils.appendBlock(root, "Name");
-    UIUtils.addClass(nameElement, "negotiation-name");
-    if (Backend.isOwnedNegotiation(this._negotiation)) {
-      nameElement.innerHTML = I18n.getLocale().literals.NameMe;
-    } else {
-      nameElement.innerHTML = this._negotiation.user_name;
-    }
+  var dateElement = UIUtils.appendBlock(root, "Date");
+  UIUtils.addClass(dateElement, "negotiation-date");
+  var date = new Date(this._negotiation.creation_time);
+  dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
 
+  var nameElement = UIUtils.appendBlock(root, "Name");
+  UIUtils.addClass(nameElement, "negotiation-name");
+  if (Backend.isOwnedNegotiation(this._negotiation)) {
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
+  } else {
+    nameElement.innerHTML = this._negotiation.user_name;
+  }
+
+  var textElement = UIUtils.appendBlock(root, "Text");
+  UIUtils.addClass(textElement, "negotiation-text");
+  textElement.innerHTML = this._negotiation.text;
+}
+RequestDetailsPage._NegotiationObject.prototype.__appendOffer = function(root) {
+  UIUtils.addClass(root, "negotiation-offer");
+
+  if (Backend.isOwnedNegotiation(this._negotiation)) {
+    UIUtils.addClass(root, "outgoing-negotiation-offer");
+  } else {
+    UIUtils.addClass(root, "incoming-negotiation-offer");
+  }
+
+  
+  var header = UIUtils.appendBlock(root, "Header");
+
+  var dateElement = UIUtils.appendBlock(header, "Date");
+  UIUtils.addClass(dateElement, "negotiation-date");
+  var date = new Date(this._negotiation.creation_time);
+  dateElement.innerHTML = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+
+  var nameElement = UIUtils.appendBlock(header, "Name");
+  UIUtils.addClass(nameElement, "negotiation-name");
+  if (Backend.isOwnedNegotiation(this._negotiation)) {
+    nameElement.innerHTML = I18n.getLocale().literals.NameMe;
+  } else {
+    nameElement.innerHTML = negotiation.user_name;
+  }
+
+  if (this._negotiation.text != null && this._negotiation.text != "") {
     var textElement = UIUtils.appendBlock(root, "Text");
     UIUtils.addClass(textElement, "negotiation-text");
     textElement.innerHTML = this._negotiation.text;
   }
+
+  var isRequestersNegotiation = this._stream.user_id != this._negotiation.user_id;  
+  
+  var whenAndHow = UIUtils.appendBlock(root, "WhenAndHow");
+  
+  var getOnLabel = UIUtils.appendLabel(whenAndHow, "GetOnLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.GetOnLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.GetOnLabel);
+  UIUtils.addClass(getOnLabel, "negotiation-geton-label");
+  var getOnElement = UIUtils.appendBlock(whenAndHow, "GetOn");
+  UIUtils.addClass(getOnElement, "negotiation-geton");
+  date = new Date(this._negotiation.get_on);
+  getOnElement.innerHTML = date.toLocaleDateString();
+
+  var returnByLabel = UIUtils.appendLabel(whenAndHow, "ReturnByLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.ReturnByLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.ReturnByLabel);
+  UIUtils.addClass(returnByLabel, "negotiation-returnby-label");
+  var returnByElement = UIUtils.appendBlock(whenAndHow, "ReturnBy");
+  UIUtils.addClass(returnByElement, "negotiation-returnby");
+  date = new Date(this._negotiation.return_by);
+  returnByElement.innerHTML = date.toLocaleDateString();
+
+  var deliveryLabel = UIUtils.appendLabel(whenAndHow, "DeliveryLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.PickupLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.DeliveryLabel);
+  UIUtils.addClass(deliveryLabel, "negotiation-delivery-label");
+  var deliveryElement = UIUtils.appendBlock(whenAndHow, "Delivery");
+  UIUtils.addClass(deliveryElement, "negotiation-delivery");
+  deliveryElement.innerHTML = Application.Configuration.dataToString(isRequestersNegotiation ? Application.Configuration.PICKUP_OPTIONS : Application.Configuration.DELIVERY_OPTIONS, this._negotiation.delivery);
+
+  var where = UIUtils.appendBlock(root, "Where");
+  if (this._negotiation.address != null && this._negotiation.address != "") {
+    var addressLabel = UIUtils.appendLabel(where, "AddressLabel", Application.Configuration.DELIVERY_OPTIONS[0] ? this.getLocale().PickupAddressLabel : this.getLocale().DeliveryAddressLabel);
+    UIUtils.addClass(addressLabel, "negotiation-address-label");
+    var addressElement = UIUtils.appendBlock(where, "Address");
+    UIUtils.addClass(addressElement, "negotiation-address");
+    addressElement.innerHTML = this._negotiation.address;
+  }
+
+
+  var payment = UIUtils.appendBlock(root, "Payment");
+  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", isRequestersNegotiation ? I18n.getLocale().dialogs.CreateNewRequestDialog.PaymentLabel : I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
+  UIUtils.addClass(paymentLabel, "negotiation-payment-label");
+  if (this._negotiation.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
+    var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
+    UIUtils.addClass(paymentElement, "negotiation-payment");
+    paymentElement.innerHTML = "$" + this._negotiation.payment;
+  }
+  var payRateElement = UIUtils.appendBlock(payment, "Payrate");
+  UIUtils.addClass(payRateElement, "negotiation-payrate");
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, this._negotiation.payrate);
+
+  if (!isRequestersNegotiation) {
+    var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
+    UIUtils.addClass(depositLabel, "negotiation-deposit-label");
+    var depositElement = UIUtils.appendBlock(payment, "Deposit");
+    UIUtils.addClass(depositElement, "negotiation-deposit");
+    depositElement.innerHTML = "$" + this._negotiation.deposit;
+  }
 }
+
 
 
 
