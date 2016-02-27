@@ -46,6 +46,12 @@ Backend.NegotiationStream.STATUS_ACTIVE = "active";
 Backend.NegotiationStream.STATUS_CLOSED = "closed";
 Backend.NegotiationStream.STATUS_DENIED = "denied";
 Backend.NegotiationStream.STATUS_RECALLED = "recalled";
+Backend.NegotiationStream.STATUS_ACCEPTED = "accepted";
+Backend.NegotiationStream.STATUS_ACCEPTANCE_CONFIRMED = "acceptance_confirmed";
+Backend.NegotiationStream.STATUS_DELIVERED = "delivered";
+Backend.NegotiationStream.STATUS_DELIVERY_CONFIRMED = "delivery_confirmed";
+Backend.NegotiationStream.STATUS_RETURNED = "returned";
+Backend.NegotiationStream.STATUS_RETURN_CONFIRMED = "return_confirmed";
 /*
   NegotiationStream.revision: number, automatic
   NegotiationStream.user_id: number

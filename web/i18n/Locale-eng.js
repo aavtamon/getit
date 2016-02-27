@@ -53,6 +53,35 @@ var Locale_eng = {
     
     "IncorrectAttachmentMessage": "You can only attach images",
     "AttachmentTooBigMessageProvider": function(maxSize) { return "The image size should be less than " + maxSize +" MGb" },
+    
+    
+    "StreamStatusProvider": function(status) {
+      var statusMessage = "Status: ";
+      
+      if (status == Backend.NegotiationStream.STATUS_ACTIVE) {
+        statusMessage += "In negotiation";
+      } else if (status == Backend.NegotiationStream.STATUS_DENIED) {
+        statusMessage += "Denied";
+      } else if (status == Backend.NegotiationStream.STATUS_RECALLED) {
+        statusMessage += "Recalled";
+      } else if (status == Backend.NegotiationStream.STATUS_ACCEPTED) {
+        statusMessage += "Accepted, waiting a confirmation";
+      } else if (status == Backend.NegotiationStream.STATUS_ACCEPTANCE_CONFIRMED) {
+        statusMessage += "Accepted and confirmed, awaiting pickup/delivery";
+      } else if (status == Backend.NegotiationStream.STATUS_DELIVERED) {
+        statusMessage += "Delivered/picked, awaiting confirmation";
+      } else if (status == Backend.NegotiationStream.STATUS_DELIVERY_CONFIRMED) {
+        statusMessage += "Delivery/pick up confirmed";
+      } else if (status == Backend.NegotiationStream.STATUS_RETURNED) {
+        statusMessage += "Returned, awaiting confirmation";
+      } else if (status == Backend.NegotiationStream.STATUS_RETURN_CONFIRMED) {
+        statusMessage += "Return confirmed, deposit will be released soon";
+      } else if (status == Backend.NegotiationStream.STATUS_CLOSED) {
+        statusMessage += "Closed, payment withdrawn, deposit released";
+      }
+      
+      return statusMessage;
+    }
   },
   "dialogs": {
     "CreateNewRequestDialog": {

@@ -365,6 +365,10 @@ RequestDetailsPage._NegotiationStreamObject.prototype.update = function() {
 RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
   var header = UIUtils.appendBlock(root, "Header");
   UIUtils.addClass(header, "stream-header");
+
+  var statusElement = UIUtils.appendBlock(header, "Status");
+  UIUtils.addClass(statusElement, "stream-status");
+  statusElement.innerHTML = I18n.getLocale().literals.StreamStatusProvider(this._stream.status);
   
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "stream-name");

@@ -172,15 +172,24 @@
   margin-bottom: 10px;
   padding-right: 20px;
   
-  text-align: right;
+  text-align: left;
+}
+.stream-header .stream-status {
+  display: inline-block;
 }
 .stream-header .stream-name {
   display: inline-block;
   width: 100px;
+  
+  text-align: right;
+  
+  float: right;
 }
 .stream-header .stream-rating {
   display: inline-block;
   margin-left: 10px;
+  
+  float: right;
 }
 
 #RequestDetailsPage-ContentPanel-StreamsPanel .negotiation {
