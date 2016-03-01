@@ -149,9 +149,14 @@ var Locale_eng = {
       "RecallOfferText": "Do you really want to recall your offer?<br>It will remove it completely."
     },
     "ConfirmOfferDialog": {
-      "ConfirmOffer": "Offer Confirmation",
-      "ConfirmOfferTextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
+      "Title": "Offer Confirmation",
+      "TextProvider": function() { return "By confirming this offer you accept all the conditions that was negotiated and commit to provide the goods as your agreed to provide."},
       "ConfirmOfferButton": "Confirm all conditions"
+    },
+    "AcceptOfferDialog": {
+      "Title": "Offer Acceptance",
+      "TextProvider": function(offer) { return "By accpeting this offer you are agreing to the following: TBD."},
+      "AcceptOfferButton": "Accept"
     },
     "DismissRequestWithOffersDialog": {
       "RequestHasOffer": "Remove The Request And Recall The Offer",
@@ -231,8 +236,11 @@ var Locale_eng = {
       "RemoveOfferButton": "Remove/Ignore offer",
       "RecallRequestButton": "Recall my request",
       "NegotiateButton": "Negotiate",
-      "AcceptButton": "Accept offer",
-      "DeclineButton": "Decline offer",
+      "AcceptOfferButton": "Accept offer",
+      "ConfirmOfferButton": "Confirm acceptance",
+      "ConfirmDeliveryButton": "Delivered",
+      "AcceptDeliveryButton": "Accept delivery",
+      "DeclineOfferButton": "Decline offer",
       
       "ZipLabel": "Zip code:",
       "DistanceLabel": "Distance:",

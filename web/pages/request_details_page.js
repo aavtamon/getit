@@ -420,6 +420,64 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
     UIUtils.setClickListener(offerButton, function() {
       Dialogs.showCreateNewOfferDialog(this._requestId, this.getId());
     }.bind(this));
+    
+    if (!Backend.isOwnedStream(this._stream)) {
+      var hasOffer = false;
+      for (var i in this._stream.negotiations) {
+        if (this._stream.negotiations[i].type == Backend.Negotiation.TYPE_OFFER) {
+          hasOffer = true;
+          break;
+        }
+      }
+      
+      if (hasOffer) {
+        var acceptOfferButton = UIUtils.appendButton(controlPanel, "AcceptOfferButton", this.getLocale().AcceptOfferButton);
+        UIUtils.addClass(acceptOfferButton, "right-control-button");
+        UIUtils.setClickListener(acceptOfferButton, function() {
+          Dialogs.showAcceptOfferDialog(this._requestId, this.getId());
+        }.bind(this));
+      }
+    }
+  } else if (this._stream.status == Backend.NegotiationStream.STATUS_ACCEPTED) {
+    if (Backend.isOwnedStream(this._stream)) {
+      var confirmOfferButton = UIUtils.appendButton(controlPanel, "ConfirmOfferButton", this.getLocale().ConfirmOfferButton);
+      UIUtils.addClass(confirmOfferButton, "right-control-button");
+      UIUtils.setClickListener(confirmOfferButton, function() {
+        Dialogs.showConfirmOfferDialog(this._requestId, this.getId());
+      }.bind(this));
+    }
+  } else if (this._stream.status == Backend.NegotiationStream.STATUS_ACCEPTANCE_CONFIRMED) {
+    if (Backend.isOwnedStream(this._stream)) {
+      var confirmOfferButton = UIUtils.appendButton(controlPanel, "ConfirmDeliveryButton", this.getLocale().ConfirmDeliveryButton);
+      UIUtils.addClass(confirmOfferButton, "right-control-button");
+      UIUtils.setClickListener(confirmOfferButton, function() {
+        Dialogs.showConfirmAcceptanceDialog(this._requestId, this.getId());
+      }.bind(this));
+    }
+  } else if (this._stream.status == Backend.NegotiationStream.STATUS_DELIVERED) {
+    if (Backend.isOwnedStream(this._stream)) {
+      var acceptDeliveryButton = UIUtils.appendButton(controlPanel, "AcceptDeliveryButton", this.getLocale().AcceptDeliveryButton);
+      UIUtils.addClass(acceptDeliveryButton, "right-control-button");
+      UIUtils.setClickListener(acceptDeliveryButton, function() {
+        Dialogs.showAcceptDeliveryDialog(this._requestId, this.getId());
+      }.bind(this));
+    }
+  } else if (this._stream.status == Backend.NegotiationStream.STATUS_DELIVERY_ACCEPTED) {
+    if (Backend.isOwnedStream(this._stream)) {
+      var confirmReturnButton = UIUtils.appendButton(controlPanel, "ConfirmReturnButton", this.getLocale().ConfirmReturnButton);
+      UIUtils.addClass(confirmReturnButton, "right-control-button");
+      UIUtils.setClickListener(confirmReturnButton, function() {
+        Dialogs.showConfirmReturnDialog(this._requestId, this.getId());
+      }.bind(this));
+    }
+  } else if (this._stream.status == Backend.NegotiationStream.STATUS_RETURNED) {
+    if (Backend.isOwnedStream(this._stream)) {
+      var acceptReturnButton = UIUtils.appendButton(controlPanel, "AcceptReturnButton", this.getLocale().AcceptReturnButton);
+      UIUtils.addClass(acceptReturnButton, "right-control-button");
+      UIUtils.setClickListener(acceptReturnButton, function() {
+        Dialogs.showAcceptReturnDialog(this._requestId, this.getId());
+      }.bind(this));
+    }
   }
 }
 

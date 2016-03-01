@@ -754,14 +754,15 @@ Dialogs.showIgnoreRequestWithOffersDialog = function(requestObject) {
 }
 
 
-Dialogs.showRecallOfferDialog = function(offerObject, requestId, offerId) {
-  var dialog = UIUtils.showDialog("RecallOffer", I18n.getLocale().dialogs.RecallOfferDialog.RecallOffer, I18n.getLocale().dialogs.RecallOfferDialog.RecallOfferText, {
+Dialogs.showAcceptOfferDialog = function(requestId, streamId) {
+  var dialog = UIUtils.showDialog("OfferAcceptance", I18n.getLocale().dialogs.AcceptOfferDialog.Title, I18n.getLocale().dialogs.AcceptOfferDialog.TextProvider(), {
     ok: {
-      display: I18n.getLocale().literals.ConfirmButton,
+      display: I18n.getLocale().dialogs.ConfirmOfferDialog.AcceptOfferButton,
       listener: function() {
-        offerObject.dismiss(function() {
-          Backend.recallOffer(requestId, offerId);
-        });
+        var stream = Backend.getNegotiationStream(requestId, streamId);
+        stream.status = Backend.Negotiation.STATUS_ACCEPTED;
+        Backend.updateNegotiationStream(requestId, streamId, stream);
+        
         dialog.close();
       }
     },
@@ -772,12 +773,15 @@ Dialogs.showRecallOfferDialog = function(offerObject, requestId, offerId) {
   });
 }
 
-Dialogs.showConfirmOfferDialog = function(requestId, offerId) {
-  var dialog = UIUtils.showDialog("OfferConfirmation", I18n.getLocale().dialogs.ConfirmOfferDialog.ConfirmOffer, I18n.getLocale().dialogs.ConfirmOfferDialog.ConfirmOfferTextProvider(), {
+Dialogs.showConfirmOfferDialog = function(requestId, streamId) {
+  var dialog = UIUtils.showDialog("OfferConfirmation", I18n.getLocale().dialogs.ConfirmOfferDialog.Title, I18n.getLocale().dialogs.ConfirmOfferDialog.TextProvider(), {
     ok: {
       display: I18n.getLocale().dialogs.ConfirmOfferDialog.ConfirmOfferButton,
       listener: function() {
-        Backend.addNegotiation(requestId, offerId, Backend.Negotiation.TYPE_CONFIRM);
+        var stream = Backend.getNegotiationStream(requestId, streamId);
+        stream.status = Backend.NegotiationStream.STATUS_ACCEPTANCE_CONFIRMED;
+        Backend.updateNegotiationStream(requestId, streamId, stream);
+        
         dialog.close();
       }
     },
