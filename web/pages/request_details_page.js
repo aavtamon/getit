@@ -254,7 +254,7 @@ RequestDetailsPage.prototype._showStreams = function() {
   }
 
   this._appendRequestControlPanel();
-
+  
   if (streamIds.length > 0) {
     //TODO: sort streams
     for (var i in streamIds) {
@@ -311,13 +311,14 @@ RequestDetailsPage._NegotiationStreamObject = ClassUtils.defineClass(AbstractDat
   this._requestId = requestId;
   this._negotiationObjects = [];
 
-  this._stream = Backend.getNegotiationStream(requestId, streamId);
-  
-  var negotiations = this._stream.negotiations;
-  for (var i in negotiations) {
-    var neg = negotiations[i];
-    
-    this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg));
+  var stream = Backend.getNegotiationStream(this._requestId, this.getId());
+
+  if (stream != null) {
+    for (var i in stream.negotiations) {
+      var neg = stream.negotiations[i];
+
+      this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg, stream));
+    }
   }
 });
 RequestDetailsPage._NegotiationStreamObject.prototype.remove = function() {
@@ -339,7 +340,9 @@ RequestDetailsPage._NegotiationStreamObject.prototype.isClosable = function() {
   return true;
 }
 RequestDetailsPage._NegotiationStreamObject.prototype.close = function() {
-  if (Backend.isOwnedStream(this._stream)) {
+  var stream = Backend.getNegotiationStream(this._requestId, this.getId());
+  
+  if (Backend.isOwnedStream(stream)) {
     Dialogs.showRecallStreamDialog(this, this._requestId, this.getId());
   } else {
     this.dismiss(function() {
@@ -348,38 +351,48 @@ RequestDetailsPage._NegotiationStreamObject.prototype.close = function() {
   }
 }
 RequestDetailsPage._NegotiationStreamObject.prototype.update = function() {
+  var stream = Backend.getNegotiationStream(this._requestId, this.getId());
+
   for (var i in this._negotiationObjects) {
     this._negotiationObjects[i].destroy();
   }
   this._negotiationObjects = [];
   
-  var negotiations = this._stream.negotiations;
-  for (var i in negotiations) {
-    var neg = negotiations[i];
-    
-    this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg, this._stream));
+  
+  if (stream != null) {
+    for (var i in stream.negotiations) {
+      var neg = stream.negotiations[i];
+
+      this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg, stream));
+    }
   }
   
   AbstractDataObject.prototype.update.call(this);
 }
 RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
+  var stream = Backend.getNegotiationStream(this._requestId, this.getId());
+  
+  if (stream == null) {
+    return;
+  }
+  
   var header = UIUtils.appendBlock(root, "Header");
   UIUtils.addClass(header, "stream-header");
 
   var statusElement = UIUtils.appendBlock(header, "Status");
   UIUtils.addClass(statusElement, "stream-status");
-  statusElement.innerHTML = I18n.getLocale().literals.StreamStatusProvider(this._stream.status);
+  statusElement.innerHTML = I18n.getLocale().literals.StreamStatusProvider(stream.status);
   
   var nameElement = UIUtils.appendBlock(header, "Name");
   UIUtils.addClass(nameElement, "stream-name");
-  if (Backend.isOwnedRequest(this._stream)) {
+  if (Backend.isOwnedRequest(stream)) {
     nameElement.innerHTML = I18n.getLocale().literals.NameMe;
   } else {
-    nameElement.innerHTML = this._stream.user_name;
+    nameElement.innerHTML = stream.user_name;
     
     var ratingElement = UIUtils.appendRatingBar(this.getElement(), "Rating");
     UIUtils.addClass(ratingElement, "stream-rating");
-    ratingElement.setRating(this._stream.star_rating);
+    ratingElement.setRating(stream.star_rating);
   }
 
   
@@ -391,6 +404,8 @@ RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(
   this.__appendStreamControlPanel();
 }
 RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel = function() {
+  var stream = Backend.getNegotiationStream(this._requestId, this.getId());
+  
   var controlPanel = UIUtils.appendBlock(this.getElement(), "ControlPanel");
   UIUtils.addClass(controlPanel, "button-control-panel");
 
@@ -400,7 +415,7 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
     Dialogs.showWriteMessageDialog(this._requestId, this.getId());
   }.bind(this));
 
-  if (Backend.isOwnedStream(this._stream)) {
+  if (Backend.isOwnedStream(stream)) {
     var recallStreamButton = UIUtils.appendButton(controlPanel, "CancelStreamButton", I18n.getLocale().pages.RequestDetailsPage.CancelStreamButton, true);
     UIUtils.addClass(recallStreamButton, "left-control-button");
     UIUtils.setClickListener(recallStreamButton, function() {
@@ -414,17 +429,17 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
     }.bind(this));
   }
   
-  if (this._stream.status == Backend.NegotiationStream.STATUS_ACTIVE) {
+  if (stream.status == Backend.NegotiationStream.STATUS_ACTIVE) {
     var offerButton = UIUtils.appendButton(controlPanel, "MakeOfferButton", I18n.getLocale().dialogs.RequestDetailsDialog.OfferButton);
     UIUtils.addClass(offerButton, "right-control-button");
     UIUtils.setClickListener(offerButton, function() {
       Dialogs.showCreateNewOfferDialog(this._requestId, this.getId());
     }.bind(this));
     
-    if (!Backend.isOwnedStream(this._stream)) {
+    if (!Backend.isOwnedStream(stream)) {
       var hasOffer = false;
       for (var i in this._stream.negotiations) {
-        if (this._stream.negotiations[i].type == Backend.Negotiation.TYPE_OFFER) {
+        if (stream.negotiations[i].type == Backend.Negotiation.TYPE_OFFER) {
           hasOffer = true;
           break;
         }
@@ -438,40 +453,40 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
         }.bind(this));
       }
     }
-  } else if (this._stream.status == Backend.NegotiationStream.STATUS_ACCEPTED) {
-    if (Backend.isOwnedStream(this._stream)) {
+  } else if (stream.status == Backend.NegotiationStream.STATUS_ACCEPTED) {
+    if (Backend.isOwnedStream(stream)) {
       var confirmOfferButton = UIUtils.appendButton(controlPanel, "ConfirmOfferButton", this.getLocale().ConfirmOfferButton);
       UIUtils.addClass(confirmOfferButton, "right-control-button");
       UIUtils.setClickListener(confirmOfferButton, function() {
         Dialogs.showConfirmOfferDialog(this._requestId, this.getId());
       }.bind(this));
     }
-  } else if (this._stream.status == Backend.NegotiationStream.STATUS_ACCEPTANCE_CONFIRMED) {
-    if (Backend.isOwnedStream(this._stream)) {
+  } else if (stream.status == Backend.NegotiationStream.STATUS_ACCEPTANCE_CONFIRMED) {
+    if (Backend.isOwnedStream(stream)) {
       var confirmOfferButton = UIUtils.appendButton(controlPanel, "ConfirmDeliveryButton", this.getLocale().ConfirmDeliveryButton);
       UIUtils.addClass(confirmOfferButton, "right-control-button");
       UIUtils.setClickListener(confirmOfferButton, function() {
         Dialogs.showConfirmAcceptanceDialog(this._requestId, this.getId());
       }.bind(this));
     }
-  } else if (this._stream.status == Backend.NegotiationStream.STATUS_DELIVERED) {
-    if (Backend.isOwnedStream(this._stream)) {
+  } else if (stream.status == Backend.NegotiationStream.STATUS_DELIVERED) {
+    if (Backend.isOwnedStream(stream)) {
       var acceptDeliveryButton = UIUtils.appendButton(controlPanel, "AcceptDeliveryButton", this.getLocale().AcceptDeliveryButton);
       UIUtils.addClass(acceptDeliveryButton, "right-control-button");
       UIUtils.setClickListener(acceptDeliveryButton, function() {
         Dialogs.showAcceptDeliveryDialog(this._requestId, this.getId());
       }.bind(this));
     }
-  } else if (this._stream.status == Backend.NegotiationStream.STATUS_DELIVERY_ACCEPTED) {
-    if (Backend.isOwnedStream(this._stream)) {
+  } else if (stream.status == Backend.NegotiationStream.STATUS_DELIVERY_ACCEPTED) {
+    if (Backend.isOwnedStream(stream)) {
       var confirmReturnButton = UIUtils.appendButton(controlPanel, "ConfirmReturnButton", this.getLocale().ConfirmReturnButton);
       UIUtils.addClass(confirmReturnButton, "right-control-button");
       UIUtils.setClickListener(confirmReturnButton, function() {
         Dialogs.showConfirmReturnDialog(this._requestId, this.getId());
       }.bind(this));
     }
-  } else if (this._stream.status == Backend.NegotiationStream.STATUS_RETURNED) {
-    if (Backend.isOwnedStream(this._stream)) {
+  } else if (stream.status == Backend.NegotiationStream.STATUS_RETURNED) {
+    if (Backend.isOwnedStream(stream)) {
       var acceptReturnButton = UIUtils.appendButton(controlPanel, "AcceptReturnButton", this.getLocale().AcceptReturnButton);
       UIUtils.addClass(acceptReturnButton, "right-control-button");
       UIUtils.setClickListener(acceptReturnButton, function() {

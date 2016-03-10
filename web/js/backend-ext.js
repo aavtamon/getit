@@ -262,7 +262,7 @@ Backend.addNegotiation = function(requestId, streamId, negotiation, transactionC
   negotiation.user_name = Backend.getUserProfile().name;
 
   
-  var createStream = function(streamId) {
+  var addNegotiationToStream = function(streamId) {
     var stream = Backend.Cache.getObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
 
     Backend.Cache.markObjectInUpdate(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, streamId);
@@ -283,7 +283,7 @@ Backend.addNegotiation = function(requestId, streamId, negotiation, transactionC
   if (streamId == null) {
     var streamCreationCallback = {
       success: function(newStreamId) {
-        createStream(newStreamId);
+        addNegotiationToStream(newStreamId);
       },
       failure: function() {
         transactionCallback.failure();
@@ -295,7 +295,7 @@ Backend.addNegotiation = function(requestId, streamId, negotiation, transactionC
 
     Backend.createNegotiationStream(requestId, streamCreationCallback);
   } else {
-    createStream(streamId);
+    addNegotiationToStream(streamId);
   }
 }
 
@@ -469,6 +469,45 @@ var __init = function() {
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_REQUEST_IDS, 0, [6, 5, 4, 3, 2, 1, 0]);
   Backend._requestCount = 7;
 
+  
+  
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM, "5-0", {
+    user_id: Backend.getUserProfile().user_id,
+    request_id: 5,
+    creation_time: Date.now(),
+    user_name: Backend.getUserProfile().name,
+    star_rating: 3,
+    zipcode: 12345,
+    distance: 10,
+    status: Backend.NegotiationStream.STATUS_ACTIVE,
+    negotiations: [
+      {
+        user_id: Backend.getUserProfile().user_id,
+        creation_time: Date.now(),
+        user_name: Backend.getUserProfile().name,
+        type: Backend.Negotiation.TYPE_MESSAGE,
+        text: "Che za fignya tebe nuzna?"
+      },
+      {
+        user_id: Backend.getUserProfile().user_id,
+        creation_time: Date.now(),
+        user_name: Backend.getUserProfile().name,
+        type: Backend.Negotiation.TYPE_MESSAGE,
+        text: "Ovechay davay!"
+      },
+      {
+        user_id: 10,
+        creation_time: Date.now(),
+        user_name: "Vasya",
+        type: Backend.Negotiation.TYPE_MESSAGE,
+        text: "Huy tebe!"
+      }
+    ]
+  });
+  
+  Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_NEGOTIATION_STREAM_IDS, 5, ["5-0"]);
+  Backend._streamCount = 1;
+  
   
 /*  
   Backend.Cache.setObject(Backend.CacheChangeEvent.TYPE_OFFER, 0, {
