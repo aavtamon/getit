@@ -306,35 +306,24 @@ RequestDetailsPage.prototype._appendRequestControlPanel = function() {
 
 
 
-RequestDetailsPage._NegotiationStreamObject = ClassUtils.defineClass(AbstractDataObject, function _NegotiationStreamObject(requestId, streamId) {
-  AbstractDataObject.call(this, streamId, "stream");
+RequestDetailsPage._NegotiationStreamObject = ClassUtils.defineClass(AbstractDataListObject, function _NegotiationStreamObject(requestId, streamId) {
+  AbstractDataListObject.call(this, streamId, "stream");
   this._requestId = requestId;
-  this._negotiationObjects = [];
-
+});
+RequestDetailsPage._NegotiationStreamObject.prototype.getDataItems = function() {
+  var items = [];
+  
   var stream = Backend.getNegotiationStream(this._requestId, this.getId());
-
+  
   if (stream != null) {
     for (var i in stream.negotiations) {
       var neg = stream.negotiations[i];
 
-      this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg, stream));
+      items.push(new RequestDetailsPage._NegotiationObject(i, neg, stream));
     }
   }
-});
-RequestDetailsPage._NegotiationStreamObject.prototype.remove = function() {
-  AbstractDataObject.prototype.remove.call(this);
   
-  for (var i in this._negotiationObjects) {
-    this._negotiationObjects[i].remove();
-  }
-}
-RequestDetailsPage._NegotiationStreamObject.prototype.destroy = function() {
-  AbstractDataObject.prototype.destroy.call(this);
-
-  for (var i in this._negotiationObjects) {
-    this._negotiationObjects[i].destroy();
-  }
-  this._negotiationObjects = [];
+  return items;
 }
 RequestDetailsPage._NegotiationStreamObject.prototype.isClosable = function() {
   return true;
@@ -349,25 +338,6 @@ RequestDetailsPage._NegotiationStreamObject.prototype.close = function() {
       Backend.removeNegotiationStream(this._requestId, this.getId());
     }.bind(this));
   }
-}
-RequestDetailsPage._NegotiationStreamObject.prototype.update = function() {
-  var stream = Backend.getNegotiationStream(this._requestId, this.getId());
-
-  for (var i in this._negotiationObjects) {
-    this._negotiationObjects[i].destroy();
-  }
-  this._negotiationObjects = [];
-  
-  
-  if (stream != null) {
-    for (var i in stream.negotiations) {
-      var neg = stream.negotiations[i];
-
-      this._negotiationObjects.push(new RequestDetailsPage._NegotiationObject(i, neg, stream));
-    }
-  }
-  
-  AbstractDataObject.prototype.update.call(this);
 }
 RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(root) {
   var stream = Backend.getNegotiationStream(this._requestId, this.getId());
@@ -395,11 +365,7 @@ RequestDetailsPage._NegotiationStreamObject.prototype._appendContent = function(
     ratingElement.setRating(stream.star_rating);
   }
 
-  
-  
-  for (var i in this._negotiationObjects) {
-    this._negotiationObjects[i].append(root);
-  }
+  AbstractDataListObject.prototype._appendContent.call(this, root);
 
   this.__appendStreamControlPanel();
 }
@@ -438,7 +404,7 @@ RequestDetailsPage._NegotiationStreamObject.prototype.__appendStreamControlPanel
     
     if (!Backend.isOwnedStream(stream)) {
       var hasOffer = false;
-      for (var i in this._stream.negotiations) {
+      for (var i in stream.negotiations) {
         if (stream.negotiations[i].type == Backend.Negotiation.TYPE_OFFER) {
           hasOffer = true;
           break;

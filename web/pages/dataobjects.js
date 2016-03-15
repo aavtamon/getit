@@ -73,6 +73,48 @@ AbstractDataObject.prototype.__appendCloser = function() {
 }
 
 
+AbstractDataListObject = ClassUtils.defineClass(AbstractDataObject, function AbstractDataListObject(id, baseCss) {
+  AbstractDataObject.call(this, id, baseCss);
+  
+  this._items = this.getDataItems();
+});
+AbstractDataListObject.prototype.update = function() {
+  for (var i in this._items) {
+    this._items[i].destroy();
+  }
+  
+  this._items = this.getDataItems();
+  
+  AbstractDataObject.prototype.update.call(this);
+}
+AbstractDataListObject.prototype.remove = function() {
+  for (var i in this._items) {
+    this._items[i].remove();
+  }
+  this._items = [];
+
+  AbstractDataObject.prototype.remove.call(this);
+}
+AbstractDataListObject.prototype.destroy = function() {
+  for (var i in this._items) {
+    this._items[i].destroy();
+  }
+  this._items = [];
+
+  AbstractDataObject.prototype.destroy.call(this);
+}
+AbstractDataListObject.prototype._appendContent = function(root) {
+  for (var i in this._items) {
+    this._items[i].append(root);
+  }
+}
+AbstractDataListObject.prototype.getDataItems = function() {
+  throw "To be implemented";
+}
+                                              
+                                                
+
+
 
 AbstractRequestObject = ClassUtils.defineClass(AbstractDataObject, function AbstractRequestObject(id, baseCss) {
   AbstractDataObject.call(this, id, baseCss);
@@ -137,6 +179,71 @@ AbstractRequestObject.prototype._appendContent = function(root) {
   
   this._appendRequestContent(root);
 }
+
+
+
+
+SearchResultItemObject = ClassUtils.defineClass(AbstractDataObject, function SearchResultItemObject(tool) {
+  AbstractDataObject.call(this, null, "search-result-item");
+  
+  this._tool = tool;
+});
+                                               
+SearchResultItemObject.prototype.isClosable = function() {
+  return false;
+}
+SearchResultItemObject.prototype._appendContent = function(root) {
+  var header = UIUtils.appendBlock(root, "Header");
+
+  var nameElement = UIUtils.appendBlock(header, "Name");
+  UIUtils.addClass(nameElement, "tool-name");
+  nameElement.innerHTML = this._tool.display;
+
+  var descriptionElement = UIUtils.appendBlock(root, "Description");
+  UIUtils.addClass(descriptionElement, "tool-description");
+  descriptionElement.innerHTML = this._tool.description;
+
+  var payment = UIUtils.appendBlock(root, "Payment");
+  var paymentLabel = UIUtils.appendLabel(payment, "PaymentLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.PaymentLabel);
+  UIUtils.addClass(paymentLabel, "tool-payment-label");
+  if (this._tool.payrate != Application.Configuration.PAYMENT_RATES[0].data) {
+    var paymentElement = UIUtils.appendBlock(payment, "PayAmount");
+    UIUtils.addClass(paymentElement, "tool-payment");
+    paymentElement.innerHTML = "$" + this._tool.payment;
+  }
+  
+  var payRateElement = UIUtils.appendBlock(payment, "Payrate");
+  UIUtils.addClass(payRateElement, "tool-payrate");
+  payRateElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PAYMENT_RATES, this._tool.payrate);
+
+  var depositLabel = UIUtils.appendLabel(payment, "DepositLabel", I18n.getLocale().dialogs.CreateNewOfferDialog.DepositLabel);
+  UIUtils.addClass(depositLabel, "tool-deposit-label");
+  var depositElement = UIUtils.appendBlock(payment, "Deposit");
+  UIUtils.addClass(depositElement, "tool-deposit");
+  depositElement.innerHTML = "$" + this._tool.deposit;
+}
+
+
+SearchResultListObject = ClassUtils.defineClass(AbstractDataListObject, function SearchResultListObject(searchPattern) {
+  AbstractDataListObject.call(this, null, "search-result");
+  
+  this._searchPattern = searchPattern;
+});
+SearchResultListObject.prototype.isClosable = function() {
+  return false;
+}
+SearchResultListObject.prototype.getDataItems = function() {
+  var items = [];
+  
+  var tools = Backend.getMatchingTools(this._searchPattern);
+  for (var i in tools) {
+    items.push(new SearchResultItemObject(tools[i]));
+  }
+
+  return items;
+}
+
+
 
 
 /*

@@ -4,6 +4,7 @@ LoginPage = ClassUtils.defineClass(AbstractPage, function LoginPage() {
   this._loginElement;
   this._passwordElement;
   this._rememberCheckbox;
+  this._searchList;
   
   this._signing = false;
 });
@@ -12,12 +13,23 @@ LoginPage = ClassUtils.defineClass(AbstractPage, function LoginPage() {
 LoginPage.prototype.definePageContent = function(root) {
   var searchPanel = UIUtils.appendBlock(root, "SearchPanel");
   
+  var searchResultsPanel;
   UIUtils.appendLabel(searchPanel, "SearchLabel", this.getLocale().SearchLabel);
   var searchElement = UIUtils.appendSearchInput(searchPanel, "Search");
   searchElement.setSearchListener(function(text) {
-    console.debug("search: " + text);
+    if (this._searchList != null) {
+      this._searchList.destroy();
+    }
+    
+    this._searchList = new SearchResultListObject(text);
+    this._searchList.append(searchResultsPanel);
   });
 
+  searchResultsPanel = UIUtils.appendBlock(searchPanel, "SearchResultsPanel");
+  
+  
+
+  
   var loginPanel = UIUtils.appendBlock(root, "LoginPanel");
 
   var labelPanel = UIUtils.appendBlock(loginPanel, "LabelPanel");

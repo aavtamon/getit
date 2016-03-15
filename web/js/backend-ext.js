@@ -326,6 +326,17 @@ Backend.addNegotiationOffer = function(requestId, streamId, offer, transactionCa
 
 
 
+
+Backend.getMatchingTools = function(searchText) {
+  return [
+    {display: "Molotok", description: "Hotoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
+    {display: "Huynya", description: "Hotoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+  ];
+}
+
+
+
+
 // Utils
 Backend.isOwnedRequest = function(request) {
   return request.user_id == Backend.getUserProfile().user_id;  
