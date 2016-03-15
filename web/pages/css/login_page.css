@@ -3,30 +3,20 @@
   min-width: 900px;
 }
 
-#LoginPage-Description-Left {
-  vertical-align: top;
-  float: left;
-  margin-top: 100px;
-  margin-left: 100px;
+#LoginPage-SearchPanel {
   display: inline-block;
-  width: 20%;
-
-  font-size: 25px;
+  margin-top: 50px;
 }
 
-#LoginPage-Description-Right {
-  vertical-align: top;
-  float: right;
-  margin-top: 100px;
-  margin-right: 100px;
-  display: inline-block;
-  width: 20%;
-
+#LoginPage-SearchPanel-SearchLabel {
   font-size: 25px;
 }
+#LoginPage-SearchPanel-Search {
+  margin-top: 10px;
+  margin-left: 20px;
+}
 
-
-#LoginPage-ContentPanel {
+#LoginPage-LoginPanel {
   float: right;
   width: 320px;
   display: inline-block;
@@ -37,7 +27,7 @@
   font-size: 13px;
 }
 
-#LoginPage-ContentPanel-LabelPanel {
+#LoginPage-LoginPanel-LabelPanel {
   width: 70px;
   display: inline-block;
   text-align: left;
@@ -45,13 +35,13 @@
   font: inherit;
 }
 
-#LoginPage-ContentPanel-LabelPanel-EmailLabel {
+#LoginPage-LoginPanel-LabelPanel-EmailLabel {
   display: block;
   margin-top: 5px;
   
   font: inherit;
 }
-#LoginPage-ContentPanel-LabelPanel-PasswordLabel {
+#LoginPage-LoginPanel-LabelPanel-PasswordLabel {
   display: block;
   margin-top: 40px;
   
@@ -59,7 +49,7 @@
 }
 
 
-#LoginPage-ContentPanel-ControlPanel {
+#LoginPage-LoginPanel-ControlPanel {
   float: right;
   width: 250px;
   display: inline-block;
@@ -68,16 +58,16 @@
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-Login {
+#LoginPage-LoginPanel-ControlPanel-Login {
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-RememberLoginCheck {
+#LoginPage-LoginPanel-ControlPanel-RememberLoginCheck {
   font: inherit;
   font-size: 12px;
 }
 
-#LoginPage-ContentPanel-ControlPanel-ForgotPasswordLink {
+#LoginPage-LoginPanel-ControlPanel-ForgotPasswordLink {
   margin-top: 5px;
   text-align: left;
   
@@ -85,43 +75,43 @@
   font-size: 12px;
 }
 
-#LoginPage-ContentPanel-ControlPanel-Password {
+#LoginPage-LoginPanel-ControlPanel-Password {
   margin-top: 10px;
   
   font: inherit;
 }
 
 
-#LoginPage-ContentPanel-ControlPanel-ButtonsPanel {
+#LoginPage-LoginPanel-ControlPanel-ButtonsPanel {
   margin-top: 10px;
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-ButtonsPanel-SignInButton {
+#LoginPage-LoginPanel-ControlPanel-ButtonsPanel-SignInButton {
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-ButtonsPanel-SignUpLink {
+#LoginPage-LoginPanel-ControlPanel-ButtonsPanel-SignUpLink {
   margin-left: 20px;
   font: inherit;
 }
 
 
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel {
   margin-top: 40px;
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadAppsLabel {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadAppsLabel {
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel {
   margin-top: 10px;
   font: inherit;
 }
 
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton, #LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton  {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton, #LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton  {
   width: 85px;
   height: 40px;
   background-size: contain;
@@ -130,17 +120,17 @@
   
   border-width: 0px;
 }
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton {
   background-image: url(../../../../shared_tools/web/imgs/Android.png);
 }
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton:active {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadAndroidButton:active {
   background-image: url(../../../../shared_tools/web/imgs/Android-pushed.png);
 }
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton {
   float: right;
   background-image: url(../../../../shared_tools/web/imgs/iOS.png);
 }
-#LoginPage-ContentPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton:active {
+#LoginPage-LoginPanel-ControlPanel-DownloadsPanel-DownloadButtonsPanel-DownloadiOSButton:active {
   background-image: url(../../../../shared_tools/web/imgs/iOS-pushed.png);
 }
 

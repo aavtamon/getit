@@ -10,16 +10,21 @@ LoginPage = ClassUtils.defineClass(AbstractPage, function LoginPage() {
 
 
 LoginPage.prototype.definePageContent = function(root) {
-  var leftDescription = UIUtils.appendBlock(root, "Description-Left");
-  leftDescription.innerHTML = this.getLocale().ProjectDescriptionHtml;
+  var searchPanel = UIUtils.appendBlock(root, "SearchPanel");
+  
+  UIUtils.appendLabel(searchPanel, "SearchLabel", this.getLocale().SearchLabel);
+  var searchElement = UIUtils.appendSearchInput(searchPanel, "Search");
+  searchElement.setSearchListener(function(text) {
+    console.debug("search: " + text);
+  });
 
-  var contentPanel = UIUtils.appendBlock(root, "ContentPanel");
+  var loginPanel = UIUtils.appendBlock(root, "LoginPanel");
 
-  var labelPanel = UIUtils.appendBlock(contentPanel, "LabelPanel");
+  var labelPanel = UIUtils.appendBlock(loginPanel, "LabelPanel");
   UIUtils.appendLabel(labelPanel, "EmailLabel", I18n.getLocale().literals.EmailLoginLabel);
   UIUtils.appendLabel(labelPanel, "PasswordLabel", I18n.getLocale().literals.PasswordLabel);
   
-  var controlPanel = UIUtils.appendBlock(contentPanel, "ControlPanel");
+  var controlPanel = UIUtils.appendBlock(loginPanel, "ControlPanel");
   this._loginElement = UIUtils.appendTextInput(controlPanel, "Login");
   
   this._rememberCheckbox = UIUtils.appendCheckbox(controlPanel, "RememberLoginCheck", this.getLocale().RememberLoginLabel);

@@ -9,6 +9,7 @@ var Locale_eng = {
     "OkButton": "OK",
     "AttachButton": "Attach",
     "ConfirmButton": "Confirm",
+    "SearchButton": "Search",
     
     "ProfileItem": "Profile",
     "PreferencesItem": "Preferences",
@@ -179,6 +180,8 @@ var Locale_eng = {
       "ForgotPassowrdLink": "Forgot your password?",
       "RegisterLink": "Sign Up",
       "DownloadAppsLabel": "Download our mobile applications:",
+      
+      "SearchLabel": "Search what our members offer:",
       
       "InvalidCredentialsMessage": "Invalid login/password combination",
       "InvalidLoginMessage": "Please provide a valid email for your login",
