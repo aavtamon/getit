@@ -76,15 +76,14 @@ AbstractDataObject.prototype.__appendCloser = function() {
 AbstractDataListObject = ClassUtils.defineClass(AbstractDataObject, function AbstractDataListObject(id, baseCss) {
   AbstractDataObject.call(this, id, baseCss);
   
-  this._items = this.getDataItems();
+  this._items = [];
 });
 AbstractDataListObject.prototype.update = function() {
   for (var i in this._items) {
     this._items[i].destroy();
   }
-  
+ 
   this._items = this.getDataItems();
-  
   AbstractDataObject.prototype.update.call(this);
 }
 AbstractDataListObject.prototype.remove = function() {
@@ -183,8 +182,8 @@ AbstractRequestObject.prototype._appendContent = function(root) {
 
 
 
-SearchResultItemObject = ClassUtils.defineClass(AbstractDataObject, function SearchResultItemObject(tool) {
-  AbstractDataObject.call(this, null, "search-result-item");
+SearchResultItemObject = ClassUtils.defineClass(AbstractDataObject, function SearchResultItemObject(id, tool) {
+  AbstractDataObject.call(this, id, "search-result-item");
   
   this._tool = tool;
 });
@@ -224,22 +223,33 @@ SearchResultItemObject.prototype._appendContent = function(root) {
 }
 
 
-SearchResultListObject = ClassUtils.defineClass(AbstractDataListObject, function SearchResultListObject(searchPattern) {
-  AbstractDataListObject.call(this, null, "search-result");
+SearchResultListObject = ClassUtils.defineClass(AbstractDataListObject, function SearchResultListObject(id, searchPattern, readinessObserver) {
+  AbstractDataListObject.call(this, id, "search-result");
   
-  this._searchPattern = searchPattern;
+  this._tools = [];
+  
+  var callback = {
+    success: function(tools) {
+      this._tools = tools;
+      
+      if (readinessObserver != null) {
+        readinessObserver();
+      }
+    }.bind(this)
+  }
+
+  Backend.getMatchingTools(searchPattern, callback);
 });
 SearchResultListObject.prototype.isClosable = function() {
   return false;
 }
 SearchResultListObject.prototype.getDataItems = function() {
   var items = [];
-  
-  var tools = Backend.getMatchingTools(this._searchPattern);
-  for (var i in tools) {
-    items.push(new SearchResultItemObject(tools[i]));
-  }
 
+  for (var i in this._tools) {
+    items.push(new SearchResultItemObject(i, this._tools[i]));
+  }
+  
   return items;
 }
 

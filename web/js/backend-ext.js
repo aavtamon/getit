@@ -327,11 +327,24 @@ Backend.addNegotiationOffer = function(requestId, streamId, offer, transactionCa
 
 
 
-Backend.getMatchingTools = function(searchText) {
-  return [
-    {display: "Molotok", description: "Hotoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
-    {display: "Huynya", description: "Hotoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-  ];
+Backend.getMatchingTools = function(searchText, transactionCallback) {
+  setTimeout(function() {
+
+    var result = null;
+
+    if (searchText == null || searchText == "") {
+      result = [];
+    } else {
+      result = [
+        {display: "Molotok", description: "Hotoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
+        {display: "Huynya", description: "Hotoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+      ];
+    }
+
+    if (transactionCallback != null && transactionCallback.success != null) {
+      transactionCallback.success(result);
+    }
+  }, 3000);
 }
 
 

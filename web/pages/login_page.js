@@ -21,13 +21,16 @@ LoginPage.prototype.definePageContent = function(root) {
       this._searchList.destroy();
     }
     
-    this._searchList = new SearchResultListObject(text);
-    this._searchList.append(searchResultsPanel);
+    if (text != "" && text != null) {
+      this._searchList = new SearchResultListObject("search", text, function() {
+        UIUtils.hideSpinningWheel(true);
+        this._searchList.append(searchResultsPanel);
+      }.bind(this));
+      UIUtils.showSpinningWheel(true);
+    }
   });
 
   searchResultsPanel = UIUtils.appendBlock(searchPanel, "SearchResultsPanel");
-  
-  
 
   
   var loginPanel = UIUtils.appendBlock(root, "LoginPanel");

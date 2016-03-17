@@ -135,3 +135,57 @@
 }
 
 
+.search-result {
+  
+}
+.search-result-item {
+  position: relative;
+  text-align: left;
+  padding: 5px 10px 5px 10px;
+  margin-top: 10px;
+  
+  text-align: left;
+  
+  background-color: rgb(205, 230, 240);
+  box-shadow: 5px 5px 5px darkgray;
+}
+.search-result-item:nth-child(2) {
+  background-color: rgb(245, 230, 220);
+}
+.search-result-item .tool-name {
+  display: inline-block;
+  margin-left: 30px;
+  font-weight: bold;
+}
+.search-result-item .tool-desription {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  width: 680px;
+  vertical-align: middle;
+  
+  font-family: Verdana;
+  
+  overflow: hidden;
+  white-space: nowrap;
+}
+.search-result-item .tool-payment-label {
+  margin-top: 10px;  
+}
+.search-result-item .tool-payment {
+  display: inline-block;
+  margin-left: 10px;
+}
+.search-result-item .tool-payrate {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.search-result-item .tool-deposit-label {
+  margin-left: 50px;
+}
+.search-result-item .tool-deposit {
+  display: inline-block;
+  margin-left: 10px;
+}
+
