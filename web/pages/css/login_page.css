@@ -1,20 +1,34 @@
 #LoginPage {
   text-align: center;
-  min-width: 900px;
+  min-width: 1000px;
 }
 
 #LoginPage-SearchPanel {
   display: inline-block;
-  margin-top: 50px;
+  margin-top: 40px;
+  margin-left: 100px;
 }
 
 #LoginPage-SearchPanel-SearchLabel {
-  font-size: 25px;
+  margin-right: 20px;
+  
+  font-weight: bold;
 }
+
 #LoginPage-SearchPanel-Search {
   margin-top: 10px;
-  margin-left: 20px;
 }
+
+#LoginPage-SearchPanel-SearchResultsPanel {
+  margin-top: 20px;
+}
+#LoginPage-SearchPanel-SearchResultsPanel-SearchResultsLabel {
+  font-style: italic;
+}
+#LoginPage-SearchPanel-SearchResultsPanel-NoResultsLabel {
+  font-style: italic;
+}
+
 
 #LoginPage-LoginPanel {
   float: right;
@@ -136,7 +150,7 @@
 
 
 .search-result {
-  
+  width: 500px;
 }
 .search-result-item {
   position: relative;
@@ -149,7 +163,7 @@
   background-color: rgb(205, 230, 240);
   box-shadow: 5px 5px 5px darkgray;
 }
-.search-result-item:nth-child(2) {
+.search-result-item:nth-child(even) {
   background-color: rgb(245, 230, 220);
 }
 .search-result-item .tool-name {

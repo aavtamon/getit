@@ -110,6 +110,9 @@ AbstractDataListObject.prototype._appendContent = function(root) {
 AbstractDataListObject.prototype.getDataItems = function() {
   throw "To be implemented";
 }
+AbstractDataListObject.prototype.length = function() {
+  return this._items.length;
+}
                                               
                                                 
 
@@ -231,7 +234,6 @@ SearchResultListObject = ClassUtils.defineClass(AbstractDataListObject, function
   var callback = {
     success: function(tools) {
       this._tools = tools;
-      
       if (readinessObserver != null) {
         readinessObserver();
       }
@@ -249,11 +251,9 @@ SearchResultListObject.prototype.getDataItems = function() {
   for (var i in this._tools) {
     items.push(new SearchResultItemObject(i, this._tools[i]));
   }
-  
+
   return items;
 }
-
-
 
 
 /*

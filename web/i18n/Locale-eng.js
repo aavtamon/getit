@@ -24,6 +24,8 @@ var Locale_eng = {
     "PasswordLabel": "Password",
     "RetypePasswordLabel": "Confirm Password",
     
+    "NoResultsFound": "No results found",
+    
     "NameMe": "Me",
     "Recalled": "R E C A L L E D",
     "Closed": "C l o s e d",
@@ -181,7 +183,8 @@ var Locale_eng = {
       "RegisterLink": "Sign Up",
       "DownloadAppsLabel": "Download our mobile applications:",
       
-      "SearchLabel": "Search what our members offer:",
+      "SearchLabel": "Check it out!",
+      "SearchResultsLabel": "Search what our members offer.<br>Note, that you will need to login in order to be able to rent anything from this list.",
       
       "InvalidCredentialsMessage": "Invalid login/password combination",
       "InvalidLoginMessage": "Please provide a valid email for your login",

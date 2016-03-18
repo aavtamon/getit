@@ -20,18 +20,26 @@ LoginPage.prototype.definePageContent = function(root) {
     if (this._searchList != null) {
       this._searchList.destroy();
     }
+    UIUtils.emptyContainer(searchResultsPanel);
     
     if (text != "" && text != null) {
       this._searchList = new SearchResultListObject("search", text, function() {
         UIUtils.hideSpinningWheel(true);
+
         this._searchList.append(searchResultsPanel);
+        if (this._searchList.length() > 0) {
+        } else {
+          UIUtils.appendLabel(searchResultsPanel, "NoResultsLabel", I18n.getLocale().literals.NoResultsFound);
+        }
       }.bind(this));
       UIUtils.showSpinningWheel(true);
+    } else {
+      UIUtils.appendLabel(searchResultsPanel, "SearchResultsLabel", this.getLocale().SearchResultsLabel);
     }
-  });
+  }.bind(this));
 
   searchResultsPanel = UIUtils.appendBlock(searchPanel, "SearchResultsPanel");
-
+  UIUtils.appendLabel(searchResultsPanel, "SearchResultsLabel", this.getLocale().SearchResultsLabel);
   
   var loginPanel = UIUtils.appendBlock(root, "LoginPanel");
 
