@@ -113,6 +113,21 @@ AbstractDataListObject.prototype.getDataItems = function() {
 AbstractDataListObject.prototype.length = function() {
   return this._items.length;
 }
+AbstractDataListObject.prototype.findItem = function(itemId) {
+  for (var i in this._items) {
+    if (this._items[i].getId() == itemId) {
+      return this._items;
+    }
+  }
+  
+  return null;
+}
+AbstractDataListObject.prototype.updateItem = function(itemId) {
+  var item = this.findItem(itemId);
+  if (item != null) {
+    item.update();
+  }
+}
                                               
                                                 
 

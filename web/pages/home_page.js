@@ -1,15 +1,13 @@
 HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
   AbstractDataPage.call(this, HomePage.name);
 
-  this._requestsPanel;
-  this._rootElement;
-  this._requestObjects = [];
+  this._requestObjectList;
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
-      this._showRequests();
+      this._requestObjectList.update();
     } else if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST) {
-      this._updateRequest(event.objectId);
+      this._requestObjectList.updateItem(event.objectId);
     }
   }.bind(this);
 });
@@ -18,8 +16,6 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
 HomePage.prototype.definePageContent = function(root) {
   AbstractDataPage.prototype.definePageContent.call(this, root);
   
-  this._rootElement = root;
-  
   var contentPanel = UIUtils.appendBlock(root, "ContentPanel");
   var controlPanel = UIUtils.appendBlock(contentPanel, "ControlPanel");
   var createRequestButton = UIUtils.appendButton(controlPanel, "CreateRequestButton", this.getLocale().CreateRequestButton);
@@ -27,13 +23,44 @@ HomePage.prototype.definePageContent = function(root) {
     Dialogs.showCreateNewRequestDialog();
   });
   
-  this._requestsPanel = UIUtils.appendBlock(contentPanel, "RequestsPanel");
+  
+  var requestsPanel = UIUtils.appendBlock(contentPanel, "RequestsPanel");
+
+  var filterPanel = UIUtils.appendBlock(requestsPanel, "FilterPanel");
+  UIUtils.appendLabel(filterPanel, "FilterLabel", this.getLocale().FilterLabel);
+  var filterElement = UIUtils.appendTextInput(filterPanel, "Filter", 30);
+  
+  UIUtils.appendLabel(filterPanel, "FilterMineLabel", this.getLocale().FilterMineLabel);
+  var filterMineElement = UIUtils.appendCheckbox(filterPanel, "FilterMine");
+  
+  var filterChangeListener = function() {
+    var filter = function(request) {
+      if (filterMineElement.getValue()) {
+        return Backend.isOwnedRequest(request);
+      }
+      
+      if (filterElement.getValue() == "") {
+        return true;
+      }
+      
+      return request.text.toUpperCase().indexOf(filterElement.getValue().toUpperCase()) != -1;
+    }
+    
+    this._requestObjectList.setFilter(filter);
+  }.bind(this);
+  
+  filterElement.setChangeListener(filterChangeListener);
+  filterMineElement.setChangeListener(filterChangeListener);
+  
+  this._requestObjectList = new HomePage._RequestListObject("RequestList");
+  this._requestObjectList.append(requestsPanel);
+  
 }
 
 HomePage.prototype.onShow = function(root) {
   AbstractDataPage.prototype.onShow.call(this, root);
   
-  this._showRequests();
+  this._requestObjectList.update();
   
   Backend.addCacheChangeListener(this._cacheChangeListener);
 }
@@ -43,10 +70,7 @@ HomePage.prototype.onHide = function() {
   
   Backend.removeCacheChangeListener(this._cacheChangeListener);
   
-  for (var i in this._requestObjects) {
-    this._requestObjects[i].destroy();
-  }
-  this._requestObjects = [];
+  this._requestObjectList.destroy();
 }
 
 HomePage.prototype.onDestroy = function() {
@@ -54,28 +78,33 @@ HomePage.prototype.onDestroy = function() {
 
 
 
-HomePage.prototype._showRequests = function() {
-  UIUtils.emptyContainer(this._requestsPanel);
+
+HomePage._RequestListObject = ClassUtils.defineClass(AbstractDataListObject, function _RequestListObject(id) {
+  AbstractDataListObject.call(this, id, "request-list");
+  
+  this._filter;
+});
+HomePage._RequestListObject.prototype.isClosable = function() {
+  return false;
+}
+HomePage._RequestListObject.prototype.getDataItems = function() {
+  var items = [];
 
   var requestIds = Backend.getRequestIds();
-  
   for (var requestIndex in requestIds) {
-    var requestObject = new HomePage._RequestOutlineObject(requestIds[requestIndex]);
-    
-    this._requestObjects.push(requestObject);
-    requestObject.append(this._requestsPanel);
-  }
-}
-
-HomePage.prototype._updateRequest = function(requestId) {
-  for (var i in this._requestObjects) {
-    if (this._requestObjects[i].getId() == requestId) {
-      this._requestObjects[i].update();
-      break;
+    var request = Backend.getRequest(requestIds[requestIndex]);
+    if (this._filter == null || this._filter(request)) {
+      var requestObject = new HomePage._RequestOutlineObject(requestIds[requestIndex]);
+      items.push(requestObject);
     }
   }
-}
 
+  return items;
+}
+HomePage._RequestListObject.prototype.setFilter = function(filter) {
+  this._filter = filter;
+  this.update();
+}
 
 
 

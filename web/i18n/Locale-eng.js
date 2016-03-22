@@ -235,7 +235,8 @@ var Locale_eng = {
       "RequestOutlineGetOnLabel": "Neened on:",
       "RequestOutlineReturnByLabel": "To be returned by:",
       "RequestOutlinePickupLabel": "Delivery: ",
-      
+      "FilterLabel": "Filter requests:",
+      "FilterMineLabel": "Show only my requests"
     },
     "RequestDetailsPage": {
       "CancelStreamButton": "Recall my offers",

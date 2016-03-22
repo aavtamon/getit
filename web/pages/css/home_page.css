@@ -3,19 +3,43 @@
 
 #HomePage-ContentPanel {
   min-width: 950px;
+  
+  text-align: center;
 }
 
 #HomePage-ContentPanel-ControlPanel {
+  text-align: left;
 }
 
 #HomePage-ContentPanel-ControlPanel-CreateRequestButton {
 }
 
 #HomePage-ContentPanel-RequestsPanel {
-  text-align: center;
+  display: inline-block;
 }
 
-#HomePage-ContentPanel-RequestsPanel .request-outline {
+#HomePage-ContentPanel-RequestsPanel-FilterPanel {
+  margin-top: 10px;
+  text-align: left;
+}
+#HomePage-ContentPanel-RequestsPanel-FilterPanel-FilterLabel {
+  margin-right: 10px;
+}
+#HomePage-ContentPanel-RequestsPanel-FilterPanel-Filter {
+}
+#HomePage-ContentPanel-RequestsPanel-FilterPanel-FilterMineLabel {
+  margin-left: 30px;
+  margin-right: 10px;
+}
+#HomePage-ContentPanel-RequestsPanel-FilterPanel-FilterMine {
+}
+
+#HomePage-ContentPanel-RequestsPanel .request-list {
+  margin-top: 10px;
+  width: 800px;
+}
+
+.request-list .request-outline {
   position: relative;
   display: inline-block;
   padding: 5px 10px 5px 10px;
