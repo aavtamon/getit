@@ -231,6 +231,8 @@ var Locale_eng = {
     },
     "HomePage": {
       "CreateRequestButton": "I need something",
+      "SearchLabel": "Search requests:",
+      "Searching": "Searching...",
       
       "RequestOutlineGetOnLabel": "Neened on:",
       "RequestOutlineReturnByLabel": "To be returned by:",

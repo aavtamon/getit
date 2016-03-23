@@ -14,6 +14,16 @@
 #HomePage-ContentPanel-ControlPanel-CreateRequestButton {
 }
 
+#HomePage-ContentPanel-ControlPanel-SearchLabel {
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
+#HomePage-ContentPanel-SearchResultsPanel {
+  display: inline-block;
+  margin-top: 20px;
+}
+
 #HomePage-ContentPanel-RequestsPanel {
   display: inline-block;
 }
@@ -36,7 +46,7 @@
 
 #HomePage-ContentPanel-RequestsPanel .request-list {
   margin-top: 10px;
-  width: 800px;
+  width: 900px;
 }
 
 .request-list .request-outline {

@@ -2,6 +2,7 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
   AbstractDataPage.call(this, HomePage.name);
 
   this._requestObjectList;
+  this._searchList;
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
@@ -23,8 +24,42 @@ HomePage.prototype.definePageContent = function(root) {
     Dialogs.showCreateNewRequestDialog();
   });
   
+  var searchResultsPanel;
+  var requestsPanel;
   
-  var requestsPanel = UIUtils.appendBlock(contentPanel, "RequestsPanel");
+  UIUtils.appendLabel(controlPanel, "SearchLabel", this.getLocale().SearchLabel);
+  var searchElement = UIUtils.appendSearchInput(controlPanel, "Search");
+  searchElement.setSearchListener(function(text) {
+    if (this._searchList != null) {
+      this._searchList.destroy();
+    }
+    
+    if (text != "" && text != null) {
+      this._searchList = new SearchResultListObject("search", text, function() {
+        UIUtils.hideSpinningWheel(true);
+        UIUtils.emptyContainer(searchResultsPanel);
+
+        this._searchList.append(searchResultsPanel);
+        if (this._searchList.length() > 0) {
+        } else {
+          UIUtils.appendLabel(searchResultsPanel, "NoResultsLabel", I18n.getLocale().literals.NoResultsFound);
+        }
+      }.bind(this));
+      UIUtils.showSpinningWheel(true, this.getLocale().Searching);
+
+      UIUtils.setVisible(searchResultsPanel, true);
+      UIUtils.setVisible(requestsPanel, false);
+    } else {
+      UIUtils.setVisible(searchResultsPanel, false);
+      UIUtils.setVisible(requestsPanel, true);
+    }
+  }.bind(this));
+
+  searchResultsPanel = UIUtils.appendBlock(contentPanel, "SearchResultsPanel");
+  UIUtils.setVisible(searchResultsPanel, false);
+  
+  
+  requestsPanel = UIUtils.appendBlock(contentPanel, "RequestsPanel");
 
   var filterPanel = UIUtils.appendBlock(requestsPanel, "FilterPanel");
   UIUtils.appendLabel(filterPanel, "FilterLabel", this.getLocale().FilterLabel);

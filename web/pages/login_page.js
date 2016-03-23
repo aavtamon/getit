@@ -25,6 +25,7 @@ LoginPage.prototype.definePageContent = function(root) {
     if (text != "" && text != null) {
       this._searchList = new SearchResultListObject("search", text, function() {
         UIUtils.hideSpinningWheel(true);
+        UIUtils.emptyContainer(searchResultsPanel);
 
         this._searchList.append(searchResultsPanel);
         if (this._searchList.length() > 0) {
