@@ -200,10 +200,11 @@ AbstractRequestObject.prototype._appendContent = function(root) {
 
 
 
-SearchResultItemObject = ClassUtils.defineClass(AbstractDataObject, function SearchResultItemObject(id, tool) {
+SearchResultItemObject = ClassUtils.defineClass(AbstractDataObject, function SearchResultItemObject(id, tool, actionList) {
   AbstractDataObject.call(this, id, "search-result-item");
   
   this._tool = tool;
+  this._actionList = actionList;
 });
                                                
 SearchResultItemObject.prototype.isClosable = function() {
@@ -238,12 +239,25 @@ SearchResultItemObject.prototype._appendContent = function(root) {
   var depositElement = UIUtils.appendBlock(payment, "Deposit");
   UIUtils.addClass(depositElement, "tool-deposit");
   depositElement.innerHTML = "$" + this._tool.deposit;
+  
+  if (this._actionList != null) {
+    var controlPanel = UIUtils.appendBlock(payment, "ControlPanel");
+    UIUtils.addClass(controlPanel, "tool-controlpanel");
+    for (var i in this._actionList) {
+      var action = this._actionList[i];
+      
+      var actionButton = UIUtils.appendButton(controlPanel, "action" + i, action.display);
+      UIUtils.addClass(actionButton, "tool-controlpanel-action");
+      actionButton.setClickListener(action.listener.bind(this, this._tool));
+    }
+  }
 }
 
 
 SearchResultListObject = ClassUtils.defineClass(AbstractDataListObject, function SearchResultListObject(id, searchPattern, readinessObserver) {
   AbstractDataListObject.call(this, id, "search-result");
   
+  this._actionList;
   this._tools = [];
   
   var callback = {
@@ -257,6 +271,9 @@ SearchResultListObject = ClassUtils.defineClass(AbstractDataListObject, function
 
   Backend.getMatchingTools(searchPattern, callback);
 });
+SearchResultListObject.prototype.setActionList = function(actionList) {
+  this._actionList = actionList;
+}
 SearchResultListObject.prototype.isClosable = function() {
   return false;
 }
@@ -264,7 +281,7 @@ SearchResultListObject.prototype.getDataItems = function() {
   var items = [];
 
   for (var i in this._tools) {
-    items.push(new SearchResultItemObject(i, this._tools[i]));
+    items.push(new SearchResultItemObject(i, this._tools[i], this._actionList));
   }
 
   return items;

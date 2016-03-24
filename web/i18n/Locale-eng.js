@@ -10,6 +10,7 @@ var Locale_eng = {
     "AttachButton": "Attach",
     "ConfirmButton": "Confirm",
     "SearchButton": "Search",
+    "ClearSearchButton": "Clear",
     
     "ProfileItem": "Profile",
     "PreferencesItem": "Preferences",
@@ -233,6 +234,7 @@ var Locale_eng = {
       "CreateRequestButton": "I need something",
       "SearchLabel": "Search requests:",
       "Searching": "Searching...",
+      "OrderTool": "Order me",
       
       "RequestOutlineGetOnLabel": "Neened on:",
       "RequestOutlineReturnByLabel": "To be returned by:",

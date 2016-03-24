@@ -336,12 +336,12 @@ Backend.getMatchingTools = function(searchText, transactionCallback) {
       result = [];
     } else {
       result = [
-        {display: "Molotok", description: "Hotoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
-        {display: "Huynya", description: "Hotoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-        {display: "Polnaya Huynya", description: "Hotoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-        {display: "Molotok", description: "Hotoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
-        {display: "Huynya", description: "Hotoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-        {display: "Polnaya Huynya", description: "Hotoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {display: "Molotok", description: "Horoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
+        {display: "Huynya", description: "Horoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {display: "Polnaya Huynya", description: "Horoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {display: "Molotok", description: "Horoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
+        {display: "Huynya", description: "Horoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {display: "Polnaya Huynya", description: "Horoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
       ];
     }
 

@@ -45,6 +45,9 @@ HomePage.prototype.definePageContent = function(root) {
           UIUtils.appendLabel(searchResultsPanel, "NoResultsLabel", I18n.getLocale().literals.NoResultsFound);
         }
       }.bind(this));
+      this._searchList.setActionList([{display:this.getLocale().OrderTool, listener: function(tool) {}}]);
+      
+      
       UIUtils.showSpinningWheel(true, this.getLocale().Searching);
 
       UIUtils.setVisible(searchResultsPanel, true);
@@ -104,11 +107,10 @@ HomePage.prototype.onHide = function() {
   AbstractDataPage.prototype.onHide.call(this);
   
   Backend.removeCacheChangeListener(this._cacheChangeListener);
-  
-  this._requestObjectList.destroy();
 }
 
 HomePage.prototype.onDestroy = function() {
+  this._requestObjectList.destroy();
 }
 
 
