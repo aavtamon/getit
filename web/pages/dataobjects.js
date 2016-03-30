@@ -116,7 +116,7 @@ AbstractDataListObject.prototype.length = function() {
 AbstractDataListObject.prototype.findItem = function(itemId) {
   for (var i in this._items) {
     if (this._items[i].getId() == itemId) {
-      return this._items;
+      return this._items[i];
     }
   }
   

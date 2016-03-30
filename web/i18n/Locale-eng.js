@@ -92,6 +92,7 @@ var Locale_eng = {
       "Title": "Request Creation",
       "CategoryLabel": "My need belongs in:",
       "DescriptionLabel": "I am looking for:",
+      "NoteLabel": "Note:",
       "GetOnLabel": "I want to get it on:",
       "ReturnByLabel": "I will return it by:",
       "PickupLabel": "I will: ",
@@ -309,6 +310,7 @@ var Locale_eng = {
       
       "EditToolDialogTitle": "Create Or Edit The Tool",
       "ToolNameLabel": "Tool name:",
+      "ToolCategoryLabel": "Category:",
       "EditToolDialog_DescriptionLabel": "Describe what you have to offer",
       "EditToolDialog_IncorrectToolNameMessage": "Please give your tool a name",
       "EditToolDialog_IncorrectDescriptionMessage": "Please describe what you have to offer",

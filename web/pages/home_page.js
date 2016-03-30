@@ -45,7 +45,9 @@ HomePage.prototype.definePageContent = function(root) {
           UIUtils.appendLabel(searchResultsPanel, "NoResultsLabel", I18n.getLocale().literals.NoResultsFound);
         }
       }.bind(this));
-      this._searchList.setActionList([{display:this.getLocale().OrderTool, listener: function(tool) {}}]);
+      this._searchList.setActionList([{display:this.getLocale().OrderTool, listener: function(tool) {
+        Dialogs.showCreateNewRequestDialog(tool);
+      }}]);
       
       
       UIUtils.showSpinningWheel(true, this.getLocale().Searching);
@@ -182,7 +184,7 @@ HomePage._RequestOutlineObject.prototype._appendRequestContent = function(root) 
   
   var textElement = UIUtils.appendBlock(firstRow, "Text");
   UIUtils.addClass(textElement, "request-text");
-  textElement.innerHTML = UIUtils.getOneLine(request.text);
+  textElement.innerHTML = UIUtils.getOneLine(request.target != null ? request.target.display : request.text);
 
   var dateElement = UIUtils.appendBlock(firstRow, "Date");
   UIUtils.addClass(dateElement, "request-date");
@@ -224,7 +226,7 @@ HomePage._RequestOutlineObject.prototype._appendRequestContent = function(root) 
   pickupElement.innerHTML = Application.Configuration.dataToString(Application.Configuration.PICKUP_OPTIONS, request.pickup);
 
   var payRateElement = UIUtils.appendBlock(secondRow, "Payrate");
-  if (request.payment.payrate == Application.Configuration.PAYMENT_RATES[0].data) {
+  if (request.payrate == Application.Configuration.PAYMENT_RATES[0].data) {
     UIUtils.addClass(payRateElement, "request-payrate-free");
   } else {
     UIUtils.addClass(payRateElement, "request-payrate-paid");

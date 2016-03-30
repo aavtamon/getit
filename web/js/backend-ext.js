@@ -326,7 +326,6 @@ Backend.addNegotiationOffer = function(requestId, streamId, offer, transactionCa
 
 
 
-
 Backend.getMatchingTools = function(searchText, transactionCallback) {
   setTimeout(function() {
 
@@ -336,12 +335,12 @@ Backend.getMatchingTools = function(searchText, transactionCallback) {
       result = [];
     } else {
       result = [
-        {display: "Molotok", description: "Horoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
-        {display: "Huynya", description: "Horoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-        {display: "Polnaya Huynya", description: "Horoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-        {display: "Molotok", description: "Horoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
-        {display: "Huynya", description: "Horoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
-        {display: "Polnaya Huynya", description: "Horoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {id: 0, user_id: 10, category: "General", display: "Molotok", description: "Horoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
+        {id: 1, user_id: 10, category: "General", display: "Huynya", description: "Horoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {id: 2, user_id: 10, category: "General", display: "Polnaya Huynya", description: "Horoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {id: 0, user_id: 8, category: "Medicine", display: "Molotok", description: "Horoshiy molotok!", attachments: [], payment: 10, payrate: Application.Configuration.PAYMENT_RATES[1], deposit: 10},
+        {id: 1, user_id: 8, category: "Medicine", display: "Huynya", description: "Horoshaya huynya!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
+        {id: 1, user_id: 8, category: "Medicine", display: "Polnaya Huynya", description: "Horoshaya no sovershenno polnaya huynya! Ne beri ee!", attachments: [], payment: 0, payrate: Application.Configuration.PAYMENT_RATES[0], deposit: 30},
       ];
     }
 

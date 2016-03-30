@@ -115,6 +115,7 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
   var page = this;
   
   var toolNameInput;
+  var categoryChooser;
   var descriptionEditor;
   var attachmentBar;
   var payment;
@@ -126,6 +127,9 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
     toolNameInput = UIUtils.appendTextInput(contentPanel, "ToolName", 30, ValidationUtils.ID_REGEXP);
     toolNameInput.focus();
     
+    UIUtils.appendLabel(contentPanel, "CategoryLabel", page.getLocale().ToolCategoryLabel);
+    categoryChooser = UIUtils.appendDropList(contentPanel, "Category", Backend.getUserSettings().expertise_categories);
+
     UIUtils.appendLabel(contentPanel, "DescriptionLabel", page.getLocale().EditToolDialog_DescriptionLabel);
     descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
 
@@ -206,9 +210,10 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
               break;
             }
           }
-          page._toolList.setItems(items);
         } else {
           var newTool = {
+            user_id: Backend.getUserProfile().user_id,
+            category: categoryChooser.getValue(),
             display: toolNameInput.getValue(),
             description: descriptionEditor.getValue(),
             attachments: attachmentBar.getAttachments(),
@@ -218,9 +223,9 @@ UserPreferencesPage.prototype._addOrEditToolDialog = function(tool) {
           }
 
           items.push(newTool);
-          page._toolList.setItems(items);
         }
         
+        page._toolList.setItems(items);
         dialog.close();
       }
     },

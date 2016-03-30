@@ -3,7 +3,7 @@ Dialogs = {
 }
 
 
-Dialogs.showCreateNewRequestDialog = function() {
+Dialogs.showCreateNewRequestDialog = function(tool) {
   var categoryChooser;
   var descriptionEditor;
   var getOnChooser;
@@ -13,12 +13,21 @@ Dialogs.showCreateNewRequestDialog = function() {
   var payrateChooser;
   
   var dialog = UIUtils.showDialog("CreateNewRequestDialog", I18n.getLocale().dialogs.CreateNewRequestDialog.Title, function(contentPanel) {
-    UIUtils.appendLabel(contentPanel, "CategoryLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.CategoryLabel);
-    categoryChooser = UIUtils.appendDropList(contentPanel, "Category", Backend.getUserSettings().expertise_categories);
-
-    UIUtils.appendLabel(contentPanel, "DescriptionLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.DescriptionLabel);
-    descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
-    descriptionEditor.focus();
+    if (tool == null) {
+      UIUtils.appendLabel(contentPanel, "CategoryLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.CategoryLabel);
+      categoryChooser = UIUtils.appendDropList(contentPanel, "Category", Backend.getUserSettings().expertise_categories);
+      
+      UIUtils.appendLabel(contentPanel, "DescriptionLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.DescriptionLabel);
+      descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
+      descriptionEditor.focus();
+    } else {
+      UIUtils.appendLabel(contentPanel, "DetailsLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.DescriptionLabel);
+      UIUtils.appendLabel(contentPanel, "DescriptionName", tool.display);
+      UIUtils.appendLabel(contentPanel, "DescriptionDetails", tool.description);
+      UIUtils.appendLabel(contentPanel, "NoteLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.NoteLabel);
+      descriptionEditor = UIUtils.appendTextEditor(contentPanel, "DescriptionEditor");
+      descriptionEditor.focus();
+    }
 
     var whenPanel = UIUtils.appendBlock(contentPanel, "WhenPanel");
     UIUtils.appendLabel(whenPanel, "GetOnLabel", I18n.getLocale().dialogs.CreateNewRequestDialog.GetOnLabel);
@@ -62,7 +71,7 @@ Dialogs.showCreateNewRequestDialog = function() {
           return;
         }
 
-        if (descriptionEditor.getValue() == "") {
+        if (tool == null && descriptionEditor.getValue() == "") {
           UIUtils.indicateInvalidInput(descriptionEditor);
           UIUtils.showMessage(I18n.getLocale().dialogs.CreateNewRequestDialog.IncorrectRequestDescriptionMessage);
           return;
@@ -94,7 +103,6 @@ Dialogs.showCreateNewRequestDialog = function() {
 
 
         var request = {
-          category: categoryChooser.getValue(),
           text: descriptionEditor.getValue(),
           pickup: deliveryChooser.getValue(),
           get_on: getOnChooser.getDate().getTime(),
@@ -102,6 +110,13 @@ Dialogs.showCreateNewRequestDialog = function() {
           payrate: payrateChooser.getValue(),
           payment: payrateChooser.getValue() != Application.Configuration.PAYMENT_RATES[0].data ? payment.value : null
         };
+        
+        if (tool != null) {
+          request.target = tool;
+          request.category = tool.category;
+        } else {
+          request.category = categoryChooser.getValue();
+        }
 
         var backendCallback = {
           success: function() {
@@ -133,6 +148,7 @@ Dialogs.showCreateNewRequestDialog = function() {
     }
   });
 }
+
 
 
 

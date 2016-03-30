@@ -11,6 +11,22 @@
   width: 300px;
   margin-top: 10px;
 }
+#CreateNewRequestDialog-ContentPanel-DetailsLabel {
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-DescriptionName {
+  margin-top: 10px;
+}
+#CreateNewRequestDialog-ContentPanel-DescriptionDetails {
+  margin-top: 10px;
+  display: block;
+}
+#CreateNewRequestDialog-ContentPanel-NoteLabel {
+  margin-top: 10px;
+  display: block;
+}
 #CreateNewRequestDialog-ContentPanel-DescriptionLabel {
   margin-top: 10px;
   display: block;

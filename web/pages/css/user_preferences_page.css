@@ -148,6 +148,17 @@
   display: inline-block;
   width: 200px;
 }
+#EditToolDialog-ContentPanel-CategoryLabel {
+  margin-top: 10px;
+  display: inline-block;
+  margin-left: 30px;
+  margin-right: 10px;
+}
+#EditToolDialog-ContentPanel-Category {
+  display: inline-block;
+  width: 200px;
+  vertical-align: bottom;
+}
 #EditToolDialog-ContentPanel-DescriptionLabel {
   margin-top: 10px;
   display: block;
