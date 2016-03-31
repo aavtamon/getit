@@ -33,7 +33,7 @@ Application.AutoLogin = "true";
 
 
 Application.start = function() {
-  this._pageManager = new PageManagement(document.getElementById("RootContainer"), [LoginPage, RestorePasswordPage]);
+  this._pageManager = new PageManagement(document.getElementById("RootContainer"), document.getElementById("HeaderContainer"), [LoginPage, RestorePasswordPage]);
   
   window.onunload = function() {
     Backend.logOut();

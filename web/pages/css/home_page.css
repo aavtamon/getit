@@ -7,19 +7,20 @@
   text-align: center;
 }
 
-#HomePage-ContentPanel-ControlPanel {
-  text-align: left;
+#HomePage-Header-ControlPanel {
+  text-align: center;
+  margin-top: 20px;
 }
 
-#HomePage-ContentPanel-ControlPanel-CreateRequestButton {
+#HomePage-Header-ControlPanel-CreateRequestButton {
 }
 
-#HomePage-ContentPanel-ControlPanel-SearchLabel {
+#HomePage-Header-ControlPanel-SearchLabel {
   margin-left: 20px;
   margin-right: 10px;
 }
 
-#HomePage-ContentPanel-SearchResultsPanel {
+#HomePage-Header-SearchResultsPanel {
   display: inline-block;
   margin-top: 20px;
 }

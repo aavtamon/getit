@@ -3,6 +3,8 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
 
   this._requestObjectList;
   this._searchList;
+  this._searchResultsPanel;
+  this._requestsPanel;
   
   this._cacheChangeListener = function(event) {
     if (event.type == Backend.CacheChangeEvent.TYPE_REQUEST_IDS) {
@@ -14,18 +16,16 @@ HomePage = ClassUtils.defineClass(AbstractDataPage, function HomePage() {
 });
 
 
-HomePage.prototype.definePageContent = function(root) {
-  AbstractDataPage.prototype.definePageContent.call(this, root);
+HomePage.prototype.defineHeaderContent = function(root) {
+  AbstractDataPage.prototype.defineHeaderContent.call(this, root);
+
+  var controlPanel = UIUtils.appendBlock(root, "ControlPanel");
   
-  var contentPanel = UIUtils.appendBlock(root, "ContentPanel");
-  var controlPanel = UIUtils.appendBlock(contentPanel, "ControlPanel");
   var createRequestButton = UIUtils.appendButton(controlPanel, "CreateRequestButton", this.getLocale().CreateRequestButton);
   UIUtils.setClickListener(createRequestButton, function() {
     Dialogs.showCreateNewRequestDialog();
   });
   
-  var searchResultsPanel;
-  var requestsPanel;
   
   UIUtils.appendLabel(controlPanel, "SearchLabel", this.getLocale().SearchLabel);
   var searchElement = UIUtils.appendSearchInput(controlPanel, "Search");
@@ -37,12 +37,12 @@ HomePage.prototype.definePageContent = function(root) {
     if (text != "" && text != null) {
       this._searchList = new SearchResultListObject("search", text, function() {
         UIUtils.hideSpinningWheel(true);
-        UIUtils.emptyContainer(searchResultsPanel);
+        UIUtils.emptyContainer(this._searchResultsPanel);
 
-        this._searchList.append(searchResultsPanel);
+        this._searchList.append(this._searchResultsPanel);
         if (this._searchList.length() > 0) {
         } else {
-          UIUtils.appendLabel(searchResultsPanel, "NoResultsLabel", I18n.getLocale().literals.NoResultsFound);
+          UIUtils.appendLabel(this._searchResultsPanel, "NoResultsLabel", I18n.getLocale().literals.NoResultsFound);
         }
       }.bind(this));
       this._searchList.setActionList([{display:this.getLocale().OrderTool, listener: function(tool) {
@@ -52,21 +52,27 @@ HomePage.prototype.definePageContent = function(root) {
       
       UIUtils.showSpinningWheel(true, this.getLocale().Searching);
 
-      UIUtils.setVisible(searchResultsPanel, true);
-      UIUtils.setVisible(requestsPanel, false);
+      UIUtils.setVisible(this._searchResultsPanel, true);
+      UIUtils.setVisible(this._requestsPanel, false);
     } else {
-      UIUtils.setVisible(searchResultsPanel, false);
-      UIUtils.setVisible(requestsPanel, true);
+      UIUtils.setVisible(this._searchResultsPanel, false);
+      UIUtils.setVisible(this._requestsPanel, true);
     }
   }.bind(this));
-
-  searchResultsPanel = UIUtils.appendBlock(contentPanel, "SearchResultsPanel");
-  UIUtils.setVisible(searchResultsPanel, false);
   
-  
-  requestsPanel = UIUtils.appendBlock(contentPanel, "RequestsPanel");
+}
 
-  var filterPanel = UIUtils.appendBlock(requestsPanel, "FilterPanel");
+HomePage.prototype.definePageContent = function(root) {
+  AbstractDataPage.prototype.definePageContent.call(this, root);
+  
+  var contentPanel = UIUtils.appendBlock(root, "ContentPanel");
+
+  this._searchResultsPanel = UIUtils.appendBlock(contentPanel, "SearchResultsPanel");
+  UIUtils.setVisible(this._searchResultsPanel, false);
+  
+  this._requestsPanel = UIUtils.appendBlock(contentPanel, "RequestsPanel");
+
+  var filterPanel = UIUtils.appendBlock(this._requestsPanel, "FilterPanel");
   UIUtils.appendLabel(filterPanel, "FilterLabel", this.getLocale().FilterLabel);
   var filterElement = UIUtils.appendTextInput(filterPanel, "Filter", 30);
   
@@ -93,7 +99,7 @@ HomePage.prototype.definePageContent = function(root) {
   filterMineElement.setChangeListener(filterChangeListener);
   
   this._requestObjectList = new HomePage._RequestListObject("RequestList");
-  this._requestObjectList.append(requestsPanel);
+  this._requestObjectList.append(this._requestsPanel);
   
 }
 
